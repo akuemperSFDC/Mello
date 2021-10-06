@@ -6,7 +6,10 @@ import List from '../models/List.js';
 // @route     GET /api/lists/board/:id
 // @access    Private
 export const getLists = asyncHandler(async (req, res, next) => {
-  const lists = await List.find({ board: req.params.id });
+  const lists = await List.find({ board: req.params.id }).populate({
+    path: 'cards',
+    select: 'title description -list',
+  });
 
   res.status(200).json({ success: true, count: lists.length, data: lists });
 });
@@ -15,7 +18,10 @@ export const getLists = asyncHandler(async (req, res, next) => {
 // @route     GET /api/lists/:id
 // @access    Private
 export const getList = asyncHandler(async (req, res, next) => {
-  const list = await List.findById(req.params.id).populate('cards');
+  const list = await List.findById(req.params.id).populate({
+    path: 'cards',
+    select: 'title description -list',
+  });
 
   if (!list) {
     return next(
