@@ -17,6 +17,7 @@ connectDB();
 import Board from './models/Board.js';
 import User from './models/User.js';
 import List from './models/List.js';
+import Card from './models/Card.js';
 
 // Read JSON files
 const boards = JSON.parse(
@@ -38,10 +39,12 @@ const importData = async () => {
     await Board.deleteMany();
     await User.deleteMany();
     await List.deleteMany();
+    await Card.deleteMany();
 
     await Board.create(boards);
     await User.create(users);
     await List.create(lists);
+    await Card.create(cards);
     console.log('Data Imported!'.green.inverse);
     process.exit();
   } catch (error) {
@@ -55,6 +58,7 @@ const deleteData = async () => {
     await Board.deleteMany();
     await User.deleteMany();
     await List.deleteMany();
+    await Card.deleteMany();
     console.log('Data Deleted!'.red.inverse);
     process.exit();
   } catch (error) {

@@ -10,6 +10,7 @@ import { errorHandler } from './middleware/error.js';
 import boards from './routes/boards.js';
 import auth from './routes/auth.js';
 import lists from './routes/lists.js';
+import cards from './routes/cards.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/boards', boards);
 app.use('/api/auth', auth);
 app.use('/api/lists', lists);
+app.use('/api/cards', cards);
 
 app.use(errorHandler);
 
