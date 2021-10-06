@@ -23,6 +23,9 @@ const ListSchema = new mongoose.Schema(
       ref: 'Board',
       required: true,
     },
+    index: {
+      type: Number,
+    },
   },
   { toJSON: { virtuals: true } },
   { toObject: { virtuals: true } },

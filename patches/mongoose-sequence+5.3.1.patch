@@ -1,0 +1,30 @@
+diff --git a/node_modules/mongoose-sequence/lib/sequence.js b/node_modules/mongoose-sequence/lib/sequence.js
+index e397dbf..a420b3a 100644
+--- a/node_modules/mongoose-sequence/lib/sequence.js
++++ b/node_modules/mongoose-sequence/lib/sequence.js
+@@ -31,7 +31,7 @@ module.exports = function SequenceFactory(connection) {
+    * @param {boolean} [options.exclusive=true] Set False to allow sharing same Sequence with
+    *                                           multiple Schemas.
+    * @param {boolean} [options.parallel_hooks] If true any hook will be registered as parallel
+-   * @param {Number} [options.start_seq=1] The number to start the sequence on
++   * @param {Number} [options.start_seq=0] The number to start the sequence on
+    * @param {Number} [options.inc_amount=1] The number to increment by
+    * @throws {Error} If id is missing for counter which referes other fields
+    * @throws {Error} If A counter collide with another because of same id
+@@ -40,7 +40,7 @@ module.exports = function SequenceFactory(connection) {
+     const defaults = {
+       id: null,
+       inc_field: '_id',
+-      start_seq: 1,
++      start_seq: 0,
+       inc_amount: 1,
+       reference_fields: null,
+       disable_hooks: false,
+@@ -321,6 +321,7 @@ module.exports = function SequenceFactory(connection) {
+     } else {
+       condition.reference_value = this._getCounterReferenceField(reference);
+     }
++
+     if (this._options.start_seq) seq = this._options.start_seq - 1;
+     this._counterModel.updateMany(condition, { $set: { seq } }, null, cb);
+   };

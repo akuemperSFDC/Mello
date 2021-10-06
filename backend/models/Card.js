@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import AutoIncrementFactory from 'mongoose-sequence';
+
+export const AutoIncrement = AutoIncrementFactory(mongoose.connection);
 
 const CardSchema = new mongoose.Schema(
   {
@@ -23,8 +26,17 @@ const CardSchema = new mongoose.Schema(
       ref: 'List',
       required: true,
     },
+    index: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
+
+CardSchema.plugin(AutoIncrement, {
+  id: 'list_seq',
+  inc_field: 'index',
+  reference_fields: ['list'],
+});
 
 export default mongoose.model('Card', CardSchema);

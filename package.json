@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "NODE_ENV=production node backend/server",
-    "dev": "nodemon backend/server",
+    "server": "node backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"nodemon backend/server\" \"npm run client\" ",
     "import": "node backend/seeder",
     "destroy": "node backend/seeder -d"
   },
@@ -20,9 +22,11 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.9",
+    "mongoose-sequence": "^5.3.1",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "concurrently": "^6.3.0",
     "nodemon": "^2.0.13"
   }
 }

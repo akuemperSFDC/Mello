@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import path from 'path';
 const __dirname = path.resolve();
+import { AutoIncrement } from './models/Card.js';
 
 // Load env vars
 
@@ -39,6 +40,11 @@ const importData = async () => {
     await Board.deleteMany();
     await User.deleteMany();
     await List.deleteMany();
+    Card.counterReset('list_seq', (err) => {
+      if (err) {
+        return next(err);
+      }
+    });
     await Card.deleteMany();
 
     await Board.create(boards);
@@ -48,7 +54,8 @@ const importData = async () => {
     console.log('Data Imported!'.green.inverse);
     process.exit();
   } catch (error) {
-    console.error(error.red.inverse);
+    console.error(`${error}`.red.inverse);
+    process.exit(1);
   }
 };
 
@@ -58,11 +65,17 @@ const deleteData = async () => {
     await Board.deleteMany();
     await User.deleteMany();
     await List.deleteMany();
+    Card.counterReset('list_seq', (err) => {
+      if (err) {
+        return next(err);
+      }
+    });
     await Card.deleteMany();
     console.log('Data Deleted!'.red.inverse);
     process.exit();
   } catch (error) {
-    console.error(error.red.inverse);
+    console.error(`${error.stack}`.red.inverse);
+    process.exit(1);
   }
 };
 
