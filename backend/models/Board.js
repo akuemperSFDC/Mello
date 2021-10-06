@@ -5,7 +5,6 @@ const BoardSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter a title'],
     trim: true,
-    unique: true,
     maxLength: [50, 'Title can not be more than 50 characters'],
   },
   description: {
@@ -19,6 +18,11 @@ const BoardSchema = new mongoose.Schema({
   favorite: {
     type: Boolean,
     default: false,
+  },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true,
   },
 });
 

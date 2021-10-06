@@ -1,4 +1,5 @@
 import express from 'express';
+import { protect } from '../middleware/auth.js';
 import {
   getBoards,
   getBoard,
@@ -8,7 +9,11 @@ import {
 } from '../controllers/boards.js';
 const router = express.Router();
 
-router.route('/').get(getBoards).post(createBoard);
-router.route('/:id').get(getBoard).put(updateBoard).delete(deleteBoard);
+router.route('/').get(protect, getBoards).post(protect, createBoard);
+router
+  .route('/:id')
+  .get(protect, getBoard)
+  .put(protect, updateBoard)
+  .delete(protect, deleteBoard);
 
 export default router;

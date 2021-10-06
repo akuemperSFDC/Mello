@@ -38,8 +38,6 @@ export const register = asyncHandler(async (req, res, next) => {
   });
 
   sendTokenResponse(user, 200, res);
-
-  res.status(200).json({ success: true, token });
 });
 
 // @desc      Login user
@@ -68,6 +66,15 @@ export const login = asyncHandler(async (req, res, next) => {
   }
 
   sendTokenResponse(user, 200, res);
+});
 
-  res.status(200).json({ success: true, token });
+// @desc      Get current logged in user
+// @route     GET /api/auth/me
+// @access    Private
+export const getMe = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
 });
