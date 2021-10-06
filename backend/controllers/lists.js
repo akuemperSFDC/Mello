@@ -15,7 +15,7 @@ export const getLists = asyncHandler(async (req, res, next) => {
 // @route     GET /api/lists/:id
 // @access    Private
 export const getList = asyncHandler(async (req, res, next) => {
-  const list = await List.findById(req.params.id);
+  const list = await List.findById(req.params.id).populate('cards');
 
   if (!list) {
     return next(

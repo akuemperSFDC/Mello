@@ -24,7 +24,17 @@ const ListSchema = new mongoose.Schema(
       required: true,
     },
   },
+  { toJSON: { virtuals: true } },
+  { toObject: { virtuals: true } },
   { timestamps: true }
 );
+
+// Reverse populate with virtuals
+ListSchema.virtual('cards', {
+  ref: 'Card',
+  localField: '_id',
+  foreignField: 'list',
+  justOne: false,
+});
 
 export default mongoose.model('List', ListSchema);
