@@ -8,9 +8,7 @@ import Board from '../models/Board.js';
 export const getBoards = asyncHandler(async (req, res, next) => {
   const userBoards = await Board.find({ user: req.user.id });
 
-  res
-    .status(200)
-    .json({ success: true, count: userBoards.length, data: userBoards });
+  res.status(200).json(userBoards);
 });
 
 // @desc      Get single board

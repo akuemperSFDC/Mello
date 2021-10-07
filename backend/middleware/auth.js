@@ -8,6 +8,8 @@ import User from '../models/User.js';
 export const protect = asyncHandler(async (req, res, next) => {
   let token;
 
+  console.log('~  req.headers.authorization', req.headers.authorization);
+
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')

@@ -5,6 +5,7 @@ import colors from 'colors';
 import { connectDB } from './config/db.js';
 import cookieParser from 'cookie-parser';
 import { errorHandler } from './middleware/error.js';
+import cors from 'cors';
 
 // Route Imports
 import boards from './routes/boards.js';
@@ -17,6 +18,14 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+app.use(cors());
+
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 // Body parser
 app.use(express.json());
