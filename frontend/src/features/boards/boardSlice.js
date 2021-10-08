@@ -3,24 +3,26 @@ import axios from 'axios';
 
 export const getBoardsAsync = createAsyncThunk(
   'boards/getBoardsAsync',
-  async ({ getState }) => {
-    const { token } = getState().auth;
-    console.log('~ token', token);
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      console.log('~ token', token);
 
-    const config = {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    };
+      const config = {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      };
 
-    const { data } = await axios.get(
-      'http://localhost:5000/api/boards',
-      config
-    );
+      const { data } = await axios.get(
+        'http://localhost:5000/api/boards',
+        config
+      );
 
-    localStorage.setItem('auth');
-
-    return data;
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
@@ -30,13 +32,17 @@ const boardSlice = createSlice({
   reducers: {},
   extraReducers: {
     [getBoardsAsync.fulfilled]: (state, action) => {
-      return action.payload;
+      if (state.loading) state.loading = false;
+      state.boards = action.payload;
+      delete state.errors;
     },
     [getBoardsAsync.rejected]: (state, action) => {
-      return action.payload;
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload.errors;
     },
     [getBoardsAsync.pending]: (state, action) => {
-      return action.payload;
+      if (!state.loading) state.loading = true;
     },
   },
 });

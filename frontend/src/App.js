@@ -1,29 +1,13 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useLocation,
-} from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 
+import ProtectedRoute from './components/utils/ProtectedRoute.js';
+import NotFound from './components/utils/NotFound.js';
 import Header from './components/ui/Header.js';
 import Footer from './components/ui/Footer.js';
 import LoginScreen from './screens/LoginScreen.js';
-import Grid from '@mui/material/Grid';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { useGetBoardsQuery } from './features/boards/boardsSlice.js';
+import BoardsScreen from './screens/BoardsScreen.js';
 
 function App() {
-  // const dispatch = useDispatch();
-  // const count = useSelector((s) => s.counter.value);
-
-  /* <div className=''>User boards fetched: {data.length}</div>
-      {data.map((board) => (
-        <div key={board._id} className='div'>
-          {board.title}
-        </div>
-      ))} */
-
-  // const { data = [], isFetching } = useGetBoardsQuery();
   const { pathname } = useLocation();
   return (
     <>
@@ -31,7 +15,8 @@ function App() {
 
       <Switch>
         <Route exact path='/login' component={LoginScreen} />
-        <Route exact path='/' />
+        <ProtectedRoute exact path='/boards' component={BoardsScreen} />
+        <ProtectedRoute path='*' component={NotFound} />
       </Switch>
 
       <Footer />

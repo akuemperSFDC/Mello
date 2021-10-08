@@ -6,6 +6,7 @@ import Board from '../models/Board.js';
 // @route     GET /api/boards
 // @access    Private
 export const getBoards = asyncHandler(async (req, res, next) => {
+  console.log(req.user);
   const userBoards = await Board.find({ user: req.user.id });
 
   res.status(200).json(userBoards);

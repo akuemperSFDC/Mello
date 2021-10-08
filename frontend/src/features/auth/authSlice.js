@@ -11,21 +11,13 @@ export const loginUserAsync = createAsyncThunk(
         },
       };
 
-      const res = await axios.post(
+      const { data } = await axios.post(
         'http://localhost:5000/api/auth/login',
         credentials,
         config
       );
 
-      if (!res.ok) {
-        return rejectWithValue(res.data);
-      }
-
-      const { data } = res;
-      const { user, token } = data;
-      const auth = { user, token };
-
-      localStorage.setItem('auth', JSON.stringify(auth));
+      localStorage.setItem('auth', JSON.stringify(data));
 
       return data;
     } catch (error) {
@@ -54,6 +46,7 @@ const slice = createSlice({
       if (state.loading) state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
+      delete state.errors;
     },
     [loginUserAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;

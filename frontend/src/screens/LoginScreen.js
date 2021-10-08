@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Grid, Typography, Paper, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
@@ -21,10 +21,11 @@ import Toast from '../components/utils/Toast.js';
 const LoginScreen = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const [open, setOpen] = useState(false);
 
-  const { loading, errors } = useSelector(selectCurrentUser);
-  console.log('~ errors', errors);
+  const { user, loading, errors } = useSelector(selectCurrentUser);
 
   const [formState, setFormState] = useState({
     email: '',
@@ -59,9 +60,24 @@ const LoginScreen = () => {
   ];
 
   const handleLogin = async () => {
-    setOpen(true);
-    dispatch(loginUserAsync(formState));
+    await dispatch(loginUserAsync(formState));
+    if (errors) {
+      setOpen(true);
+    }
+    history.push('/boards');
   };
+
+  useEffect(() => {
+    if (errors) {
+      setOpen(true);
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    if (user) {
+      history.push('/boards');
+    }
+  }, [history, user]);
 
   return (
     <>
