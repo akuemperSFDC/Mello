@@ -1,7 +1,7 @@
-import React from 'react';
+import { CircularProgress } from '@mui/material';
 
 const Spinner = () => {
-  return <div></div>;
+  return <CircularProgress size={200} />;
 };
 
 export default Spinner;

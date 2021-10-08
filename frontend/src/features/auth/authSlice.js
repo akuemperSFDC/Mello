@@ -63,6 +63,6 @@ const slice = createSlice({
 
 export const { logout } = slice.actions;
 
-export const selectCurrentUser = (state) => state.auth.user;
+export const selectCurrentUser = (state) => state.auth;
 
 export default slice.reducer;
