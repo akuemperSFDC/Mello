@@ -25,10 +25,6 @@ const SideBar = () => {
     },
   ];
 
-  React.useEffect(() => {
-    //
-  }, []);
-
   return (
     <M.Grid item md={3} sx={{ pt: 2 }}>
       <Grid container direction='column' justifyContent='end'>

@@ -60,7 +60,6 @@ const LoginScreen = () => {
   ];
 
   const handleEnterKey = (e) => {
-    console.log(e.key);
     if (e.key === 'Enter') {
       dispatch(loginUserAsync(formState));
       if (errors) {
