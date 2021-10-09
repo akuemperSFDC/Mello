@@ -23,6 +23,7 @@ const FormTextField = ({
   name,
   setFormState,
   formState: { email, password },
+  handleEnterKey,
 }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,6 +43,7 @@ const FormTextField = ({
       name={name}
       value={type === 'password' ? password : email}
       onChange={handleChange}
+      onKeyPress={handleEnterKey}
     />
   );
 };

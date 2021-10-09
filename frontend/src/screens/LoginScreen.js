@@ -59,12 +59,25 @@ const LoginScreen = () => {
     },
   ];
 
+  const handleEnterKey = (e) => {
+    console.log(e.key);
+    if (e.key === 'Enter') {
+      dispatch(loginUserAsync(formState));
+      if (errors) {
+        setOpen(true);
+      }
+      history.push('/boards');
+      setFormState({ email: '', password: '' });
+    }
+  };
+
   const handleLogin = async () => {
     await dispatch(loginUserAsync(formState));
     if (errors) {
       setOpen(true);
     }
     history.push('/boards');
+    setFormState({ email: '', password: '' });
   };
 
   useEffect(() => {
@@ -131,6 +144,7 @@ const LoginScreen = () => {
                     name='email'
                     formState={formState}
                     setFormState={setFormState}
+                    handleEnterKey={handleEnterKey}
                   />
                 </Grid>
                 <Grid item sx={{ width: '100%' }} align='center'>
@@ -140,6 +154,7 @@ const LoginScreen = () => {
                     name='password'
                     formState={formState}
                     setFormState={setFormState}
+                    handleEnterKey={handleEnterKey}
                   />
                 </Grid>
 
