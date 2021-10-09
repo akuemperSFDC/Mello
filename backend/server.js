@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import colors from 'colors';
-import { connectDB } from './config/db.js';
 import cookieParser from 'cookie-parser';
-import { errorHandler } from './middleware/error.js';
 import cors from 'cors';
+import { connectDB } from './config/db.js';
+import { errorHandler } from './middleware/error.js';
 
 // Route Imports
 import boards from './routes/boards.js';

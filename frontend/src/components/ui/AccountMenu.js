@@ -38,7 +38,6 @@ const AccountMenu = () => {
   };
 
   const handleClose = (e) => {
-    console.log(e.target);
     if (e.target.id === 1) return;
     setAnchorEl(null);
   };

@@ -4,6 +4,8 @@ const theme = createTheme({
   palette: {
     common: {
       grey: '#F9FAFC',
+      darkGrey: 'rgba(122, 131, 136, 0.8)',
+      lightGrey: 'rgba(122, 131, 136, 0.61)',
     },
     primary: {
       main: '#236AA7',
@@ -14,6 +16,10 @@ const theme = createTheme({
     },
     text: {
       link: '#4177D7',
+    },
+    action: {
+      disabled: '#A8B1BD',
+      disabledBackground: '#F4F5F7',
     },
   },
   typography: {
@@ -37,6 +43,18 @@ const theme = createTheme({
       },
       fontSize: '.9rem',
       fontWeight: 300,
+    },
+  },
+  mixins: {
+    denseToolbar: {
+      minHeight: '48px',
+    },
+  },
+  components: {
+    MuiMenuItem: {
+      defaultProps: {
+        disableRipple: true,
+      },
     },
   },
 });
