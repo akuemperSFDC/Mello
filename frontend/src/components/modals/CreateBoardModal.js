@@ -58,7 +58,6 @@ const CreateBoardModal = () => {
   const createBoard = RR.useSelector((state) => state.modals.createBoard);
 
   const handleEnterKey = (e) => {
-    console.log('hello');
     if (e.key === 'Enter') {
       dispatch(createBoardAsync(title));
       dispatch(createBoardModal(false));
