@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import ListDrawer from '../components/ui/ListDrawer.js';
+import ListsArea from '../components/ui/ListsArea.js';
 import { getBoardsAsync } from '../features/boards/boardSlice.js';
 
 const ListsScreen = () => {
@@ -39,7 +40,7 @@ const ListsScreen = () => {
 
       <Paper
         sx={{
-          paddingLeft: visible ? '250px' : '40px',
+          paddingLeft: visible ? '240px' : '40px',
           paddingTop: theme.mixins.denseToolbar.minHeight,
           borderRadius: 0,
           width: '100%',
@@ -50,7 +51,7 @@ const ListsScreen = () => {
           backgroundAttachment: 'fixed',
         }}
       >
-        The fuck
+        <ListsArea />
       </Paper>
     </Box>
   );

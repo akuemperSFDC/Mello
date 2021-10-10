@@ -80,8 +80,12 @@ export const editBoardAsync = createAsyncThunk(
 
 const boardSlice = createSlice({
   name: 'boards',
-  initialState: { loading: false },
-  reducers: {},
+  initialState: { loading: false, currentBoard: null },
+  reducers: {
+    currentBoard: (state, action) => {
+      state.currentBoard = action.payload;
+    },
+  },
   extraReducers: {
     [getBoardsAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
@@ -91,7 +95,7 @@ const boardSlice = createSlice({
     [getBoardsAsync.rejected]: (state, action) => {
       if (state.loading) state.loading = false;
       state.errors = action.payload;
-      state.errors = action.payload.errors;
+      state.errors = action.payload?.errors;
     },
     [getBoardsAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
@@ -105,12 +109,14 @@ const boardSlice = createSlice({
     [createBoardAsync.rejected]: (state, action) => {
       if (state.loading) state.loading = false;
       state.errors = action.payload;
-      state.errors = action.payload.errors;
+      state.errors = action.payload?.errors;
     },
     [createBoardAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
   },
 });
+
+export const { currentBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;

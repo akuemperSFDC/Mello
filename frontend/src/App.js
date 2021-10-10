@@ -1,5 +1,6 @@
 import React from 'react';
 import * as RRD from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from './components/utils/ProtectedRoute.js';
 import NotFound from './components/utils/NotFound.js';
 import Header from './components/ui/Header.js';
@@ -9,9 +10,31 @@ import BoardsScreen from './screens/BoardsScreen.js';
 import ListsScreen from './screens/ListsScreen.js';
 import TemplatesScreen from './screens/TemplatesScreen.js';
 import CreateBoardModal from './components/modals/CreateBoardModal.js';
+import { currentBoard } from './features/boards/boardSlice.js';
 
 function App() {
+  const dispatch = useDispatch();
   const { pathname } = RRD.useLocation();
+
+  const regex = new RegExp(/(?<=\/b\/).*/i);
+  const id = pathname.match(regex);
+
+  const { boards } = useSelector((s) => s.boards) || [];
+
+  React.useEffect(() => {
+    const normalizeBoards = {};
+
+    boards &&
+      boards.forEach((board) => {
+        normalizeBoards[board._id] = board;
+      });
+
+    const curBoard = normalizeBoards[id];
+
+    if (id) {
+      dispatch(currentBoard(curBoard));
+    }
+  }, [dispatch, id, boards]);
 
   return (
     <>
