@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 import * as M from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getBoardsAsync } from '../features/boards/boardSlice.js';
 import SideBar from '../components/ui/SideBar.js';
-import Toast from '../components/utils/Toast.js';
+import Spinner from '../components/utils/Spinner.js';
 import { createBoardModal } from '../features/modal/modalSlice.js';
 
 const BoardsScreen = () => {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const { boards, errors, loading } = useSelector((s) => s.boards) || [];
+
+  const { boards, loading } = useSelector((s) => s.boards) || [];
 
   const theme = M.useTheme();
 
@@ -19,20 +19,8 @@ const BoardsScreen = () => {
     dispatch(getBoardsAsync());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (errors) {
-      setOpen(true);
-    }
-  }, [errors]);
-
   return (
     <>
-      {errors &&
-        errors.map((error) => (
-          <Toast open={open} setOpen={setOpen}>
-            {error}
-          </Toast>
-        ))}
       <Grid
         container
         flexGrow={1}
@@ -53,75 +41,79 @@ const BoardsScreen = () => {
               <Typography variant='h6'>Your boards</Typography>
             </Grid>
           </Grid>
-          <Grid container sx={{ px: 2 }}>
-            {boards &&
-              boards.map((board) => (
-                <Grid
-                  key={board._id}
-                  item
-                  component={Link}
-                  to={`/b/${board._id}`}
-                  sx={{
-                    textDecoration: 'none',
-                    mb: 3,
-                    mr: 2,
-                    '&:hover': {
-                      opacity: 0.8,
-                    },
-                  }}
-                >
-                  <Paper
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Grid container sx={{ px: 2 }}>
+              {boards &&
+                boards.map((board) => (
+                  <Grid
+                    key={board._id}
+                    item
+                    component={Link}
+                    to={`/b/${board._id}`}
                     sx={{
-                      minWidth: '11.5rem',
-                      maxWidth: '11.5rem',
-                      backgroundImage: `url(${board.backgroundImage})`,
-                      height: '6rem',
-                      backgroundPosition: 'center',
+                      textDecoration: 'none',
+                      mb: 3,
+                      mr: 2,
+                      '&:hover': {
+                        opacity: 0.8,
+                      },
                     }}
                   >
                     <Paper
                       sx={{
                         minWidth: '11.5rem',
-                        backgroundColor: 'rgba(0, 0, 0, 0.13)',
+                        maxWidth: '11.5rem',
+                        backgroundImage: `url(${board.backgroundImage})`,
                         height: '6rem',
+                        backgroundPosition: 'center',
                       }}
                     >
-                      <Typography
-                        gutterBottom
-                        component='div'
+                      <Paper
                         sx={{
-                          color: 'white',
-                          p: 1,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
+                          minWidth: '11.5rem',
+                          backgroundColor: 'rgba(0, 0, 0, 0.13)',
+                          height: '6rem',
                         }}
                       >
-                        {board.title}
-                      </Typography>
+                        <Typography
+                          gutterBottom
+                          component='div'
+                          sx={{
+                            color: 'white',
+                            p: 1,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {board.title}
+                        </Typography>
+                      </Paper>
                     </Paper>
-                  </Paper>
-                </Grid>
-              ))}
+                  </Grid>
+                ))}
 
-            {/* Add new board button */}
-            <Grid item>
-              <Paper
-                onClick={() => dispatch(createBoardModal(true))}
-                component={M.Button}
-                disableRipple
-                sx={{
-                  minWidth: '11.5rem',
-                  backgroundColor: 'common.grey',
-                  height: '6rem',
-                  mr: 2,
-                }}
-              >
-                <Typography gutterBottom component='div'>
-                  Create a new board
-                </Typography>
-              </Paper>
+              {/* Add new board button */}
+              <Grid item>
+                <Paper
+                  onClick={() => dispatch(createBoardModal(true))}
+                  component={M.Button}
+                  disableRipple
+                  sx={{
+                    minWidth: '11.5rem',
+                    backgroundColor: 'common.grey',
+                    height: '6rem',
+                    mr: 2,
+                  }}
+                >
+                  <Typography gutterBottom component='div'>
+                    Create a new board
+                  </Typography>
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
+          )}
         </Grid>
       </Grid>
     </>

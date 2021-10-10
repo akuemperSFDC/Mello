@@ -9,10 +9,13 @@ const slice = createSlice({
     setSelected: (state, action) => {
       state.value = action.payload;
     },
+    setShowSidebar: (state, action) => {
+      state.visibility = action.payload;
+    },
   },
   extraReducers: {},
 });
 
-export const { setSelected } = slice.actions;
+export const { setSelected, setShowSidebar } = slice.actions;
 
 export default slice.reducer;

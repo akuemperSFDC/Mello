@@ -25,6 +25,7 @@ import {
   setSelected,
   setShown,
 } from '../../features/listDrawer/listDrawerSlice.js';
+import { setShowSidebar } from '../../features//sidebar/sidebarSlice.js';
 import { createBoardModal } from '../../features/modal/modalSlice.js';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -82,25 +83,25 @@ const StyledSmallAvatar = styled(Avatar)(({ theme }) => ({
 const ListDrawer = ({ boards }) => {
   const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(false);
   const [openBoardsMenu, setOpenBoardsMenu] = React.useState(true);
 
   const { user } = useSelector((state) => state.auth) || {};
   const { value } = useSelector((state) => state.listDrawer);
+  const { visibility } = useSelector((state) => state.sidebar);
 
   const handleOpen = () => {
-    setOpen(true);
     dispatch(setShown(true));
+    dispatch(setShowSidebar(true));
   };
 
   const handleClose = () => {
-    setOpen(false);
     dispatch(setShown(false));
+    dispatch(setShowSidebar(false));
   };
 
   return (
     <>
-      {!open && (
+      {!visibility && (
         <StyledBox onClick={handleOpen}>
           <Avatar
             variant='rounded'
@@ -122,9 +123,9 @@ const ListDrawer = ({ boards }) => {
       )}
       <StyledDrawer
         variant='persistent'
-        open={open}
+        open={visibility}
         anchor='left'
-        sx={{ width: open ? 240 : 0 }}
+        sx={{ width: visibility ? 240 : 0 }}
       >
         <DrawerHeader>
           <Avatar
