@@ -65,7 +65,7 @@ const ListsArea = () => {
           </StyledButton>
         )}
       </Box>
-      <Box>
+      <Box sx={{ marginTop: 1 }}>
         <CreateNewListButton />
       </Box>
     </Box>
