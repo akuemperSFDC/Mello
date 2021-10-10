@@ -9,10 +9,13 @@ const slice = createSlice({
     setSelected: (state, action) => {
       state.value = action.payload;
     },
+    setShown: (state, action) => {
+      state.visible = action.payload;
+    },
   },
   extraReducers: {},
 });
 
-export const { setSelected } = slice.actions;
+export const { setSelected, setShown } = slice.actions;
 
 export default slice.reducer;

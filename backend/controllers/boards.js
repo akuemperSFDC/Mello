@@ -32,7 +32,6 @@ export const getBoard = asyncHandler(async (req, res, next) => {
 export const createBoard = asyncHandler(async (req, res, next) => {
   // Add user to req.body
   req.body.user = req.user.id;
-  console.log('~ req.body', req.body);
 
   // Check for
   const board = await Board.create(req.body);

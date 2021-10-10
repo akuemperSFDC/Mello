@@ -1,9 +1,8 @@
 import {
   Add,
-  ChevronLeft,
-  ChevronRight,
   KeyboardArrowDown,
   KeyboardArrowUp,
+  DoubleArrow,
 } from '@mui/icons-material';
 import {
   Avatar,
@@ -18,30 +17,47 @@ import {
   MenuList,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setSelected } from '../../features/listDrawer/listDrawerSlice.js';
+import {
+  setSelected,
+  setShown,
+} from '../../features/listDrawer/listDrawerSlice.js';
 import { createBoardModal } from '../../features/modal/modalSlice.js';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   width: 40,
   display: 'flex',
-  justifyContent: 'center',
+  flexDirection: 'column',
+  alignItems: 'center',
+  position: 'absolute',
+  background: `linear-gradient(to bottom, ${alpha(
+    theme.palette.common.black,
+    theme.palette.action[30]
+  )}, ${alpha(theme.palette.common.black, theme.palette.action[0])} 70%)`,
+  transition: theme.durations.short,
   '&:hover': {
     cursor: 'pointer',
-    backgroundColor: theme.palette.secondary.main,
+    background: theme.palette.common.white,
+    '& > .double-arrow': {
+      color: theme.palette.grey[800],
+    },
   },
-  backgroundColor: theme.palette.primary.main,
-  height: `calc(100vh - ${theme.mixins.denseToolbar.minHeight}`,
-  transition: 'all 0.5s',
+  marginTop: theme.mixins.denseToolbar.minHeight,
+  height: `calc(100vh - ${theme.mixins.denseToolbar.minHeight})`,
   borderRadius: 0,
 }));
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   flexShrink: 0,
-  [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
+  [`& .MuiDrawer-paper`]: {
+    width: 240,
+    boxSizing: 'border-box',
+    marginTop: theme.mixins.denseToolbar.minHeight,
+  },
+  position: 'absolute',
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -49,7 +65,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: 3,
   justifyContent: 'space-around',
   alignItems: 'center',
-  marginTop: `calc(15px +  ${theme.mixins.denseToolbar.minHeight})`,
+  marginTop: 12,
 }));
 
 const StyledSmallAvatar = styled(Avatar)(({ theme }) => ({
@@ -74,17 +90,34 @@ const ListDrawer = ({ boards }) => {
 
   const handleOpen = () => {
     setOpen(true);
+    dispatch(setShown(true));
   };
 
   const handleClose = () => {
     setOpen(false);
+    dispatch(setShown(false));
   };
 
   return (
     <>
       {!open && (
         <StyledBox onClick={handleOpen}>
-          <ChevronRight sx={{ color: 'white' }} />
+          <Avatar
+            variant='rounded'
+            sx={{
+              width: '30px',
+              height: '30px',
+              backgroundColor: 'secondary.main',
+              mt: 1,
+            }}
+          >
+            {user.firstName[0]}
+          </Avatar>
+          <DoubleArrow
+            className='double-arrow'
+            fontSize='20px'
+            sx={{ color: 'white', mt: 2 }}
+          />
         </StyledBox>
       )}
       <StyledDrawer
@@ -94,7 +127,14 @@ const ListDrawer = ({ boards }) => {
         sx={{ width: open ? 240 : 0 }}
       >
         <DrawerHeader>
-          <Avatar variant='rounded' sx={{ width: '30px', height: '30px' }}>
+          <Avatar
+            variant='rounded'
+            sx={{
+              width: '30px',
+              height: '30px',
+              backgroundColor: 'secondary.main',
+            }}
+          >
             {user.firstName[0]}
           </Avatar>
           <Typography variant='subtitle1'>
@@ -104,6 +144,7 @@ const ListDrawer = ({ boards }) => {
             sx={{
               width: '30px',
               height: '30px',
+              transform: 'rotate(-180deg)',
               transition: (theme) => theme.durations.short,
               '&:hover': {
                 cursor: 'pointer',
@@ -117,7 +158,7 @@ const ListDrawer = ({ boards }) => {
             variant='rounded'
             onClick={handleClose}
           >
-            <ChevronLeft />
+            <DoubleArrow sx={{ fontSize: '20px' }} />
           </Avatar>
         </DrawerHeader>
         <Divider sx={{ my: 2 }} />

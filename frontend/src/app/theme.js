@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { grey } from '@mui/material/colors';
+import { grey, blueGrey } from '@mui/material/colors';
 
 const theme = createTheme({
   palette: {
@@ -7,10 +7,14 @@ const theme = createTheme({
       grey: '#F9FAFC',
       darkGrey: 'rgba(122, 131, 136, 0.8)',
       lightGrey: 'rgba(122, 131, 136, 0.61)',
+      drawerGrey: '#A6A9AA',
     },
     primary: {
       main: '#236AA7',
       light: '#559EFE',
+    },
+    secondary: {
+      main: '#1945A4',
     },
     success: {
       main: '#5AAC45',
@@ -21,6 +25,7 @@ const theme = createTheme({
     action: {
       disabled: '#A8B1BD',
       disabledBackground: '#F4F5F7',
+      0: 0,
       10: 0.1,
       20: 0.2,
       30: 0.3,
@@ -33,6 +38,7 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: ['Roboto', 'Raleway'],
     h2: {
       fontWeight: 600,
       fontSize: '3.25rem',
@@ -53,6 +59,12 @@ const theme = createTheme({
       },
       fontSize: '.9rem',
       fontWeight: 300,
+    },
+    subtitle1: {
+      fontFaily: 'Raleway',
+      fontSize: '.9rem',
+      color: blueGrey[500],
+      fontWeight: 700,
     },
     sidebarHeader: {
       fontSize: '.95rem',

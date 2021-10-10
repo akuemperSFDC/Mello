@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -7,8 +8,9 @@ import {
   Button,
   useScrollTrigger,
   Slide,
+  useTheme,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 
 import AccountMenu from './AccountMenu.js';
 
@@ -30,12 +32,33 @@ function HideOnScroll({ children }) {
 }
 
 const Header = (props) => {
+  const { pathname } = useLocation();
+  const theme = useTheme();
+
+  const [bgColor, setBgColor] = useState(false);
+
+  useEffect(() => {
+    const regex = new RegExp('/b/');
+    if (regex.test(pathname)) {
+      setBgColor(true);
+    }
+  }, [pathname]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <HideOnScroll {...props}>
         <AppBar
           position='fixed'
-          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          elevation={0}
+          sx={{
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            backgroundColor: !bgColor
+              ? 'primary.main'
+              : `${alpha(
+                  theme.palette.common.black,
+                  theme.palette.action[30]
+                )}`,
+          }}
         >
           <Toolbar variant='dense'>
             <Button component={Link} to='/boards' disableRipple>
