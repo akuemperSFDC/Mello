@@ -1,8 +1,9 @@
 import { Box, useTheme, Paper } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import Toast from '../components/utils/Toast.js';
 import ListDrawer from '../components/ui/ListDrawer.js';
 import ListsArea from '../components/ui/ListsArea.js';
 import { getBoardsAsync } from '../features/boards/boardSlice.js';
@@ -11,6 +12,8 @@ const ListsScreen = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { id } = useParams();
+
+  const [open, setOpen] = useState(false);
 
   const { boards } = useSelector((s) => s.boards) || [];
   const { visible } = useSelector((state) => state.listDrawer) || false;
@@ -22,38 +25,54 @@ const ListsScreen = () => {
       normalizeBoards[board._id] = board;
     });
 
+  const { errors } = useSelector((state) => state.lists);
+
   const curBoard = normalizeBoards[id];
 
   useEffect(() => {
     dispatch(getBoardsAsync());
   }, [dispatch]);
 
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        height: '100vh',
-        position: 'relative',
-      }}
-    >
-      <ListDrawer boards={boards} />
+  useEffect(() => {
+    if (errors) {
+      setOpen(true);
+    }
+  }, [errors]);
 
-      <Paper
+  return (
+    <>
+      {errors &&
+        errors.map((err, i) => (
+          <Toast key={i} open={open} setOpen={setOpen}>
+            {err}
+          </Toast>
+        ))}
+      <Box
         sx={{
-          paddingLeft: visible ? '240px' : '40px',
-          paddingTop: theme.mixins.denseToolbar.minHeight,
-          borderRadius: 0,
-          width: '100%',
-          backgroundImage: curBoard && `url(${curBoard.backgroundImage})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundAttachment: 'fixed',
+          display: 'flex',
+          height: '100vh',
+          position: 'relative',
         }}
       >
-        <ListsArea visible={visible} />
-      </Paper>
-    </Box>
+        <ListDrawer boards={boards} />
+
+        <Paper
+          sx={{
+            paddingLeft: visible ? '240px' : '40px',
+            paddingTop: theme.mixins.denseToolbar.minHeight,
+            borderRadius: 0,
+            width: '100%',
+            backgroundImage: curBoard && `url(${curBoard.backgroundImage})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundAttachment: 'fixed',
+          }}
+        >
+          <ListsArea visible={visible} />
+        </Paper>
+      </Box>
+    </>
   );
 };
 

@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   ClickAwayListener,
   styled,
   Typography,
-  alpha,
   Collapse,
   Button,
   IconButton,
   Fade,
   InputBase,
-  List,
-  listClasses,
 } from '@mui/material';
 import { Add, Clear } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { createCardAsync } from '../../../features/lists/listsSlice.js';
 
@@ -51,6 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const AddCardButton = ({ list }) => {
   const dispatch = useDispatch();
   const [showInput, setShowInput] = useState(false);
+
   const [title, setTitle] = useState('');
 
   const handleCreateCard = () => {
@@ -60,62 +58,64 @@ const AddCardButton = ({ list }) => {
   };
 
   return (
-    <ClickAwayListener
-      onClickAway={() => {
-        setShowInput(false);
-        setTitle('');
-      }}
-    >
-      <StyledBox>
-        {showInput ? (
-          <Fade in={showInput}>
-            <Box sx={{ width: '100%' }} onClick={() => setShowInput(true)}>
-              <StyledInputBase
-                placeholder='Enter a title for this card...'
-                autoFocus={true}
-                multiline={true}
-                minRows='2'
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </Box>
-          </Fade>
-        ) : (
-          <Box
-            onClick={() => setShowInput(true)}
-            sx={{
-              minHeight: '32px',
-              display: 'flex',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }}
-          >
-            <Add sx={{ mr: '5px', fontSize: '14px' }} />
-            <Typography sx={{ fontSize: '14px' }}>Add a card</Typography>
-          </Box>
-        )}
-        <Collapse in={showInput}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button
-              variant='contained'
-              size='small'
-              sx={{ color: 'white', mr: 1 }}
-              onClick={handleCreateCard}
+    <>
+      <ClickAwayListener
+        onClickAway={() => {
+          setShowInput(false);
+          setTitle('');
+        }}
+      >
+        <StyledBox>
+          {showInput ? (
+            <Fade in={showInput}>
+              <Box sx={{ width: '100%' }} onClick={() => setShowInput(true)}>
+                <StyledInputBase
+                  placeholder='Enter a title for this card...'
+                  autoFocus={true}
+                  multiline={true}
+                  minRows='2'
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Box>
+            </Fade>
+          ) : (
+            <Box
+              onClick={() => setShowInput(true)}
+              sx={{
+                minHeight: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                cursor: 'pointer',
+              }}
             >
-              Add card
-            </Button>
-            <IconButton disableRipple onClick={() => setShowInput(false)}>
-              <Clear
-                onClick={() => {
-                  setShowInput(false);
-                  setTitle('');
-                }}
-              />
-            </IconButton>
-          </Box>
-        </Collapse>
-      </StyledBox>
-    </ClickAwayListener>
+              <Add sx={{ mr: '5px', fontSize: '14px' }} />
+              <Typography sx={{ fontSize: '14px' }}>Add a card</Typography>
+            </Box>
+          )}
+          <Collapse in={showInput}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button
+                variant='contained'
+                size='small'
+                sx={{ color: 'white', mr: 1 }}
+                onClick={handleCreateCard}
+              >
+                Add card
+              </Button>
+              <IconButton disableRipple onClick={() => setShowInput(false)}>
+                <Clear
+                  onClick={() => {
+                    setShowInput(false);
+                    setTitle('');
+                  }}
+                />
+              </IconButton>
+            </Box>
+          </Collapse>
+        </StyledBox>
+      </ClickAwayListener>
+    </>
   );
 };
 
