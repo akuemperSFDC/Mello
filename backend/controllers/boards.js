@@ -23,7 +23,7 @@ export const getBoard = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({ success: true, data: board });
+  res.status(200).json(board);
 });
 
 // @desc      Create new board
@@ -36,7 +36,7 @@ export const createBoard = asyncHandler(async (req, res, next) => {
   // Check for
   const board = await Board.create(req.body);
 
-  res.status(201).json({ success: true, data: board });
+  res.status(201).json(board);
 });
 
 // @desc      Update board
@@ -66,7 +66,7 @@ export const updateBoard = asyncHandler(async (req, res, next) => {
     runValidators: true,
   });
 
-  res.status(200).json({ success: true, data: board });
+  res.status(200).json(board);
 });
 
 // @desc      Delete board
@@ -93,5 +93,5 @@ export const deleteBoard = asyncHandler(async (req, res, next) => {
 
   board.remove();
 
-  res.status(200).json({ success: true, data: {} });
+  res.status(200).json({});
 });

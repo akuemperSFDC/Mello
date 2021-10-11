@@ -15,19 +15,17 @@ const ListsScreen = () => {
 
   const [open, setOpen] = useState(false);
 
-  const { boards } = useSelector((s) => s.boards) || [];
+  // const boards = useSelector((s) => Object.values(s.boards?.boards)) || [];
+  const boardsMain = useSelector((s) => s.boards);
+  let { boards } = boardsMain;
+  boards = boards && Object.values(boards);
+
   const { visible } = useSelector((state) => state.listDrawer) || false;
 
-  const normalizeBoards = {};
-
-  boards &&
-    boards.forEach((board) => {
-      normalizeBoards[board._id] = board;
-    });
+  const normalizedBoards = useSelector((s) => s.boards?.boards);
+  const curBoard = normalizedBoards && normalizedBoards[id];
 
   const { errors } = useSelector((state) => state.lists);
-
-  const curBoard = normalizeBoards[id];
 
   useEffect(() => {
     dispatch(getBoardsAsync());

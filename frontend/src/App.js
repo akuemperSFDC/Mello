@@ -19,22 +19,14 @@ function App() {
   const regex = new RegExp(/(?<=\/b\/).*/i);
   const id = pathname.match(regex);
 
-  const { boards } = useSelector((s) => s.boards) || [];
+  const { boards } = useSelector((s) => s.boards);
+  const curBoard = boards && boards[id];
 
   React.useEffect(() => {
-    const normalizeBoards = {};
-
-    boards &&
-      boards.forEach((board) => {
-        normalizeBoards[board._id] = board;
-      });
-
-    const curBoard = normalizeBoards[id];
-
     if (id) {
       dispatch(currentBoard(curBoard));
     }
-  }, [dispatch, id, boards]);
+  }, [dispatch, id, curBoard]);
 
   return (
     <>

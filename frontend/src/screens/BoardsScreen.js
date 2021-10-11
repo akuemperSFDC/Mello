@@ -11,7 +11,11 @@ import { createBoardModal } from '../features/modal/modalSlice.js';
 const BoardsScreen = () => {
   const dispatch = useDispatch();
 
-  const { boards, loading } = useSelector((s) => s.boards) || [];
+  const boardsMain = useSelector((s) => s.boards);
+  let { boards } = boardsMain;
+  boards = boards && Object.values(boards);
+
+  const { loading } = useSelector((s) => s.boards) || [];
 
   const theme = M.useTheme();
 

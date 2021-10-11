@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, alpha, Box, Button, Typography } from '@mui/material';
 import { StarBorder, Star } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { editBoardAsync } from '../../../features/boards/boardSlice.js';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: '#ffffff3d',
@@ -12,13 +15,29 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 const ListAreaHeader = ({ currentBoard }) => {
+  const dispatch = useDispatch();
+
   const [showInput, setShowInput] = useState(false);
   const [favorite, setFavorite] = useState(false);
+  const [title, setTitle] = useState('');
+
+  const handleFavorite = () => {
+    console.log(favorite);
+    setFavorite(!favorite);
+    dispatch(editBoardAsync({ id: currentBoard._id, title, favorite }));
+  };
+
+  useEffect(() => {
+    if (currentBoard) {
+      setTitle(currentBoard.title);
+    }
+    console.log(favorite);
+  }, [currentBoard]);
 
   return (
     <Box>
       {showInput ? (
-        <div>input</div>
+        <div onClick={() => setShowInput(false)}>{currentBoard.title}</div>
       ) : (
         <StyledButton
           size='small'
@@ -30,7 +49,7 @@ const ListAreaHeader = ({ currentBoard }) => {
       )}
       {favorite ? (
         <StyledButton
-          onClick={() => setFavorite(false)}
+          onClick={handleFavorite}
           variant='contained'
           sx={{ maxWidth: '30px', ml: 0.5 }}
         >
@@ -38,7 +57,7 @@ const ListAreaHeader = ({ currentBoard }) => {
         </StyledButton>
       ) : (
         <StyledButton
-          onClick={() => setFavorite(true)}
+          onClick={handleFavorite}
           variant='contained'
           sx={{ maxWidth: '30px', ml: 0.5 }}
         >

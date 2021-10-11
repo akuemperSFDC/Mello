@@ -87,9 +87,14 @@ const boardSlice = createSlice({
     },
   },
   extraReducers: {
+    // Get boards
     [getBoardsAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.boards = action.payload;
+      const normalizedBoards = {};
+      action.payload.forEach((board) => {
+        normalizedBoards[board._id] = board;
+      });
+      state.boards = normalizedBoards;
       delete state.errors;
     },
     [getBoardsAsync.rejected]: (state, action) => {
@@ -100,9 +105,11 @@ const boardSlice = createSlice({
     [getBoardsAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
+
+    // Create board
     [createBoardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.boards.push(action.payload.data);
+      state.boards[action.payload.id] = action.payload;
       state.newBoard = action.payload;
       delete state.errors;
     },
@@ -112,6 +119,22 @@ const boardSlice = createSlice({
       state.errors = action.payload?.errors;
     },
     [createBoardAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    // Edit board
+    [editBoardAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.boards[action.payload._id] = action.payload;
+      state.editedBoard = action.payload;
+      delete state.errors;
+    },
+    [editBoardAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [editBoardAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
   },
