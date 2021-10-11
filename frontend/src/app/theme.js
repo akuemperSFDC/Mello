@@ -8,6 +8,7 @@ const theme = createTheme({
       darkGrey: 'rgba(122, 131, 136, 0.8)',
       lightGrey: 'rgba(122, 131, 136, 0.61)',
       drawerGrey: '#A6A9AA',
+      drawerGrey2: '#A6A9AA',
     },
     primary: {
       main: '#236AA7',
@@ -35,6 +36,9 @@ const theme = createTheme({
       70: 0.7,
       80: 0.8,
       90: 0.9,
+    },
+    list: {
+      main: '#EBECF0',
     },
   },
   typography: {
@@ -79,6 +83,10 @@ const theme = createTheme({
       fontSize: '.9rem',
       fontWeight: 400,
       color: grey[700],
+    },
+    listTitle: {
+      fontSize: '14px',
+      fontWeight: 500,
     },
   },
   mixins: {

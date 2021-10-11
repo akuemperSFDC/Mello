@@ -11,7 +11,7 @@ export const getLists = asyncHandler(async (req, res, next) => {
     select: 'title description -list',
   });
 
-  res.status(200).json({ success: true, count: lists.length, data: lists });
+  res.status(200).json(lists);
 });
 
 // @desc      Get single list

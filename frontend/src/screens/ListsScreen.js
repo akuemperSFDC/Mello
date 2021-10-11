@@ -51,7 +51,7 @@ const ListsScreen = () => {
           backgroundAttachment: 'fixed',
         }}
       >
-        <ListsArea />
+        <ListsArea visible={visible} />
       </Paper>
     </Box>
   );

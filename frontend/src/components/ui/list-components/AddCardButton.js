@@ -1,39 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
-  InputBase,
-  Collapse,
-  Fade,
-  Typography,
-  Button,
-  styled,
-  IconButton,
   ClickAwayListener,
+  styled,
+  Typography,
   alpha,
+  Collapse,
+  Button,
+  IconButton,
+  Fade,
+  InputBase,
 } from '@mui/material';
 import { Add, Clear } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
-import { createListAsync } from '../../../features/lists/listsSlice.js';
-
-const StyledBox = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'showInput',
-})(({ showInput, theme }) => ({
-  width: '265px',
-  minWidth: '265px',
-  display: 'flex',
-  flexDirection: 'column',
+const StyledBox = styled(Box)(({ theme }) => ({
+  maxWidth: '250px',
   minHeight: '30px',
   height: '100%',
   justifyContent: 'center',
-  padding: '3px',
+  padding: '4px 8px',
+  marginRight: '0px !important',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: showInput ? '#EBECF0' : '#ffffff52',
+  cursor: 'pointer',
+  backgroundColor: '#EBECF0',
   '&:hover': {
-    backgroundColor: showInput
-      ? '#EBECF0'
-      : alpha('#ffffff52', theme.palette.action[40]),
+    backgroundColor: theme.palette.grey[300],
   },
 }));
 
@@ -42,7 +33,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   backgroundColor: 'white',
   width: '100%',
-  maxHeight: '36px',
+  // maxHeight: '36px',
   padding: 0,
   fontSize: '14px',
   lineHeight: '20px',
@@ -52,23 +43,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const CreateNewListButton = () => {
-  const dispatch = useDispatch();
-
-  const { id } = useParams();
-
+const AddCardButton = () => {
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState('');
 
   return (
-    <ClickAwayListener onClickAway={() => setShowInput(false)}>
-      <StyledBox showInput={showInput}>
+    <ClickAwayListener
+      onClickAway={() => {
+        setShowInput(false);
+        setTitle('');
+      }}
+    >
+      <StyledBox>
         {showInput ? (
           <Fade in={showInput}>
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '100%' }} onClick={() => setShowInput(true)}>
               <StyledInputBase
-                placeholder='Enter list title...'
+                placeholder='Enter a title for this card...'
                 autoFocus='true'
+                multiline='true'
+                minRows='2'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -84,22 +78,27 @@ const CreateNewListButton = () => {
               cursor: 'pointer',
             }}
           >
-            <Add sx={{ color: 'white' }} />
-            <Typography sx={{ color: 'white' }}>Add another list</Typography>
+            <Add sx={{ mr: '5px', fontSize: '14px' }} />
+            <Typography sx={{ fontSize: '14px' }}>Add a card</Typography>
           </Box>
         )}
         <Collapse in={showInput}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button
               variant='contained'
               size='small'
               sx={{ color: 'white', mr: 1 }}
-              onClick={() => dispatch(createListAsync({ id, title }))}
+              // onClick={() => dispatch(createListAsync({ id, title }))}
             >
-              Add list
+              Add card
             </Button>
             <IconButton disableRipple onClick={() => setShowInput(false)}>
-              <Clear onClick={() => setShowInput(false)} />
+              <Clear
+                onClick={() => {
+                  setShowInput(false);
+                  setTitle('');
+                }}
+              />
             </IconButton>
           </Box>
         </Collapse>
@@ -108,4 +107,4 @@ const CreateNewListButton = () => {
   );
 };
 
-export default CreateNewListButton;
+export default AddCardButton;

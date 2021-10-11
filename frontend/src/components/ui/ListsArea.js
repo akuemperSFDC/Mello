@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Paper, Typography, Button } from '@mui/material';
+import { Box, Paper, Typography, Button, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled, alpha } from '@mui/material/styles';
 import { StarBorder, Star } from '@mui/icons-material';
 
+import List from './list-components/List.js';
 import CreateNewListButton from './list-components/CreateNewListButton.js';
 
-const ListsArea = () => {
+const ListsArea = ({ visible }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const [showInput, setShowInput] = useState(false);
   const [favorite, setFavorite] = useState(false);
@@ -28,7 +30,13 @@ const ListsArea = () => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', m: 1 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        m: 1,
+      }}
+    >
       <Box>
         {showInput ? (
           <div>input</div>
@@ -65,7 +73,16 @@ const ListsArea = () => {
           </StyledButton>
         )}
       </Box>
-      <Box sx={{ marginTop: 1 }}>
+      <Box
+        sx={{
+          marginTop: 1,
+          display: 'flex',
+          maxWidth: visible ? 'calc(100vh - 240px)' : 'calc(100vh - 40px)',
+          overflowX: 'auto',
+          minHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - 46px)`,
+        }}
+      >
+        <List />
         <CreateNewListButton />
       </Box>
     </Box>

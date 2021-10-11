@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import boardReducer from '../features/boards/boardSlice.js';
+import listReducer from '../features/lists/listsSlice.js';
 import authReducer from '../features/auth/authSlice.js';
 import sidebarReducer from '../features/sidebar/sidebarSlice.js';
 import modalReducer from '../features/modal/modalSlice.js';
@@ -19,6 +20,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     boards: boardReducer,
+    lists: listReducer,
     sidebar: sidebarReducer,
     modals: modalReducer,
     listDrawer: listDrawerReducer,
