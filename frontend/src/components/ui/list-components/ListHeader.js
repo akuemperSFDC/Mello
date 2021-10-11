@@ -72,13 +72,22 @@ const ListHeader = ({ list, i }) => {
             sx={{
               minHeight: '28px',
               display: 'flex',
-              alignItems: 'center',
+              // alignItems: 'center',
               cursor: 'pointer',
-              padding: '0 8px',
+              padding: '6px 8px 2px',
               flexGrow: 1,
             }}
           >
-            <Typography variant='listTitle'>{list.title}</Typography>
+            <Typography
+              sx={{
+                wordWrap: 'break-word',
+                maxWidth: '230px',
+                lineHeight: '20px',
+              }}
+              variant='listTitle'
+            >
+              {list.title}
+            </Typography>
           </Box>
         )}
       </ClickAwayListener>
