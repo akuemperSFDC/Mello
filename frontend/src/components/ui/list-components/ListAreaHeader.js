@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { styled, alpha, Box, Button, Typography } from '@mui/material';
+import {
+  styled,
+  alpha,
+  Box,
+  Button,
+  Typography,
+  InputBase,
+  ClickAwayListener,
+} from '@mui/material';
 import { StarBorder, Star } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { editBoardAsync } from '../../../features/boards/boardSlice.js';
 
@@ -12,6 +20,13 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
   maxHeight: '30px',
   minWidth: '20px',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  backgroundColor: 'white',
+  maxHeight: '30px',
+  borderRadius: theme.shape.borderRadius,
+  border: `3px solid ${theme.palette.primary.main}`,
 }));
 
 const ListAreaHeader = ({ currentBoard }) => {
@@ -26,6 +41,18 @@ const ListAreaHeader = ({ currentBoard }) => {
     );
   };
 
+  const handleEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(
+        editBoardAsync({
+          id: currentBoard._id,
+          title,
+        })
+      );
+      setShowInput(false);
+    }
+  };
+
   useEffect(() => {
     if (currentBoard) {
       setTitle(currentBoard.title);
@@ -33,9 +60,19 @@ const ListAreaHeader = ({ currentBoard }) => {
   }, [currentBoard]);
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex' }}>
       {showInput ? (
-        <div onClick={() => setShowInput(false)}>{currentBoard.title}</div>
+        <ClickAwayListener onClickAway={() => setShowInput(false)}>
+          <StyledInputBase
+            onKeyDown={handleEnterKey}
+            value={title}
+            autoFocus={true}
+            onFocus={(event) => {
+              event.target.select();
+            }}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </ClickAwayListener>
       ) : (
         <StyledButton
           size='small'

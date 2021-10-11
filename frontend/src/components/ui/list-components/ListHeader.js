@@ -55,7 +55,7 @@ const ListHeader = ({ list, i }) => {
             <Box sx={{ width: 'auto', flexGrow: 1 }}>
               <StyledInputBase
                 placeholder='Enter list title...'
-                autoFocus='true'
+                autoFocus={true}
                 onFocus={(event) => {
                   event.target.select();
                 }}
