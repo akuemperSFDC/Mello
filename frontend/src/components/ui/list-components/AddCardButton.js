@@ -10,8 +10,13 @@ import {
   IconButton,
   Fade,
   InputBase,
+  List,
+  listClasses,
 } from '@mui/material';
 import { Add, Clear } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { createCardAsync } from '../../../features/lists/listsSlice.js';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   maxWidth: '250px',
@@ -43,9 +48,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const AddCardButton = () => {
+const AddCardButton = ({ list }) => {
+  const dispatch = useDispatch();
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState('');
+
+  const handleCreateCard = () => {
+    dispatch(createCardAsync({ id: list._id, title }));
+    setShowInput(false);
+    setTitle('');
+  };
 
   return (
     <ClickAwayListener
@@ -60,8 +72,8 @@ const AddCardButton = () => {
             <Box sx={{ width: '100%' }} onClick={() => setShowInput(true)}>
               <StyledInputBase
                 placeholder='Enter a title for this card...'
-                autoFocus='true'
-                multiline='true'
+                autoFocus={true}
+                multiline={true}
                 minRows='2'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -88,7 +100,7 @@ const AddCardButton = () => {
               variant='contained'
               size='small'
               sx={{ color: 'white', mr: 1 }}
-              // onClick={() => dispatch(createListAsync({ id, title }))}
+              onClick={handleCreateCard}
             >
               Add card
             </Button>

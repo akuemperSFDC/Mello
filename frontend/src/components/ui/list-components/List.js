@@ -27,36 +27,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
   padding: '4px',
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  border: `3px solid ${theme.palette.primary.main}`,
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: 'white',
-  width: '100%',
-  maxHeight: '28px',
-  padding: 0,
-  fontSize: '14px',
-  lineHeight: '20px',
-  wordSpacing: '0px',
-  [`& .MuiInputBase-input`]: {
-    paddingLeft: '4px',
-    paddingRight: '4px',
-  },
-}));
-
 const List = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const [showListInput, setShowListInput] = useState(false);
-  const [title, setTitle] = useState('');
-
-  const { currentLists } = useSelector((state) => state.lists) || [];
-
-  const handleShowListInput = (e, i) => {
-    if (Number(e.target.id) === i) {
-      setShowListInput(true);
-    }
-  };
+  const currentLists =
+    useSelector((state) => Object.values(state.lists.currentLists)) || [];
 
   useEffect(() => {
     dispatch(getListsAsync(id));
@@ -64,8 +40,8 @@ const List = () => {
   return currentLists.map((list, i) => (
     <StyledBox>
       <ListHeader list={list} i={i} />
-      {/* <Card /> */}
-      <AddCardButton />
+      <Card list={list} />
+      <AddCardButton list={list} />
     </StyledBox>
   ));
 };

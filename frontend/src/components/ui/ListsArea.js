@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Paper, Typography, Button, useTheme } from '@mui/material';
+import { Box, Typography, Button, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled, alpha } from '@mui/material/styles';
 import { StarBorder, Star } from '@mui/icons-material';
