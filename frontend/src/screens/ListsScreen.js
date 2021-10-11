@@ -15,10 +15,9 @@ const ListsScreen = () => {
 
   const [open, setOpen] = useState(false);
 
-  // const boards = useSelector((s) => Object.values(s.boards?.boards)) || [];
-  const boardsMain = useSelector((s) => s.boards);
-  let { boards } = boardsMain;
-  boards = boards && Object.values(boards);
+  const boards = useSelector(
+    (s) => s.boards.boards && Object.values(s.boards?.boards)
+  );
 
   const { visible } = useSelector((state) => state.listDrawer) || false;
 

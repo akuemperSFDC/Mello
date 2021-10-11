@@ -126,7 +126,6 @@ const boardSlice = createSlice({
     [editBoardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
       state.boards[action.payload._id] = action.payload;
-      state.editedBoard = action.payload;
       delete state.errors;
     },
     [editBoardAsync.rejected]: (state, action) => {

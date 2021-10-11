@@ -18,20 +18,18 @@ const ListAreaHeader = ({ currentBoard }) => {
   const dispatch = useDispatch();
 
   const [showInput, setShowInput] = useState(false);
-  const [favorite, setFavorite] = useState(false);
   const [title, setTitle] = useState('');
 
   const handleFavorite = () => {
-    console.log(favorite);
-    setFavorite(!favorite);
-    dispatch(editBoardAsync({ id: currentBoard._id, title, favorite }));
+    dispatch(
+      editBoardAsync({ id: currentBoard._id, favorite: !currentBoard.favorite })
+    );
   };
 
   useEffect(() => {
     if (currentBoard) {
       setTitle(currentBoard.title);
     }
-    console.log(favorite);
   }, [currentBoard]);
 
   return (
@@ -47,7 +45,7 @@ const ListAreaHeader = ({ currentBoard }) => {
           <Typography variant='h5'>{currentBoard?.title}</Typography>
         </StyledButton>
       )}
-      {favorite ? (
+      {currentBoard && currentBoard.favorite ? (
         <StyledButton
           onClick={handleFavorite}
           variant='contained'
