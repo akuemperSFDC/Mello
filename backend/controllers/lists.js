@@ -66,7 +66,7 @@ export const editList = asyncHandler(async (req, res, next) => {
     runValidators: true,
   });
 
-  res.status(200).json({ success: true, data: list });
+  res.status(200).json(list);
 });
 
 // @desc      Delete list
@@ -87,5 +87,5 @@ export const deleteList = asyncHandler(async (req, res, next) => {
 
   await List.findByIdAndDelete(req.params.id);
 
-  res.status(200).json({ success: true, data: {} });
+  res.status(200).json({});
 });

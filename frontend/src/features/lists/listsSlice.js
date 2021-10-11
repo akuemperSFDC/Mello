@@ -81,11 +81,40 @@ export const createListAsync = createAsyncThunk(
   }
 );
 
+export const editListAsync = createAsyncThunk(
+  'lists/editListAsync',
+  async (params, { rejectWithValue, getState }) => {
+    try {
+      const { token } = getState().auth;
+
+      const { id, title } = params;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `http://localhost:5000/api/lists/${id}`,
+        { title },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const slice = createSlice({
   name: 'lists',
   initialState: { loading: false, currentLists: [] },
   reducers: {},
   extraReducers: {
+    // Get lists
     [getListsAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
       const normalizedLists = {};
@@ -103,11 +132,10 @@ const slice = createSlice({
     [getListsAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
+
+    // Create list
     [createListAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      console.log('state.currentLists', state.currentLists);
-
-      console.log('~ action.payload', action.payload);
       state.currentLists[action.payload._id] = action.payload;
       state.newList = action.payload;
       delete state.errors;
@@ -120,6 +148,24 @@ const slice = createSlice({
     [createListAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
+
+    // Edit list
+    [editListAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.currentLists[action.payload._id] = action.payload;
+      state.editedList = action.payload;
+      delete state.errors;
+    },
+    [editListAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [editListAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    // Create card
     [createCardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
       const listId = action.payload.list;

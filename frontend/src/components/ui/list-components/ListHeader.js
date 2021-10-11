@@ -9,6 +9,9 @@ import {
   useTheme,
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { editListAsync } from '../../../features/lists/listsSlice.js';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   border: `3px solid ${theme.palette.primary.main}`,
@@ -28,9 +31,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ListHeader = ({ list, i }) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const [showListInput, setShowListInput] = useState(false);
   const [title, setTitle] = useState('');
+
+  const handleSubmit = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(editListAsync({ id: list._id, title }));
+      setShowListInput(false);
+    }
+  };
 
   React.useEffect(() => {
     setTitle(list.title);
@@ -45,8 +56,12 @@ const ListHeader = ({ list, i }) => {
               <StyledInputBase
                 placeholder='Enter list title...'
                 autoFocus='true'
+                onFocus={(event) => {
+                  event.target.select();
+                }}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                onKeyDown={handleSubmit}
               />
             </Box>
           </Fade>
