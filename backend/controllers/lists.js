@@ -29,7 +29,7 @@ export const getList = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({ success: true, data: list });
+  res.status(200).json(list);
 });
 
 // @desc      Create new list
@@ -42,7 +42,7 @@ export const createList = asyncHandler(async (req, res, next) => {
 
   const list = await List.create(req.body);
 
-  res.status(200).json({ success: true, data: list });
+  res.status(200).json(list);
 });
 
 // @desc      Edit list

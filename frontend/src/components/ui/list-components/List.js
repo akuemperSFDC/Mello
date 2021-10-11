@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Box, styled } from '@mui/material';
@@ -6,7 +6,6 @@ import { Box, styled } from '@mui/material';
 import ListHeader from './ListHeader.js';
 import AddCardButton from './AddCardButton.js';
 import Card from './Card.js';
-import Toast from '../../utils/Toast.js';
 import { getListsAsync } from '../../../features/lists/listsSlice.js';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -33,11 +32,13 @@ const List = () => {
   }, [dispatch, id]);
 
   return currentLists.map((list, i) => (
-    <StyledBox key={list._id}>
-      <ListHeader list={list} i={i} />
-      <Card list={list} />
-      <AddCardButton list={list} />
-    </StyledBox>
+    <Fragment key={list._id}>
+      <StyledBox>
+        <ListHeader list={list} i={i} />
+        <Card list={list} />
+        <AddCardButton list={list} />
+      </StyledBox>
+    </Fragment>
   ));
 };
 

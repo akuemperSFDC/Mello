@@ -53,8 +53,15 @@ const AddCardButton = ({ list }) => {
 
   const handleCreateCard = () => {
     dispatch(createCardAsync({ id: list._id, title }));
-    setShowInput(false);
     setTitle('');
+  };
+
+  const handleEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      dispatch(createCardAsync({ id: list._id, title }));
+      setTitle('');
+    }
   };
 
   return (
@@ -70,10 +77,13 @@ const AddCardButton = ({ list }) => {
             <Fade in={showInput}>
               <Box sx={{ width: '100%' }} onClick={() => setShowInput(true)}>
                 <StyledInputBase
+                  onKeyDown={handleEnterKey}
+                  multiline={true}
+                  minRows={2}
+                  maxRows={2}
+                  size='small'
                   placeholder='Enter a title for this card...'
                   autoFocus={true}
-                  multiline={true}
-                  minRows='2'
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
@@ -103,13 +113,14 @@ const AddCardButton = ({ list }) => {
               >
                 Add card
               </Button>
-              <IconButton disableRipple onClick={() => setShowInput(false)}>
-                <Clear
-                  onClick={() => {
-                    setShowInput(false);
-                    setTitle('');
-                  }}
-                />
+              <IconButton
+                disableRipple
+                onClick={() => {
+                  setShowInput(false);
+                  setTitle('');
+                }}
+              >
+                <Clear />
               </IconButton>
             </Box>
           </Collapse>

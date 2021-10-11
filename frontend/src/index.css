@@ -7,3 +7,11 @@ body {
 textarea.MuiInputBase-input.MuiInputBase-inputMultiline.MuiInputBase-inputSizeSmall.css-13x2ze3-MuiInputBase-input::placeholder {
   opacity: 1;
 }
+
+.overflowX::-webkit-scrollbar-track {
+  background: blue;
+  /* color: blue; */
+}
+.overflowX::-webkit-scrollbar-track-piece {
+  background: blue;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   InputBase,
@@ -12,7 +12,7 @@ import {
   alpha,
 } from '@mui/material';
 import { Add, Clear } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { createListAsync } from '../../../features/lists/listsSlice.js';
@@ -60,6 +60,20 @@ const CreateNewListButton = () => {
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState('');
 
+  const handleEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(createListAsync({ id, title }));
+      setShowInput(false);
+      setTitle('');
+    }
+  };
+
+  const handleSubmit = () => {
+    dispatch(createListAsync({ id, title }));
+    setShowInput(false);
+    setTitle('');
+  };
+
   return (
     <ClickAwayListener onClickAway={() => setShowInput(false)}>
       <StyledBox showInput={showInput}>
@@ -67,8 +81,9 @@ const CreateNewListButton = () => {
           <Fade in={showInput}>
             <Box sx={{ width: '100%' }}>
               <StyledInputBase
+                onKeyPress={handleEnterKey}
                 placeholder='Enter list title...'
-                autoFocus='true'
+                autoFocus={true}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -94,12 +109,12 @@ const CreateNewListButton = () => {
               variant='contained'
               size='small'
               sx={{ color: 'white', mr: 1 }}
-              onClick={() => dispatch(createListAsync({ id, title }))}
+              onClick={handleSubmit}
             >
               Add list
             </Button>
             <IconButton disableRipple onClick={() => setShowInput(false)}>
-              <Clear onClick={() => setShowInput(false)} />
+              <Clear />
             </IconButton>
           </Box>
         </Collapse>

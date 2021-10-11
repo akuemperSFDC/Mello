@@ -105,7 +105,10 @@ const slice = createSlice({
     },
     [createListAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.currentLists.push(action.payload.data);
+      console.log('state.currentLists', state.currentLists);
+
+      console.log('~ action.payload', action.payload);
+      state.currentLists[action.payload._id] = action.payload;
       state.newList = action.payload;
       delete state.errors;
     },

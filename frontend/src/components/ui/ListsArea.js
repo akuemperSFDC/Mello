@@ -79,7 +79,17 @@ const ListsArea = ({ visible }) => {
           display: 'flex',
           maxWidth: visible ? 'calc(100vh - 240px)' : 'calc(100vh - 40px)',
           overflowX: 'auto',
-          minHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - 46px)`,
+          minHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - 54px)`,
+          '&::-webkit-scrollbar': {
+            height: 10,
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#807E7F',
+            borderRadius: '20px',
+          },
         }}
       >
         <List />
