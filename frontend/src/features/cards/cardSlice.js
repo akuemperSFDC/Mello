@@ -7,10 +7,17 @@ const slice = createSlice({
     currentCard: (state, action) => {
       state.currentCard = action.payload;
     },
+    editCurrentCard: (state, action) => {
+      state.currentCard.title = action.payload;
+    },
+    deleteCurrentCard: (state, action) => {
+      state.currentCard = {};
+    },
   },
   extraReducers: {},
 });
 
-export const { currentCard } = slice.actions;
+export const { currentCard, editCurrentCard, deleteCurrentCard } =
+  slice.actions;
 
 export default slice.reducer;

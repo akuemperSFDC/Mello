@@ -81,5 +81,5 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
 
   await Card.findByIdAndDelete(req.params.id);
 
-  res.status(200).json({ success: true, data: {} });
+  res.status(200).json({ cardId: req.params.id, listId: card.list });
 });

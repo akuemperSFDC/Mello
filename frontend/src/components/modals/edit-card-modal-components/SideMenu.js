@@ -13,6 +13,9 @@ import {
   Typography,
 } from '@mui/material';
 import { ArrowForward, ContentCopy, Delete } from '@mui/icons-material';
+import { deleteCardAsync } from '../../../features/lists/listsSlice';
+import { deleteCurrentCard } from '../../../features/cards/cardSlice';
+import { editCardModal } from '../../../features/modal/modalSlice';
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: '#EAECF0',
@@ -33,6 +36,14 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 
 const SideMenu = () => {
   const dispatch = useDispatch();
+
+  const { currentCard } = useSelector((state) => state.cards && state.cards);
+
+  const handleDelete = () => {
+    dispatch(deleteCardAsync({ id: currentCard._id }));
+    dispatch(deleteCurrentCard());
+    dispatch(editCardModal(false));
+  };
 
   return (
     <Box
@@ -70,7 +81,7 @@ const SideMenu = () => {
         </StyledListItemButton>
 
         {/* Delete */}
-        <StyledListItemButton>
+        <StyledListItemButton onClick={handleDelete}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Delete sx={{ fontSize: '14px' }} />
             <StyledTypography>Delete</StyledTypography>

@@ -13,16 +13,38 @@ import {
   Fade,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
+import { editCardAsync } from '../../../features/lists/listsSlice';
 
 const DescriptionInput = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
   const [show, setShow] = useState(false);
+  const [description, setDescription] = useState('');
+
+  const { currentCard } = useSelector((state) => state.cards && state.cards);
 
   const handleShow = () => {
     setShow(true);
   };
+
+  const handleSave = () => {
+    dispatch(editCardAsync({ id: currentCard._id, description }));
+    setShow(false);
+  };
+
+  const handleEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(editCardAsync({ id: currentCard._id, description }));
+      setShow(false);
+    }
+  };
+
+  useEffect(() => {
+    if (currentCard) {
+      setDescription(currentCard.description || '');
+    }
+  }, [currentCard]);
 
   return show ? (
     <ClickAwayListener onClickAway={() => setShow(false)}>
@@ -40,16 +62,20 @@ const DescriptionInput = () => {
               padding: 0,
             },
           }}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           placeholder='Add a more detailed description...'
           multiline={true}
           minRows={5}
           maxRows={5}
+          onKeyDown={handleEnterKey}
         />
         <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
           <Button
             variant='contained'
             size='small'
             sx={{ minWidth: '40px', maxWidth: '50px', mr: 1 }}
+            onClick={handleSave}
           >
             Save
           </Button>
@@ -77,7 +103,9 @@ const DescriptionInput = () => {
         },
       }}
       disabled
-      placeholder='Add a more detailed description...'
+      placeholder={
+        description ? description : 'Add a more detailed description...'
+      }
       multiline={true}
       minRows={2}
       maxRows={5}

@@ -11,6 +11,9 @@ import {
   Fade,
 } from '@mui/material';
 
+import { editCardAsync } from '../../../features/lists/listsSlice';
+import { editCurrentCard } from '../../../features/cards/cardSlice.js';
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '200px',
   flexGrow: 1,
@@ -28,12 +31,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header = ({ currentCard, handleClose }) => {
+  const dispatch = useDispatch();
+
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState('');
 
   const { currentList } = useSelector(
     (state) => state.lists.currentList && state.lists
   );
+
+  const handleEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(editCardAsync({ id: currentCard._id, title }));
+      dispatch(editCurrentCard(title));
+      setShowInput(false);
+    }
+  };
 
   useEffect(() => {
     if (currentCard) {
@@ -64,6 +77,7 @@ const Header = ({ currentCard, handleClose }) => {
                   onFocus={(event) => {
                     event.target.select();
                   }}
+                  onKeyDown={handleEnterKey}
                 />
               </Fade>
             ) : (
