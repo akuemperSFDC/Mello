@@ -3,10 +3,12 @@ import * as M from '@mui/material';
 import * as RR from 'react-redux';
 import { createBoardModal } from '../../features/modal/modalSlice.js';
 import { createBoardAsync } from '../../features/boards/boardSlice.js';
-import defaultImage from '../../img/defaultBackground.jpg';
 import Toast from '../utils/Toast.js';
+import { useHistory } from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
+import { images } from './create-board-modal-components/data.js';
+import Thumbnail from './create-board-modal-components/Thumbnail.js';
 
 const StyledInputBase = styled(M.InputBase)(({ theme }) => ({
   margin: 8,
@@ -32,37 +34,24 @@ const StyledInputBase = styled(M.InputBase)(({ theme }) => ({
   },
 }));
 
-const StyledPaper = styled(M.Paper)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  height: '100%',
-}));
-
-const StyledBox = styled(M.Box)(({ theme }) => ({
-  width: '28px',
-  height: '28px',
-  marginBottom: '6px',
-  '&:hover': {
-    cursor: 'pointer',
-    opacity: 0.8,
-  },
-}));
-
 const CreateBoardModal = () => {
   const dispatch = RR.useDispatch();
+  const history = useHistory();
   const theme = M.useTheme();
   const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState('');
 
   const [title, setTitle] = React.useState('');
 
   const createBoard = RR.useSelector((state) => state.modals.createBoard);
+  const newBoard = RR.useSelector(
+    (state) => state.boards.newBoard && state.boards.newBoard
+  );
   const { errors } = RR.useSelector((s) => s.boards) || [];
 
   const handleEnterKey = (e) => {
     if (e.key === 'Enter') {
-      dispatch(createBoardAsync(title));
+      dispatch(createBoardAsync({ title, backgroundImage: selected }));
       dispatch(createBoardModal(false));
       setTitle('');
     }
@@ -73,7 +62,7 @@ const CreateBoardModal = () => {
   };
 
   const handleSubmit = () => {
-    dispatch(createBoardAsync(title));
+    dispatch(createBoardAsync({ title, backgroundImage: selected }));
     dispatch(createBoardModal(false));
     setTitle('');
   };
@@ -83,6 +72,12 @@ const CreateBoardModal = () => {
       setOpen(true);
     }
   }, [errors]);
+
+  React.useEffect(() => {
+    if (newBoard) {
+      history.push(`/b/${newBoard._id}`);
+    }
+  }, [history, newBoard]);
 
   return (
     <>
@@ -113,7 +108,7 @@ const CreateBoardModal = () => {
             md={9}
             sx={{
               backgroundSize: 'cover',
-              backgroundImage: `url(${defaultImage})`,
+              backgroundImage: `url(${selected}})`,
               minHeight: '100%',
               p: 0,
             }}
@@ -152,33 +147,14 @@ const CreateBoardModal = () => {
                 minHeight: '6em',
               }}
             >
-              <StyledBox component='div'>
-                <StyledPaper />
-              </StyledBox>
-              <StyledBox>
-                <StyledPaper />
-              </StyledBox>
-              <StyledBox>
-                <StyledPaper />
-              </StyledBox>
-              <StyledBox>
-                <StyledPaper />
-              </StyledBox>
-              <StyledBox>
-                <StyledPaper />
-              </StyledBox>
-              <StyledBox>
-                <StyledPaper />
-              </StyledBox>
-              <StyledBox>
-                <StyledPaper />
-              </StyledBox>
-              <StyledBox>
-                <StyledPaper />
-              </StyledBox>
-              <StyledBox>
-                <StyledPaper />
-              </StyledBox>
+              {images.map((image, i) => (
+                <Thumbnail
+                  key={i}
+                  image={image}
+                  setSelected={setSelected}
+                  i={i}
+                />
+              ))}
             </M.Box>
           </M.Grid>
           <M.Grid container sx={{ pt: 1 }}>

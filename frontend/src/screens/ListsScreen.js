@@ -63,7 +63,7 @@ const ListsScreen = () => {
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             backgroundSize: 'cover',
-            backgroundAttachment: 'fixed',
+            backgroundAttachment: 'scroll',
           }}
         >
           <ListsArea visible={visible} />

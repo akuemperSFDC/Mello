@@ -24,7 +24,7 @@ const ListsArea = ({ visible }) => {
         sx={{
           marginTop: 1,
           display: 'flex',
-          maxWidth: visible ? 'calc(100vh - 240px)' : 'calc(100vh - 40px)',
+          maxWidth: visible ? 'calc(100% - 240px)' : 'calc(100% - 40px)',
           overflowX: 'auto',
           minHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - 54px)`,
           '&::-webkit-scrollbar': {

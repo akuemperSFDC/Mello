@@ -195,7 +195,7 @@ const slice = createSlice({
     // Create list
     [createListAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.currentLists[action.payload._id] = action.payload;
+      state.currentLists[action.payload._id] = { ...action.payload, cards: [] };
       state.newList = action.payload;
       delete state.errors;
     },

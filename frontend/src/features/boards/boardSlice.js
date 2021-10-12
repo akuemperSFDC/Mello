@@ -27,9 +27,11 @@ export const getBoardsAsync = createAsyncThunk(
 
 export const createBoardAsync = createAsyncThunk(
   'boards/createBoardAsync',
-  async (title, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState }) => {
     try {
       const { token } = getState().auth;
+
+      const { backgroundImage, title } = params;
 
       const config = {
         headers: {
@@ -40,7 +42,7 @@ export const createBoardAsync = createAsyncThunk(
 
       const { data } = await axios.post(
         'http://localhost:5000/api/boards',
-        { title },
+        { title, backgroundImage },
         config
       );
 
@@ -109,7 +111,7 @@ const boardSlice = createSlice({
     // Create board
     [createBoardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.boards[action.payload.id] = action.payload;
+      state.boards[action.payload._id] = action.payload;
       state.newBoard = action.payload;
       delete state.errors;
     },

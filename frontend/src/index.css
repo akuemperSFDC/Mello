@@ -2,6 +2,8 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 textarea.MuiInputBase-input.MuiInputBase-inputMultiline.MuiInputBase-inputSizeSmall.css-13x2ze3-MuiInputBase-input::placeholder {
