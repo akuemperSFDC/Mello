@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled, alpha, Typography, ButtonBase, Box } from '@mui/material';
 import { Description } from '@mui/icons-material';
-import { showAboutMenu } from '../../../features/boardMenu/boardMenuSlice';
+import { showAboutMenu } from '../../../../features/boardMenu/boardMenuSlice';
 
 const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({
   fontWeight: 500,

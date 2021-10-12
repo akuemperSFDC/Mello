@@ -1,22 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  styled,
-  Drawer,
-  List,
-  Divider,
-  ButtonBase,
-  Typography,
-} from '@mui/material';
-import { Box } from '@mui/system';
-import Header from './Header';
-import { Description } from '@mui/icons-material';
-import AboutButton from './AboutButton';
-import ChangeBackgroundButton from './ChangeBackgroundButton';
-import DeleteButton from './DeleteButton';
-import PanelAbout from './PanelAbout';
-import PanelBackground from './PanelBackground';
+import { styled, Drawer } from '@mui/material';
+import PanelAbout from './panels/about/PanelAbout';
+import PanelBackground from './panels/background/PanelBackground';
 import { menuVisible } from '../../../features/boardMenu/boardMenuSlice';
+import PanelMain from './panels/PanelMain';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   backgroundColor: '#F4F5F7',
@@ -44,20 +32,7 @@ const BoardMenu = ({ open, setOpen }) => {
 
   return (
     <StyledDrawer variant='persistent' anchor='right' open={visible}>
-      {mainMenu && (
-        <Box>
-          <Header title='Menu' handleClose={handleClose} />
-          <Divider variant='middle' />
-          <List sx={{ p: '12px 6px 12px 12px' }}>
-            <AboutButton />
-            <ChangeBackgroundButton />
-          </List>
-          <Divider variant='middle' />
-          <List sx={{ p: '12px 6px 12px 12px' }}>
-            <DeleteButton />
-          </List>
-        </Box>
-      )}
+      {mainMenu && <PanelMain handleClose={handleClose} />}
       {aboutMenu && <PanelAbout handleClose={handleClose} />}
       {backgroundMenu && <PanelBackground handleClose={handleClose} />}
     </StyledDrawer>

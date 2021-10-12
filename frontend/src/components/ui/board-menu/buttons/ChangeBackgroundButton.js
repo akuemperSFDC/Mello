@@ -9,7 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 import { Description } from '@mui/icons-material';
-import { showBackgroundMenu } from '../../../features/boardMenu/boardMenuSlice';
+import { showBackgroundMenu } from '../../../../features/boardMenu/boardMenuSlice';
 
 const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({
   fontWeight: 500,
