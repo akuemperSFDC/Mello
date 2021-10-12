@@ -57,7 +57,7 @@ export const editBoardAsync = createAsyncThunk(
   'boards/editBoardAsync',
   async (params, { rejectWithValue, getState }) => {
     try {
-      const { title, favorite, id } = params;
+      const { title, favorite, id, description } = params;
       const { token } = getState().auth;
 
       const config = {
@@ -69,7 +69,7 @@ export const editBoardAsync = createAsyncThunk(
 
       const { data } = await axios.put(
         `http://localhost:5000/api/boards/${id}`,
-        { title, favorite },
+        { title, favorite, description },
         config
       );
 

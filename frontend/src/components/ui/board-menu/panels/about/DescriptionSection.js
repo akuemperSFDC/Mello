@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { ViewHeadline, Close } from '@mui/icons-material';
+import { editBoardAsync } from '../../../../../features/boards/boardSlice';
 
 const DescriptionSection = () => {
   const dispatch = useDispatch();
@@ -21,13 +22,20 @@ const DescriptionSection = () => {
   const [description, setDescription] = useState('');
   const [show, setShow] = useState(false);
 
+  const currentBoard = useSelector(
+    (state) => state.boards.currentBoard && state.boards.currentBoard
+  );
+
   const handleSubmit = () => {
-    // dispatch()
+    dispatch(editBoardAsync({ description, id: currentBoard._id }));
+    setShow(false);
   };
 
   useEffect(() => {
-    //
-  }, []);
+    if (currentBoard) {
+      setDescription(currentBoard.description);
+    }
+  }, [currentBoard]);
 
   return (
     <Box sx={{ p: '12px' }}>
@@ -82,6 +90,7 @@ const DescriptionSection = () => {
                 variant='contained'
                 size='small'
                 sx={{ minWidth: '20px' }}
+                onClick={handleSubmit}
               >
                 Save
               </Button>
