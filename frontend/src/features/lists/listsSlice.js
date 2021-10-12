@@ -111,8 +111,12 @@ export const editListAsync = createAsyncThunk(
 
 const slice = createSlice({
   name: 'lists',
-  initialState: { loading: false, currentLists: [] },
-  reducers: {},
+  initialState: { loading: false, currentLists: [], currentList: {} },
+  reducers: {
+    currentList: (state, action) => {
+      state.currentList = action.payload;
+    },
+  },
   extraReducers: {
     // Get lists
     [getListsAsync.fulfilled]: (state, action) => {
@@ -183,6 +187,6 @@ const slice = createSlice({
   },
 });
 
-// export const {} = slice.actions;
+export const { currentList } = slice.actions;
 
 export default slice.reducer;

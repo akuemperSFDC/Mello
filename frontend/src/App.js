@@ -11,6 +11,7 @@ import ListsScreen from './screens/ListsScreen.js';
 import TemplatesScreen from './screens/TemplatesScreen.js';
 import CreateBoardModal from './components/modals/CreateBoardModal.js';
 import { currentBoard } from './features/boards/boardSlice.js';
+import EditCardModal from './components/modals/EditCardModal.js';
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
     <>
       {pathname !== '/login' && <Header />}
 
+      <EditCardModal />
       <CreateBoardModal />
       <RRD.Switch>
         <RRD.Route exact path='/login' component={LoginScreen} />

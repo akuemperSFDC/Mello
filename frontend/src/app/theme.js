@@ -40,6 +40,9 @@ const theme = createTheme({
     list: {
       main: '#EBECF0',
     },
+    background: {
+      main: '#EBECF0',
+    },
   },
   typography: {
     fontFamily: ['Roboto', 'Raleway'],
@@ -74,6 +77,11 @@ const theme = createTheme({
       color: blueGrey[500],
       fontWeight: 700,
     },
+    subtitle2: {
+      fontFaily: 'Raleway',
+      fontSize: '14px',
+      color: grey[600],
+    },
     sidebarHeader: {
       fontSize: '.95rem',
       color: '#5E6C84',
@@ -107,6 +115,7 @@ const theme = createTheme({
     medium: '.5s',
     long: '.8s',
     longer: '1.2s',
+    longest: '5s',
   },
 });
 
