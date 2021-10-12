@@ -10,6 +10,7 @@ const ListsArea = ({ visible }) => {
   const theme = useTheme();
 
   const { currentBoard } = useSelector((state) => state.boards);
+  const boardMenuVisible = useSelector((state) => state.boardMenu.visible);
 
   return (
     <Box
@@ -24,7 +25,9 @@ const ListsArea = ({ visible }) => {
         sx={{
           marginTop: 1,
           display: 'flex',
-          maxWidth: visible ? 'calc(100% - 240px)' : 'calc(100% - 40px)',
+          maxWidth: visible
+            ? `calc(100% - 240px - ${boardMenuVisible ? '340px' : '0px'})`
+            : 'calc(100% - 40px)',
           overflowX: 'auto',
           minHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - 54px)`,
           '&::-webkit-scrollbar': {

@@ -9,6 +9,7 @@ const theme = createTheme({
       lightGrey: 'rgba(122, 131, 136, 0.61)',
       drawerGrey: '#A6A9AA',
       drawerGrey2: '#A6A9AA',
+      hoverDark: '#e4e6ea',
     },
     primary: {
       main: '#236AA7',

@@ -8,10 +8,12 @@ import {
   InputBase,
   ClickAwayListener,
 } from '@mui/material';
-import { StarBorder, Star } from '@mui/icons-material';
+import { StarBorder, Star, MoreHoriz } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 
 import { editBoardAsync } from '../../../features/boards/boardSlice.js';
+import BoardMenu from '../board-menu/BoardMenu.js';
+import { menuVisible } from '../../../features/boardMenu/boardMenuSlice.js';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: '#ffffff3d',
@@ -20,6 +22,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
   maxHeight: '30px',
   minWidth: '20px',
+  marginRight: 5,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -51,6 +54,10 @@ const ListAreaHeader = ({ currentBoard }) => {
       );
       setShowInput(false);
     }
+  };
+
+  const handleClick = () => {
+    dispatch(menuVisible(true));
   };
 
   useEffect(() => {
@@ -86,7 +93,7 @@ const ListAreaHeader = ({ currentBoard }) => {
         <StyledButton
           onClick={handleFavorite}
           variant='contained'
-          sx={{ maxWidth: '30px', ml: 0.5 }}
+          sx={{ maxWidth: '30px' }}
         >
           <Star sx={{ width: '20px', height: '20px', color: 'white' }} />
         </StyledButton>
@@ -94,7 +101,7 @@ const ListAreaHeader = ({ currentBoard }) => {
         <StyledButton
           onClick={handleFavorite}
           variant='contained'
-          sx={{ maxWidth: '30px', ml: 0.5 }}
+          sx={{ maxWidth: '30px' }}
         >
           <StarBorder
             sx={{
@@ -105,6 +112,13 @@ const ListAreaHeader = ({ currentBoard }) => {
           />
         </StyledButton>
       )}
+      <StyledButton onClick={handleClick}>
+        <MoreHoriz sx={{ color: 'white', mr: 0.5, fontSize: '18px' }} />
+        <Typography sx={{ color: 'white', fontSize: '14px', fontWeight: 500 }}>
+          Show menu
+        </Typography>
+      </StyledButton>
+      <BoardMenu />
     </Box>
   );
 };

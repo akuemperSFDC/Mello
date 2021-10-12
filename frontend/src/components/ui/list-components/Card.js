@@ -34,13 +34,16 @@ const Card = ({ list }) => {
     dispatch(currentList(list));
   };
 
-  return cards
-    ? cards.map((card) => (
-        <StyledBox onClick={() => handleClick(card)} key={card._id}>
-          {card.title}
-        </StyledBox>
-      ))
-    : null;
+  return (
+    <>
+      {cards &&
+        cards.map((card) => (
+          <StyledBox onClick={() => handleClick(card)} key={card._id}>
+            {card.title}
+          </StyledBox>
+        ))}
+    </>
+  );
 };
 
 export default Card;
