@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Modal,
-  Box,
-  Typography,
-  styled,
-  alpha,
-  InputBase,
-} from '@mui/material';
-import { Topic, Description } from '@mui/icons-material';
+import { Modal, Box, styled } from '@mui/material';
 
 import { editCardModal } from '../../features/modal/modalSlice';
 import Header from './edit-card-modal-components/Header';

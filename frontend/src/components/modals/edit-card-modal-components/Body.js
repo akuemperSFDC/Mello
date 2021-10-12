@@ -1,13 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Box, InputBase, Typography, useTheme } from '@mui/material';
 import { Description } from '@mui/icons-material';
-import SideMenu from './SideMenu';
+import { Box, Typography } from '@mui/material';
 import DescriptionInput from './DescriptionInput';
+import SideMenu from './SideMenu';
 
 const Body = () => {
-  const dispatch = useDispatch();
-
   return (
     <Box sx={{ display: 'flex', mx: 3, my: 3 }}>
       <Box sx={{ display: 'flex', flexGrow: 1 }}>

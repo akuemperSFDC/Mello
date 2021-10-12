@@ -9,7 +9,7 @@ import {
   useTheme,
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { editListAsync } from '../../../features/lists/listsSlice.js';
 

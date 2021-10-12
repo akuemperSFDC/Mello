@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  styled,
-  alpha,
   InputBase,
-  Typography,
   ClickAwayListener,
   useTheme,
   Button,
   Box,
   IconButton,
-  Fade,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { editCardAsync } from '../../../features/lists/listsSlice';

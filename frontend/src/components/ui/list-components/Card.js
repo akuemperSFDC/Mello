@@ -1,10 +1,9 @@
+import { Box, styled } from '@mui/material';
 import React from 'react';
-import { styled, alpha, Box } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { editCardModal } from '../../../features/modal/modalSlice.js';
+import { useDispatch } from 'react-redux';
 import { currentCard } from '../../../features/cards/cardSlice.js';
 import { currentList } from '../../../features/lists/listsSlice.js';
+import { editCardModal } from '../../../features/modal/modalSlice.js';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -13,7 +12,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   padding: '6px 8px 2px 8px',
   cursor: 'pointer',
   fontSize: '14px',
-  marginBottom: 8,
+  marginBottom: 4,
   marginLeft: 'auto',
   marginRight: 'auto',
   wordWrap: 'break-word',
