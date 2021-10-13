@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentUser, logout } from '../../features/auth/authSlice.js';
 import {
@@ -27,6 +27,8 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
 const AccountMenu = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const { pathname } = useLocation();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);

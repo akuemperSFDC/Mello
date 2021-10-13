@@ -41,6 +41,8 @@ const Header = (props) => {
     const regex = new RegExp('/b/');
     if (regex.test(pathname)) {
       setBgColor(true);
+    } else {
+      setBgColor(false);
     }
   }, [pathname]);
 
