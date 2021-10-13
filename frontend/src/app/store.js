@@ -7,6 +7,7 @@ import sidebarReducer from '../features/sidebar/sidebarSlice.js';
 import modalReducer from '../features/modal/modalSlice.js';
 import listDrawerReducer from '../features/listDrawer/listDrawerSlice.js';
 import boardMenuReducer from '../features/boardMenu/boardMenuSlice.js';
+import searchReducer from '../features/search/searchSlice.js';
 
 const auth = localStorage.getItem('auth')
   ? JSON.parse(localStorage.getItem('auth'))
@@ -28,6 +29,7 @@ export const store = configureStore({
     modals: modalReducer,
     listDrawer: listDrawerReducer,
     boardMenu: boardMenuReducer,
+    search: searchReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware();

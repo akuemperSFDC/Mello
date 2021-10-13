@@ -1,23 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Close, KeyboardArrowDown } from '@mui/icons-material';
 import {
-  styled,
-  alpha,
-  Button,
-  Typography,
-  Menu,
   Box,
+  Button,
   Divider,
-  Paper,
-  useTheme,
   IconButton,
+  Menu,
+  styled,
+  Typography,
 } from '@mui/material';
-import {
-  Close,
-  KeyboardArrowDown,
-  Star,
-  StarBorder,
-} from '@mui/icons-material';
+import { useState } from 'react';
 import StarredBoardsList from './StarredBoardsList';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -27,9 +18,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const StarredBoards = () => {
-  const dispatch = useDispatch();
-  const theme = useTheme();
-
   const [anchor, setAnchor] = useState(null);
   const open = !!anchor;
 

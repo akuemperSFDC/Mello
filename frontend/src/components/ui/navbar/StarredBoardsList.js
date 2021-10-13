@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, Box, Typography, useTheme, Paper } from '@mui/material';
 import { StarBorder } from '@mui/icons-material';
+import { Box, Paper, styled, Typography, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -22,7 +21,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const StarredBoardsList = () => {
-  const dispatch = useDispatch();
   const theme = useTheme();
 
   const { user } = useSelector((state) => state.auth.user && state.auth);
