@@ -70,7 +70,7 @@ const BoardsScreen = () => {
                   <M.Slide
                     in={transition}
                     direction='down'
-                    timeout={300 + 75 * i}
+                    timeout={300 + 60 * i}
                     easing='ease-in-out'
                   >
                     <Paper

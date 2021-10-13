@@ -107,7 +107,12 @@ export const deleteBoardAsync = createAsyncThunk(
 
 const boardSlice = createSlice({
   name: 'boards',
-  initialState: { loading: false, currentBoard: null },
+  initialState: {
+    loading: false,
+    currentBoard: {},
+    starredBoards: {},
+    boards: {},
+  },
   reducers: {
     currentBoard: (state, action) => {
       state.currentBoard = action.payload;
@@ -124,6 +129,14 @@ const boardSlice = createSlice({
       action.payload.forEach((board) => {
         normalizedBoards[board._id] = board;
       });
+      const normalizeStarredBoards = {};
+      const starredBoards = action.payload.filter(
+        (board) => board.favorite === true
+      );
+      starredBoards.forEach((board) => {
+        normalizeStarredBoards[board._id] = board;
+      });
+      state.starredBoards = normalizeStarredBoards;
       state.boards = normalizedBoards;
       delete state.errors;
     },
@@ -152,6 +165,26 @@ const boardSlice = createSlice({
       if (!state.loading) state.loading = true;
     },
 
+    // Edit board
+    [editBoardAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.boards[action.payload._id] = action.payload;
+      action.payload.favorite === true
+        ? (state.starredBoards[action.payload._id] = action.payload)
+        : delete state.starredBoards[action.payload._id];
+
+      state.currentBoard = action.payload;
+      delete state.errors;
+    },
+    [editBoardAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [editBoardAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
     // Delete board
     [deleteBoardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
@@ -171,6 +204,7 @@ const boardSlice = createSlice({
   },
 });
 
-export const { currentBoard, clearCurrentBoard } = boardSlice.actions;
+export const { currentBoard, clearCurrentBoard, starredBoards } =
+  boardSlice.actions;
 
 export default boardSlice.reducer;

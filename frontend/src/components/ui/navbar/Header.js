@@ -13,6 +13,7 @@ import {
 import { styled, alpha } from '@mui/material/styles';
 
 import AccountMenu from './AccountMenu.js';
+import StarredBoards from './StarredBoards.js';
 
 const SiteName = styled(Typography)(({ theme }) => ({
   transition: 'opacity .25s',
@@ -73,6 +74,7 @@ const Header = (props) => {
                 Mello
               </SiteName>
             </Button>
+            <StarredBoards />
             <Box sx={{ ml: 'auto' }}>
               <AccountMenu />
             </Box>
