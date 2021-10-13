@@ -1,15 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, Divider, List } from '@mui/material';
-import Header from '../../Header';
+import { Divider } from '@mui/material';
 import { Box } from '@mui/system';
-
+import Header from '../../Header';
 import BoardOwner from './BoardOwner';
 import DescriptionSection from './DescriptionSection';
 
 const PanelAbout = ({ handleClose }) => {
-  const dispatch = useDispatch();
-
   return (
     <Box>
       <Header

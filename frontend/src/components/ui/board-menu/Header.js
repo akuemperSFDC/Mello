@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ChevronLeft, Close } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { showMainMenu } from '../../../features/boardMenu/boardMenuSlice';

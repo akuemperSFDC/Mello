@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, Box, Paper } from '@mui/material';
+import { Box, Paper, styled } from '@mui/material';
+import { useEffect } from 'react';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   display: 'flex',
@@ -21,8 +20,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const Thumbnail = ({ image, setSelected, i }) => {
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (i === 0) {
       setSelected(image.src);

@@ -1,11 +1,10 @@
-import { PersonOutline } from '@mui/icons-material';
-import { Box, Typography, Avatar } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@emotion/react';
+import { PersonOutline } from '@mui/icons-material';
+import { Avatar, Box, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const BoardOwner = () => {
-  const dispatch = useDispatch();
   const theme = useTheme();
 
   const { user } = useSelector((state) => state.auth.user && state.auth);

@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, Divider } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, Divider } from '@mui/material';
 import Header from '../../Header';
 
 const PanelBackground = ({ handleClose }) => {

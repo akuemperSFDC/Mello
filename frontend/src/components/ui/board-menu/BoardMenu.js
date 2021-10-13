@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled, Drawer } from '@mui/material';
 import PanelAbout from './panels/about/PanelAbout';
@@ -15,7 +14,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
   },
 }));
 
-const BoardMenu = ({ open, setOpen }) => {
+const BoardMenu = () => {
   const dispatch = useDispatch();
 
   const { visible, mainMenu, aboutMenu, backgroundMenu } = useSelector(
@@ -24,10 +23,6 @@ const BoardMenu = ({ open, setOpen }) => {
 
   const handleClose = () => {
     dispatch(menuVisible(false));
-  };
-
-  const handleDelete = () => {
-    // dispatch()
   };
 
   return (

@@ -1,14 +1,5 @@
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Box,
-  styled,
-  alpha,
-  Modal,
-  Typography,
-  Button,
-  useTheme,
-} from '@mui/material';
+import { Box, styled, Modal, Typography, Button } from '@mui/material';
 import { menuVisible } from '../../features/boardMenu/boardMenuSlice';
 import { deleteBoardAsync } from '../../features/boards/boardSlice';
 import { deleteBoardModal } from '../../features/modal/modalSlice';
@@ -30,7 +21,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const DeleteBoardConfirmation = () => {
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const { deleteBoard } = useSelector((state) => state.modals);
   const currentBoard = useSelector(

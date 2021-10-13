@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, Divider, List } from '@mui/material';
+import { Divider, List } from '@mui/material';
 import { Box } from '@mui/system';
-import Header from '../Header';
 import AboutButton from '../buttons/AboutButton';
 import ChangeBackgroundButton from '../buttons/ChangeBackgroundButton';
 import DeleteButton from '../buttons/DeleteButton';
+import Header from '../Header';
 
 const PanelMain = ({ handleClose }) => {
-  const dispatch = useDispatch();
-
   return (
     <Box>
       <Header title='Menu' handleClose={handleClose} />

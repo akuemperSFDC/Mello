@@ -1,14 +1,5 @@
-import { useEffect, useState } from 'react';
+import { Box, ButtonBase, Paper, styled, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  styled,
-  alpha,
-  Typography,
-  ButtonBase,
-  Box,
-  Paper,
-} from '@mui/material';
-import { Description } from '@mui/icons-material';
 import { showBackgroundMenu } from '../../../../features/boardMenu/boardMenuSlice';
 
 const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({

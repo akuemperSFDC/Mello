@@ -1,11 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { styled, Typography, ButtonBase, Box } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-import { deleteBoardAsync } from '../../../../features/boards/boardSlice';
-import {
-  menuVisible,
-  showDeleteConfirm,
-} from '../../../../features/boardMenu/boardMenuSlice';
 import { deleteBoardModal } from '../../../../features/modal/modalSlice';
 
 const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({
