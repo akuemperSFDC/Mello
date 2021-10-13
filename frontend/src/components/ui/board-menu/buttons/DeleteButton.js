@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  styled,
-  alpha,
-  Typography,
-  ButtonBase,
-  Box,
-  Paper,
-} from '@mui/material';
+import { styled, Typography, ButtonBase, Box } from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import { deleteBoardAsync } from '../../../../features/boards/boardSlice';
+import {
+  menuVisible,
+  showDeleteConfirm,
+} from '../../../../features/boardMenu/boardMenuSlice';
+import { deleteBoardModal } from '../../../../features/modal/modalSlice';
 
 const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({
   fontWeight: 500,
@@ -32,16 +30,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const ChangeBackgroundButton = () => {
   const dispatch = useDispatch();
 
-  const currentBoard = useSelector(
-    (state) => state.boards.currentBoard && state.boards.currentBoard
-  );
-
-  const handleDelete = () => {
-    // dispatch(deleteBoardAsync(currentBoard._id))
-  };
-
   return (
-    <StyledBox onClick={handleDelete}>
+    <StyledBox onClick={() => dispatch(deleteBoardModal(true))}>
       <StyledButtonBase disableRipple>
         <Delete sx={{ height: '22px', width: '22px' }} />
         <Typography sx={{ fontWeight: 700, ml: 2 }} variant='subtitle2'>

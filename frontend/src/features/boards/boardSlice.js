@@ -80,6 +80,31 @@ export const editBoardAsync = createAsyncThunk(
   }
 );
 
+export const deleteBoardAsync = createAsyncThunk(
+  'boards/deleteBoardAsync',
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const { token } = getState().auth;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.delete(
+        `http://localhost:5000/api/boards/${id}`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const boardSlice = createSlice({
   name: 'boards',
   initialState: { loading: false, currentBoard: null },
@@ -112,7 +137,7 @@ const boardSlice = createSlice({
     [createBoardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
       state.boards[action.payload._id] = action.payload;
-      state.newBoard = action.payload;
+      state.currentBoard = action.payload;
       delete state.errors;
     },
     [createBoardAsync.rejected]: (state, action) => {
@@ -124,18 +149,20 @@ const boardSlice = createSlice({
       if (!state.loading) state.loading = true;
     },
 
-    // Edit board
-    [editBoardAsync.fulfilled]: (state, action) => {
+    // Delete board
+    [deleteBoardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.boards[action.payload._id] = action.payload;
+      console.log(action.payload);
+      delete state.boards[action.payload.id];
+      state.currentBoard = {};
       delete state.errors;
     },
-    [editBoardAsync.rejected]: (state, action) => {
+    [deleteBoardAsync.rejected]: (state, action) => {
       if (state.loading) state.loading = false;
       state.errors = action.payload;
       state.errors = action.payload?.errors;
     },
-    [editBoardAsync.pending]: (state, action) => {
+    [deleteBoardAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
   },

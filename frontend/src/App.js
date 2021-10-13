@@ -12,8 +12,10 @@ import TemplatesScreen from './screens/TemplatesScreen.js';
 import CreateBoardModal from './components/modals/CreateBoardModal.js';
 import { currentBoard } from './features/boards/boardSlice.js';
 import EditCardModal from './components/modals/EditCardModal.js';
+import DeleteBoardConfirmation from './components/modals/DeleteBoardConfirmation.js';
 
 function App() {
+  const history = RRD.useHistory();
   const dispatch = useDispatch();
   const { pathname } = RRD.useLocation();
 
@@ -29,12 +31,19 @@ function App() {
     }
   }, [dispatch, id, curBoard]);
 
+  React.useEffect(() => {
+    if (boards && !boards[id]) {
+      history.push('/boards');
+    }
+  }, [boards, id, history]);
+
   return (
     <>
       {pathname !== '/login' && <Header />}
 
       <EditCardModal />
       <CreateBoardModal />
+      <DeleteBoardConfirmation />
       <RRD.Switch>
         <RRD.Route exact path='/login' component={LoginScreen} />
 

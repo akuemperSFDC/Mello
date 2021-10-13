@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { loading: false, createBoard: false, editCard: false };
-
 const slice = createSlice({
   name: 'boardMenu',
   initialState: {

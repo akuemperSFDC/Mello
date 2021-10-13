@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  styled,
-  alpha,
   Typography,
   InputBase,
   useTheme,
@@ -78,13 +76,7 @@ const DescriptionSection = () => {
               },
             }}
           />
-          <Collapse
-            in={show}
-            timeout={{
-              enter: 300,
-              exit: 300,
-            }}
-          >
+          <Collapse in={show} timeout={300}>
             <Box sx={{ mt: 1 }}>
               <Button
                 variant='contained'

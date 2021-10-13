@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { loading: false, createBoard: false, editCard: false };
+const initialState = {
+  loading: false,
+  createBoard: false,
+  editCard: false,
+  deleteBoard: false,
+};
 
 const slice = createSlice({
   name: 'modals',
@@ -12,10 +17,14 @@ const slice = createSlice({
     editCardModal: (state, action) => {
       state.editCard = action.payload;
     },
+    deleteBoardModal: (state, action) => {
+      state.deleteBoard = action.payload;
+    },
   },
   extraReducers: {},
 });
 
-export const { createBoardModal, editCardModal } = slice.actions;
+export const { createBoardModal, editCardModal, deleteBoardModal } =
+  slice.actions;
 
 export default slice.reducer;
