@@ -3,14 +3,17 @@ import * as RRD from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from './components/utils/ProtectedRoute.js';
 import NotFound from './components/utils/NotFound.js';
-import Header from './components/ui/Header.js';
+import Header from './components/ui/navbar/Header.js';
 import Footer from './components/ui/Footer.js';
 import LoginScreen from './screens/LoginScreen.js';
 import BoardsScreen from './screens/BoardsScreen.js';
 import ListsScreen from './screens/ListsScreen.js';
 import TemplatesScreen from './screens/TemplatesScreen.js';
 import CreateBoardModal from './components/modals/CreateBoardModal.js';
-import { currentBoard } from './features/boards/boardSlice.js';
+import {
+  clearCurrentBoard,
+  currentBoard,
+} from './features/boards/boardSlice.js';
 import EditCardModal from './components/modals/EditCardModal.js';
 import DeleteBoardConfirmation from './components/modals/DeleteBoardConfirmation.js';
 
@@ -36,6 +39,12 @@ function App() {
       history.push('/boards');
     }
   }, [boards, id, history]);
+
+  React.useEffect(() => {
+    if (pathname === '/boards') {
+      dispatch(clearCurrentBoard());
+    }
+  }, [dispatch, pathname]);
 
   return (
     <>

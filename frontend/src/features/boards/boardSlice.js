@@ -112,6 +112,9 @@ const boardSlice = createSlice({
     currentBoard: (state, action) => {
       state.currentBoard = action.payload;
     },
+    clearCurrentBoard: (state, action) => {
+      state.currentBoard = { loading: false, currentBoard: null };
+    },
   },
   extraReducers: {
     // Get boards
@@ -168,6 +171,6 @@ const boardSlice = createSlice({
   },
 });
 
-export const { currentBoard } = boardSlice.actions;
+export const { currentBoard, clearCurrentBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;

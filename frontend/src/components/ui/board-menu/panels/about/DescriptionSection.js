@@ -55,10 +55,13 @@ const DescriptionSection = () => {
               mt: 1,
               wordWrap: 'break-word',
               width: '100%',
-              backgroundColor: theme.palette.common.hoverDark,
+              backgroundColor: '#091e420a',
               fontSize: '14px',
               padding: '8px 12px',
               border: `3px solid transparent`,
+              '&:hover': {
+                backgroundColor: theme.palette.common.hoverDark,
+              },
               '&.Mui-focused': {
                 border: `3px solid ${theme.palette.primary.main}`,
                 backgroundColor: 'white',
@@ -69,6 +72,9 @@ const DescriptionSection = () => {
                 },
                 '&:focus': {
                   cursor: 'text',
+                  '&::placeholder': {
+                    opacity: 0.5,
+                  },
                 },
                 '&::placeholder': {
                   opacity: 1,

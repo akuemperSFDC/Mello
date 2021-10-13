@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 import * as M from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,8 @@ const BoardsScreen = () => {
   const dispatch = useDispatch();
   const theme = M.useTheme();
 
+  const [transition, setTransition] = useState(false);
+
   const boards = useSelector(
     (s) => s.boards.boards && Object.values(s.boards.boards)
   );
@@ -20,6 +22,10 @@ const BoardsScreen = () => {
   useEffect(() => {
     dispatch(getBoardsAsync());
   }, [dispatch]);
+
+  useEffect(() => {
+    setTransition(true);
+  }, []);
 
   return (
     <>
@@ -43,25 +49,29 @@ const BoardsScreen = () => {
               <Typography variant='h6'>Your boards</Typography>
             </Grid>
           </Grid>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <Grid container sx={{ px: 2 }}>
-              {boards &&
-                boards.map((board) => (
-                  <Grid
-                    key={board._id}
-                    item
-                    component={Link}
-                    to={`/b/${board._id}`}
-                    sx={{
-                      textDecoration: 'none',
-                      mb: 3,
-                      mr: 2,
-                      '&:hover': {
-                        opacity: 0.8,
-                      },
-                    }}
+
+          <Grid container sx={{ px: 2 }}>
+            {boards &&
+              boards.map((board, i) => (
+                <Grid
+                  key={board._id}
+                  item
+                  component={Link}
+                  to={`/b/${board._id}`}
+                  sx={{
+                    textDecoration: 'none',
+                    mb: 3,
+                    mr: 2,
+                    '&:hover': {
+                      opacity: 0.8,
+                    },
+                  }}
+                >
+                  <M.Slide
+                    in={transition}
+                    direction='down'
+                    timeout={300 + 75 * i}
+                    easing='ease-in-out'
                   >
                     <Paper
                       sx={{
@@ -93,29 +103,28 @@ const BoardsScreen = () => {
                         </Typography>
                       </Paper>
                     </Paper>
-                  </Grid>
-                ))}
-
-              {/* Add new board button */}
-              <Grid item>
-                <Paper
-                  onClick={() => dispatch(createBoardModal(true))}
-                  component={M.Button}
-                  disableRipple
-                  sx={{
-                    minWidth: '11.5rem',
-                    backgroundColor: 'common.grey',
-                    height: '6rem',
-                    mr: 2,
-                  }}
-                >
-                  <Typography gutterBottom component='div'>
-                    Create a new board
-                  </Typography>
-                </Paper>
-              </Grid>
+                  </M.Slide>
+                </Grid>
+              ))}
+            {/* Add new board button */}
+            <Grid item>
+              <Paper
+                onClick={() => dispatch(createBoardModal(true))}
+                component={M.Button}
+                disableRipple
+                sx={{
+                  minWidth: '11.5rem',
+                  backgroundColor: 'common.grey',
+                  height: '6rem',
+                  mr: 2,
+                }}
+              >
+                <Typography gutterBottom component='div'>
+                  Create a new board
+                </Typography>
+              </Paper>
             </Grid>
-          )}
+          </Grid>
         </Grid>
       </Grid>
     </>

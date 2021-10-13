@@ -96,6 +96,9 @@ const DescriptionInput = () => {
         borderRadius: '4px',
         '& .MuiInputBase-input': {
           padding: 0,
+          '&::placeholder': {
+            opacity: 1,
+          },
         },
       }}
       disabled
