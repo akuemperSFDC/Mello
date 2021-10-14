@@ -1,7 +1,7 @@
+import { CheckCircle } from '@mui/icons-material';
+import { ButtonBase, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, ButtonBase, Paper, Box } from '@mui/material';
-import { CheckCircle } from '@mui/icons-material';
 import { editBoardAsync } from '../../../../../features/boards/boardSlice';
 
 const Thumbnail = ({ img }) => {
@@ -22,12 +22,6 @@ const Thumbnail = ({ img }) => {
       dispatch(editBoardAsync({ id: currentBoard._id, backgroundImage }));
     }
   }, [dispatch, backgroundImage, currentBoard._id]);
-
-  // useEffect(() => {
-  //   if (currentBoard) {
-  //     setBackgroundImage(currentBoard.backgroundImage);
-  //   }
-  // }, []);
 
   return (
     <ButtonBase

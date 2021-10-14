@@ -81,6 +81,31 @@ export const editListAsync = createAsyncThunk(
   }
 );
 
+export const deleteListAsync = createAsyncThunk(
+  'lists/deleteListAsync',
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const { token } = getState().auth;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.delete(
+        `http://localhost:5000/api/lists/${id}`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const createCardAsync = createAsyncThunk(
   'cards/createCardAsync',
   async (params, { rejectWithValue, getState }) => {
@@ -221,6 +246,22 @@ const slice = createSlice({
       state.errors = action.payload?.errors;
     },
     [editListAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    // Delete list
+    [deleteListAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      delete state.currentLists[action.payload._id];
+      delete state.currentList[action.payload._id];
+      delete state.errors;
+    },
+    [deleteListAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [deleteListAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
 

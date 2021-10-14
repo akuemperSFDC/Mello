@@ -1,7 +1,6 @@
-import { Box, ButtonBase, Divider, Paper } from '@mui/material';
-import Header from '../../Header';
-
+import { Box, Divider } from '@mui/material';
 import { images } from '../../../../modals/create-board-modal-components/data.js';
+import Header from '../../Header';
 import Thumbnail from './Thumbnail';
 
 const PanelBackground = ({ handleClose }) => {

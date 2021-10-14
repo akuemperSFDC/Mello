@@ -13,7 +13,6 @@ import CreateBoardModal from './components/modals/CreateBoardModal.js';
 import {
   clearCurrentBoard,
   currentBoard,
-  starredBoards,
 } from './features/boards/boardSlice.js';
 import EditCardModal from './components/modals/EditCardModal.js';
 import DeleteBoardConfirmation from './components/modals/DeleteBoardConfirmation.js';

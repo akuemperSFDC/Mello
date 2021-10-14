@@ -87,5 +87,5 @@ export const deleteList = asyncHandler(async (req, res, next) => {
 
   await List.findByIdAndDelete(req.params.id);
 
-  res.status(200).json({});
+  res.status(200).json({ _id: req.params.id });
 });

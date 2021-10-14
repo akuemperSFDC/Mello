@@ -79,7 +79,7 @@ const Header = (props) => {
             {/* Above is left side */}
             <Box sx={{ flexGrow: 1 }} />
             {/* Right Side */}
-            <SearchBar />
+            {/* <SearchBar /> */}
             <AccountMenu />
           </Toolbar>
         </AppBar>

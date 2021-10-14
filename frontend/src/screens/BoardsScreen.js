@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getBoardsAsync } from '../features/boards/boardSlice.js';
 import SideBar from '../components/ui/SideBar.js';
-import Spinner from '../components/utils/Spinner.js';
 import { createBoardModal } from '../features/modal/modalSlice.js';
 
 const BoardsScreen = () => {
@@ -17,7 +16,6 @@ const BoardsScreen = () => {
   const boards = useSelector(
     (s) => s.boards.boards && Object.values(s.boards.boards)
   );
-  const { loading } = useSelector((s) => s.boards) || [];
 
   useEffect(() => {
     dispatch(getBoardsAsync());

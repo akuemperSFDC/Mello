@@ -1,19 +1,17 @@
-import { Fragment, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  styled,
-  alpha,
-  Box,
-  InputBase,
-  ClickAwayListener,
-  useTheme,
-  IconButton,
-  Menu,
-} from '@mui/material';
 import { Close, Search } from '@mui/icons-material';
 import {
-  getCardsSearchAsync,
+  Box,
+  ClickAwayListener,
+  IconButton,
+  InputBase,
+  styled,
+  useTheme,
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {
   getBoardsSearchAsync,
+  getCardsSearchAsync,
   getListsSearchAsync,
 } from '../../../features/search/searchSlice';
 import SearchBarResults from './SearchBarResults';
@@ -47,6 +45,7 @@ const StyledInputBase = styled(InputBase, {
 })(({ focus, theme }) => ({
   maxHeight: '32px',
   flexGrow: 1,
+  marginRight: '100px',
   padding: '4px 4px 4px 0px',
   fontSize: '14px',
   '& .MuiInputBase-input': {
@@ -100,7 +99,7 @@ const SearchBar = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             focus={focus}
-            sx={{ color: focus ? 'black' : 'white' }}
+            sx={{ color: focus ? 'black' : 'white', mr: 'auto' }}
             onClick={handleClick}
             placeholder='Search'
           />
@@ -114,11 +113,11 @@ const SearchBar = () => {
               />
             </IconButton>
           )}
-          {/* <SearchBarResults
+          <SearchBarResults
             focus={focus}
             anchor={anchor}
             handleClickAway={handleClickAway}
-          /> */}
+          />
         </StyledBox>
       </>
     </ClickAwayListener>
