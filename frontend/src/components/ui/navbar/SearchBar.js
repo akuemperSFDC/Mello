@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   styled,
@@ -8,17 +8,19 @@ import {
   ClickAwayListener,
   useTheme,
   IconButton,
+  Menu,
 } from '@mui/material';
 import { Close, Search } from '@mui/icons-material';
-import {getCardsSearchAsync,
+import {
+  getCardsSearchAsync,
   getBoardsSearchAsync,
   getListsSearchAsync,
 } from '../../../features/search/searchSlice';
+import SearchBarResults from './SearchBarResults';
 
 const StyledBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'focus',
 })(({ focus, theme }) => ({
-  marginLeft: 'auto',
   backgroundColor: '#ffffff66',
   maxHeight: '32px',
   borderRadius: theme.shape.borderRadius,
@@ -69,6 +71,12 @@ const SearchBar = () => {
 
   const [focus, setFocus] = useState(false);
   const [search, setSearch] = useState('');
+  const [anchor, setAnchor] = useState(null);
+
+  const handleClick = (e) => {
+    setFocus(true);
+    setAnchor(e.currentTarget);
+  };
 
   const handleClickAway = () => {
     setFocus(false);
@@ -85,27 +93,34 @@ const SearchBar = () => {
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <StyledBox focus={focus}>
-        <Search sx={{ m: 0.5, color: focus ? 'black' : 'white' }} />
-        <StyledInputBase
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          focus={focus}
-          sx={{ color: focus ? 'black' : 'white' }}
-          onClick={() => setFocus(true)}
-          placeholder='Search'
-        />
-        {focus && (
-          <IconButton sx={{ width: '24px', height: '24px', mr: 0.75 }}>
-            <Close
-              sx={{
-                color: theme.palette.grey[700],
-                fontSize: '16px',
-              }}
-            />
-          </IconButton>
-        )}
-      </StyledBox>
+      <>
+        <StyledBox focus={focus}>
+          <Search sx={{ m: 0.5, color: focus ? 'black' : 'white' }} />
+          <StyledInputBase
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            focus={focus}
+            sx={{ color: focus ? 'black' : 'white' }}
+            onClick={handleClick}
+            placeholder='Search'
+          />
+          {focus && (
+            <IconButton sx={{ width: '24px', height: '24px', mr: 0.75 }}>
+              <Close
+                sx={{
+                  color: theme.palette.grey[700],
+                  fontSize: '16px',
+                }}
+              />
+            </IconButton>
+          )}
+          {/* <SearchBarResults
+            focus={focus}
+            anchor={anchor}
+            handleClickAway={handleClickAway}
+          /> */}
+        </StyledBox>
+      </>
     </ClickAwayListener>
   );
 };

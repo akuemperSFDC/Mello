@@ -27,6 +27,7 @@ import {
 } from '../../features/listDrawer/listDrawerSlice.js';
 import { setShowSidebar } from '../../features//sidebar/sidebarSlice.js';
 import { createBoardModal } from '../../features/modal/modalSlice.js';
+import { menuVisible } from '../../features/boardMenu/boardMenuSlice.js';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   width: 40,
@@ -216,7 +217,10 @@ const ListDrawer = ({ boards }) => {
                     disableRipple
                     component={Link}
                     to={`/b/${board._id}`}
-                    onClick={() => dispatch(setSelected(i))}
+                    onClick={() => {
+                      dispatch(setSelected(i));
+                      dispatch(menuVisible(false));
+                    }}
                     selected={i === value}
                   >
                     <Avatar

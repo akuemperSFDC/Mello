@@ -28,8 +28,10 @@ const StyledButton = styled(Button)(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   backgroundColor: 'white',
   maxHeight: '30px',
+  minHeight: '30px',
   borderRadius: theme.shape.borderRadius,
   border: `3px solid ${theme.palette.primary.main}`,
+  marginRight: 5,
 }));
 
 const ListAreaHeader = ({ currentBoard }) => {

@@ -147,7 +147,7 @@ const CreateBoardModal = () => {
                 minHeight: '6em',
               }}
             >
-              {images.map((image, i) => (
+              {images.slice(0, 9).map((image, i) => (
                 <Thumbnail
                   key={i}
                   image={image}

@@ -76,7 +76,8 @@ const Header = (props) => {
               </SiteName>
             </Button>
             <StarredBoards />
-
+            {/* Above is left side */}
+            <Box sx={{ flexGrow: 1 }} />
             {/* Right Side */}
             <SearchBar />
             <AccountMenu />
