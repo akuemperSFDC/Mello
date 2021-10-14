@@ -24,8 +24,8 @@ const PanelBackground = ({ handleClose }) => {
             overflow: 'auto',
           }}
         >
-          {images.map((img) => (
-            <Thumbnail img={img} />
+          {images.map((img, i) => (
+            <Thumbnail key={i} img={img} />
           ))}
         </Box>
       </Box>

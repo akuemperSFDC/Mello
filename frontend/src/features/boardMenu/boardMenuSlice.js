@@ -11,7 +11,7 @@ const slice = createSlice({
   reducers: {
     menuVisible: (state, action) => {
       state.visible = action.payload;
-      state.mainMenu = true;
+      state.mainMenu = action.payload;
       state.aboutMenu = false;
       state.backgroundMenu = false;
     },

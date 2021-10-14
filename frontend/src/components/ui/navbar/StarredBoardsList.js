@@ -32,7 +32,15 @@ const StarredBoardsList = () => {
   const starredBoards = boards.filter((board) => board.favorite === true);
 
   return starredBoards.length === 0 ? (
-    <StyledBox sx={{ justifyContent: 'center' }}>
+    <StyledBox
+      sx={{
+        justifyContent: 'center',
+        userSelect: 'none',
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      }}
+    >
       <Typography
         sx={{
           fontSize: '14px',
@@ -45,7 +53,7 @@ const StarredBoardsList = () => {
     </StyledBox>
   ) : (
     starredBoards.map((board) => (
-      <StyledBox component={Link} to={`/b/${board._id}`}>
+      <StyledBox key={board._id} component={Link} to={`/b/${board._id}`}>
         <Paper
           sx={{
             width: '40px',
