@@ -59,7 +59,7 @@ export const editListAsync = createAsyncThunk(
     try {
       const { token } = getState().auth;
 
-      const { id, title } = params;
+      const { id, title, listId, boardId } = params;
 
       const config = {
         headers: {
@@ -96,6 +96,34 @@ export const deleteListAsync = createAsyncThunk(
 
       const { data } = await axios.delete(
         `http://localhost:5000/api/lists/${id}`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const moveListAsync = createAsyncThunk(
+  'lists/moveListAsync',
+  async (params, { rejectWithValue, getState }) => {
+    try {
+      const { listId, boardId } = params;
+
+      const { token } = getState().auth;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `http://localhost:5000/api/lists/${listId}/move`,
+        { boardId },
         config
       );
 
@@ -262,6 +290,21 @@ const slice = createSlice({
       state.errors = action.payload?.errors;
     },
     [deleteListAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    // Move list
+    [moveListAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      delete state.currentLists[action.payload._id];
+      delete state.errors;
+    },
+    [moveListAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [moveListAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
 

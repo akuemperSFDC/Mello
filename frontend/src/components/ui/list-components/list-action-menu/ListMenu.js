@@ -30,9 +30,9 @@ const ListMenu = ({ anchorEl, handleClose, open, list }) => {
       )}
       {/* Add card */}
       {/* Copy list panel */}
-      {copyMenu && <PanelCopyList handleClose={handleClose} />}
+      {copyMenu && <PanelCopyList handleClose={handleClose} list={list} />}
       {/* Move list panel */}
-      {moveMenu && <PanelMoveList handleClose={handleClose} />}
+      {moveMenu && <PanelMoveList handleClose={handleClose} list={list} />}
     </Menu>
   );
 };

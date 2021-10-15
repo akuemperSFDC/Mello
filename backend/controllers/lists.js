@@ -89,3 +89,27 @@ export const deleteList = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ _id: req.params.id });
 });
+
+// @desc      Move list
+// @route     PUT /api/lists/:id/move
+// @access    Private
+export const moveList = asyncHandler(async (req, res, next) => {
+  const { boardId } = req.body;
+
+  let list = await List.findOneAndUpdate(
+    { _id: req.params.id },
+    { board: boardId }
+  );
+
+  // Make sure user is list owner
+  if (list.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to move list with id ${req.params.id}`,
+        404
+      )
+    );
+  }
+
+  res.status(200).json(list);
+});
