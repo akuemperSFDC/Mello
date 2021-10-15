@@ -12,7 +12,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useDispatch } from 'react-redux';
 
 import { editListAsync } from '../../../features/lists/listsSlice.js';
-import ListMenu from './ListMenu.js';
+import ListMenu from './list-action-menu/ListMenu.js';
+import { showMainMenu } from '../../../features/listMenu/listMenuSlice.js';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   border: `3px solid ${theme.palette.primary.main}`,
@@ -41,6 +42,7 @@ const ListHeader = ({ list, i }) => {
   const open = !!anchorEl;
 
   const handleClick = (e) => {
+    dispatch(showMainMenu());
     setAnchorEl(e.currentTarget);
   };
 
