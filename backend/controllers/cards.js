@@ -83,3 +83,56 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ cardId: req.params.id, listId: card.list });
 });
+
+// @desc      Move card
+// @route     PUT /api/cards/:id/move
+// @access    Private
+export const moveCard = asyncHandler(async (req, res, next) => {
+  const { boardId, listId } = req.body;
+
+  const card = await Card.findById(req.params.id);
+  const oldList = card.list;
+  card.list = listId;
+  await card.save();
+
+  // Make sure user is list owner
+  if (card.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to delete card with id ${req.params.id}`,
+        404
+      )
+    );
+  }
+
+  res.status(200).json({ card, oldList });
+});
+
+// @desc      Copy card
+// @route     POST /api/cards/:id/copy
+// @access    Private
+export const copyCard = asyncHandler(async (req, res, next) => {
+  const { boardId, listId, title } = req.body;
+
+  const list = await List.findById(req.params.id);
+
+  // Make sure user is list owner
+  if (list.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to move list with id ${req.params.id}`,
+        404
+      )
+    );
+  }
+
+  // Create a new card associated to the board and list being copied to
+  const newCard = new Card(card);
+  newCard._id = mongoose.Types.ObjectId();
+  newCard.title = title;
+  newCard.list = listId;
+  newCard.isNew = true;
+  await newCard.save();
+
+  res.status(200).json(newCard);
+});

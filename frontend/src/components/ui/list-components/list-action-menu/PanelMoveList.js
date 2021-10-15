@@ -52,13 +52,9 @@ const PanelMoveList = ({ handleClose, list }) => {
     setSelectedBoard(e.target.value);
   };
 
-  const handleCopy = () => {
+  const handleMove = () => {
     dispatch(moveListAsync({ boardId: selectedBoard, listId: list._id }));
   };
-
-  useEffect(() => {
-    console.log(selectedBoard);
-  }, [selectedBoard]);
 
   return (
     <Box sx={{ width: '280px' }}>
@@ -96,7 +92,7 @@ const PanelMoveList = ({ handleClose, list }) => {
             ))}
           </Select>
         </FormControl>
-        <Button onClick={handleCopy} variant='contained' sx={{ mt: 1 }}>
+        <Button onClick={handleMove} variant='contained' sx={{ mt: 1 }}>
           Move
         </Button>
       </StyledBox>

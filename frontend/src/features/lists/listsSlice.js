@@ -245,9 +245,65 @@ export const deleteCardAsync = createAsyncThunk(
   }
 );
 
+export const moveCardAsync = createAsyncThunk(
+  'cards/moveCardAsync',
+  async (params, { rejectWithValue, getState }) => {
+    try {
+      const { token } = getState().auth;
+
+      const { id, boardId, listId } = params;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `http://localhost:5000/api/cards/${id}/move`,
+        { boardId, listId },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const copyCardAsync = createAsyncThunk(
+  'cards/copyCardAsync',
+  async (params, { rejectWithValue, getState }) => {
+    try {
+      const { token } = getState().auth;
+
+      const { id, boardId, listId, title } = params;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `http://localhost:5000/api/cards/${id}/copy`,
+        { boardId, listId, title },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const slice = createSlice({
   name: 'lists',
-  initialState: { loading: false, currentLists: [], currentList: {} },
+  initialState: { loading: false, currentLists: {}, currentList: {} },
   reducers: {
     currentList: (state, action) => {
       state.currentList = action.payload;
@@ -406,6 +462,48 @@ const slice = createSlice({
       state.errors = action.payload?.errors;
     },
     [deleteCardAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    // Move card
+    [moveCardAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      const movedCardIndex = state.currentList.cards.findIndex(
+        (card) => card._id === action.payload.card._id
+      );
+      state.currentLists[action.payload.oldList].cards.splice(
+        movedCardIndex,
+        1
+      );
+      state.currentList.cards.splice(action.payload.card.index - 1, 1);
+      state.currentLists[action.payload.card.list].cards.splice(
+        action.payload.card.index - 1,
+        0,
+        action.payload.card
+      );
+      delete state.errors;
+    },
+    [moveCardAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [moveCardAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    // Copy card
+    [copyCardAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.currentLists[action.payload.list].cards.push(action.payload);
+      delete state.errors;
+    },
+    [copyCardAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [copyCardAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
   },

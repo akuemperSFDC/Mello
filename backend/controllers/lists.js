@@ -11,7 +11,7 @@ export const getLists = asyncHandler(async (req, res, next) => {
   const lists = await List.find({ board: req.params.id }).populate({
     path: 'cards',
     options: { sort: { index: 1 } },
-    select: 'title description index user -list',
+    select: 'title description index user list',
   });
 
   res.status(200).json(lists);
@@ -99,7 +99,7 @@ export const deleteList = asyncHandler(async (req, res, next) => {
 export const moveList = asyncHandler(async (req, res, next) => {
   const { boardId } = req.body;
 
-  let list = await List.findOneAndUpdate(
+  const list = await List.findOneAndUpdate(
     { _id: req.params.id },
     { board: boardId }
   );

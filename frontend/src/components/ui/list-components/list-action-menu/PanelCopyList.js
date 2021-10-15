@@ -64,10 +64,6 @@ const PanelCopyList = ({ handleClose, list }) => {
     handleClose();
   };
 
-  useEffect(() => {
-    console.log(selectedBoard);
-  }, [selectedBoard]);
-
   return (
     <Box sx={{ width: '280px' }}>
       <Header title='Copy list' backButton={true} handleClose={handleClose} />

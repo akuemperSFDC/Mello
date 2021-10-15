@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   styled,
@@ -8,9 +9,13 @@ import {
   Typography,
 } from '@mui/material';
 import { ArrowForward, ContentCopy, Delete } from '@mui/icons-material';
-import { deleteCardAsync } from '../../../features/lists/listsSlice';
+import {
+  deleteCardAsync,
+  moveCardAsync,
+} from '../../../features/lists/listsSlice';
 import { deleteCurrentCard } from '../../../features/cards/cardSlice';
 import { editCardModal } from '../../../features/modal/modalSlice';
+import MoveCardMenu from './MoveCardMenu';
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: '#EAECF0',
@@ -31,13 +36,23 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 
 const SideMenu = () => {
   const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = !!anchorEl;
 
   const { currentCard } = useSelector((state) => state.cards && state.cards);
+
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
 
   const handleDelete = () => {
     dispatch(deleteCardAsync({ id: currentCard._id }));
     dispatch(deleteCurrentCard());
     dispatch(editCardModal(false));
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -59,12 +74,18 @@ const SideMenu = () => {
         </Typography>
 
         {/* Move */}
-        <StyledListItemButton>
+        <StyledListItemButton onClick={handleClick}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ArrowForward sx={{ fontSize: '14px' }} />
             <StyledTypography>Move</StyledTypography>
           </Box>
         </StyledListItemButton>
+        <MoveCardMenu
+          handleClose={handleClose}
+          open={open}
+          currentCard={currentCard}
+          anchorEl={anchorEl}
+        />
 
         {/* Copy */}
         <StyledListItemButton>
