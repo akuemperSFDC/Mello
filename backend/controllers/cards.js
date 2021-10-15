@@ -1,6 +1,7 @@
 import ErrorResponse from '../utils/errorResponse.js';
 import asyncHandler from '../middleware/async.js';
 import Card from '../models/Card.js';
+import mongoose from 'mongoose';
 
 // @desc      Get all cards for a list
 // @route     GET /api/cards/list/:id
@@ -112,15 +113,15 @@ export const moveCard = asyncHandler(async (req, res, next) => {
 // @route     POST /api/cards/:id/copy
 // @access    Private
 export const copyCard = asyncHandler(async (req, res, next) => {
-  const { boardId, listId, title } = req.body;
+  const { boardId, listId } = req.body;
 
-  const list = await List.findById(req.params.id);
+  const card = await Card.findById(req.params.id);
 
   // Make sure user is list owner
-  if (list.user.toString() !== req.user.id) {
+  if (card.user.toString() !== req.user.id) {
     return next(
       new ErrorResponse(
-        `User ${req.user.id} is not authorized to move list with id ${req.params.id}`,
+        `User ${req.user.id} is not authorized to copy card with id ${req.params.id}`,
         404
       )
     );
@@ -129,7 +130,6 @@ export const copyCard = asyncHandler(async (req, res, next) => {
   // Create a new card associated to the board and list being copied to
   const newCard = new Card(card);
   newCard._id = mongoose.Types.ObjectId();
-  newCard.title = title;
   newCard.list = listId;
   newCard.isNew = true;
   await newCard.save();

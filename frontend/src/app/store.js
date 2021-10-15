@@ -9,6 +9,7 @@ import listDrawerReducer from '../features/listDrawer/listDrawerSlice.js';
 import boardMenuReducer from '../features/boardMenu/boardMenuSlice.js';
 import searchReducer from '../features/search/searchSlice.js';
 import listMenuReducer from '../features/listMenu/listMenuSlice.js';
+import cardActionsMenuReducer from '../features/cardActionsMenu/cardActionsSlice.js';
 
 const auth = localStorage.getItem('auth')
   ? JSON.parse(localStorage.getItem('auth'))
@@ -32,6 +33,7 @@ export const store = configureStore({
     boardMenu: boardMenuReducer,
     search: searchReducer,
     listMenu: listMenuReducer,
+    cardActionsMenu: cardActionsMenuReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware();

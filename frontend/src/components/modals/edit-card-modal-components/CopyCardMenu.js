@@ -11,7 +11,10 @@ import {
   Button,
   Divider,
 } from '@mui/material';
-import { moveCardAsync } from '../../../features/lists/listsSlice';
+import {
+  copyCardAsync,
+  moveCardAsync,
+} from '../../../features/lists/listsSlice';
 import CardActionsHeader from './CardActionsHeader';
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -19,7 +22,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   padding: '16px',
 }));
 
-const MoveCardMenu = ({ handleClose, open, currentCard, anchorEl }) => {
+const CopyCardMenu = ({ handleClose, open, currentCard, anchorEl }) => {
   const dispatch = useDispatch();
 
   const [openSelect, setOpenSelect] = useState(false);
@@ -46,8 +49,13 @@ const MoveCardMenu = ({ handleClose, open, currentCard, anchorEl }) => {
     setSelectedList(e.target.value);
   };
 
-  const handleMoveCard = () => {
-    dispatch(moveCardAsync({ id: currentCard._id, listId: selectedList }));
+  const handleCopyCard = () => {
+    dispatch(
+      copyCardAsync({
+        id: currentCard._id,
+        listId: selectedList,
+      })
+    );
     handleClose();
   };
 
@@ -55,7 +63,7 @@ const MoveCardMenu = ({ handleClose, open, currentCard, anchorEl }) => {
     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
       <Box sx={{ width: '280px' }}>
         <CardActionsHeader handleClose={handleClose}>
-          Move list
+          Copy list
         </CardActionsHeader>
         <Divider variant='middle' />
 
@@ -91,8 +99,8 @@ const MoveCardMenu = ({ handleClose, open, currentCard, anchorEl }) => {
               ))}
             </Select>
           </FormControl>
-          <Button onClick={handleMoveCard} variant='contained' sx={{ mt: 1 }}>
-            Move
+          <Button onClick={handleCopyCard} variant='contained' sx={{ mt: 1 }}>
+            Copy
           </Button>
         </StyledBox>
       </Box>
@@ -100,4 +108,4 @@ const MoveCardMenu = ({ handleClose, open, currentCard, anchorEl }) => {
   );
 };
 
-export default MoveCardMenu;
+export default CopyCardMenu;

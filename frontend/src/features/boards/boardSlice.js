@@ -188,7 +188,6 @@ const boardSlice = createSlice({
     // Delete board
     [deleteBoardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      console.log(action.payload);
       delete state.boards[action.payload.id];
       state.currentBoard = {};
       delete state.errors;

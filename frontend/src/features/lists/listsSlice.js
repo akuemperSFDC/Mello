@@ -279,7 +279,7 @@ export const copyCardAsync = createAsyncThunk(
     try {
       const { token } = getState().auth;
 
-      const { id, boardId, listId, title } = params;
+      const { id, boardId, listId } = params;
 
       const config = {
         headers: {
@@ -288,9 +288,9 @@ export const copyCardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.put(
+      const { data } = await axios.post(
         `http://localhost:5000/api/cards/${id}/copy`,
-        { boardId, listId, title },
+        { boardId, listId },
         config
       );
 
@@ -426,7 +426,6 @@ const slice = createSlice({
     // Edit card
     [editCardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      console.log(action.payload);
       const cardId = action.payload._id;
       const editedCardIndex = state.currentList.cards.findIndex(
         (card) => card._id === cardId

@@ -16,6 +16,11 @@ import {
 import { deleteCurrentCard } from '../../../features/cards/cardSlice';
 import { editCardModal } from '../../../features/modal/modalSlice';
 import MoveCardMenu from './MoveCardMenu';
+import CopyCardMenu from './CopyCardMenu';
+import {
+  showCopyCardActionsMenu,
+  showMoveCardActionsMenu,
+} from '../../../features/cardActionsMenu/cardActionsSlice';
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: '#EAECF0',
@@ -41,8 +46,15 @@ const SideMenu = () => {
 
   const { currentCard } = useSelector((state) => state.cards && state.cards);
 
+  const { moveMenu, copyMenu } = useSelector((state) => state.cardActionsMenu);
+
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
+    if (e.currentTarget.id === '1') {
+      dispatch(showMoveCardActionsMenu());
+    } else if (e.currentTarget.id === '2') {
+      dispatch(showCopyCardActionsMenu());
+    }
   };
 
   const handleDelete = () => {
@@ -74,27 +86,37 @@ const SideMenu = () => {
         </Typography>
 
         {/* Move */}
-        <StyledListItemButton onClick={handleClick}>
+        <StyledListItemButton id={1} onClick={handleClick}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ArrowForward sx={{ fontSize: '14px' }} />
             <StyledTypography>Move</StyledTypography>
           </Box>
         </StyledListItemButton>
-        <MoveCardMenu
-          handleClose={handleClose}
-          open={open}
-          currentCard={currentCard}
-          anchorEl={anchorEl}
-        />
+        {moveMenu && (
+          <MoveCardMenu
+            handleClose={handleClose}
+            open={open}
+            currentCard={currentCard}
+            anchorEl={anchorEl}
+          />
+        )}
 
         {/* Copy */}
-        <StyledListItemButton>
+        <StyledListItemButton id={2} onClick={handleClick}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ContentCopy sx={{ fontSize: '14px' }} />
 
             <StyledTypography>Copy</StyledTypography>
           </Box>
         </StyledListItemButton>
+        {copyMenu && (
+          <CopyCardMenu
+            handleClose={handleClose}
+            open={open}
+            currentCard={currentCard}
+            anchorEl={anchorEl}
+          />
+        )}
 
         {/* Delete */}
         <StyledListItemButton onClick={handleDelete}>
