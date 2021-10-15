@@ -28,9 +28,6 @@ const Card = ({ list }) => {
 
   const { cards } = list || [];
 
-  const cardsSorted = [...cards];
-  cardsSorted.sort((a, b) => a.index - b.index);
-
   const handleClick = (card) => {
     dispatch(editCardModal(true));
     dispatch(currentCard(card));
@@ -39,8 +36,8 @@ const Card = ({ list }) => {
 
   return (
     <>
-      {cardsSorted &&
-        cardsSorted.map((card) => (
+      {cards &&
+        cards.map((card) => (
           <StyledBox onClick={() => handleClick(card)} key={card._id}>
             {card.title}
           </StyledBox>

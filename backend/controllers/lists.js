@@ -11,7 +11,7 @@ export const getLists = asyncHandler(async (req, res, next) => {
   const lists = await List.find({ board: req.params.id }).populate({
     path: 'cards',
     options: { sort: { index: 1 } },
-    select: 'title description index -list',
+    select: 'title description index user -list',
   });
 
   res.status(200).json(lists);
@@ -88,7 +88,7 @@ export const deleteList = asyncHandler(async (req, res, next) => {
     );
   }
 
-  await List.findByIdAndDelete(req.params.id);
+  list.remove();
 
   res.status(200).json({ _id: req.params.id });
 });
@@ -149,8 +149,6 @@ export const copyList = asyncHandler(async (req, res, next) => {
     newCard._id = mongoose.Types.ObjectId();
     newCard.index = card.index;
     newCard.list = newList._id;
-    newCard.user = req.user._id;
-    newCard.isNew = true;
     await newCard.save();
   }
 

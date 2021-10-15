@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import List from './List.js';
 
 const BoardSchema = new mongoose.Schema({
   title: {
@@ -24,6 +25,14 @@ const BoardSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+});
+
+BoardSchema.pre('remove', async function (next) {
+  const lists = await List.find({ board: this._id });
+  for (const list of lists) {
+    await list.remove();
+  }
+  next();
 });
 
 export default mongoose.model('Board', BoardSchema);

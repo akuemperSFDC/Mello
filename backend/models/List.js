@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Card from './Card.js';
 
 const ListSchema = new mongoose.Schema(
   {
@@ -31,6 +32,11 @@ const ListSchema = new mongoose.Schema(
   { toObject: { virtuals: true } },
   { timestamps: true }
 );
+
+ListSchema.pre('remove', async function (next) {
+  await Card.deleteMany({ list: this._id });
+  next();
+});
 
 // Reverse populate with virtuals
 ListSchema.virtual('cards', {

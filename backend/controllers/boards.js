@@ -91,7 +91,7 @@ export const deleteBoard = asyncHandler(async (req, res, next) => {
     );
   }
 
-  board.remove();
+  await board.remove();
 
   res.status(200).json({ id: req.params.id });
 });
