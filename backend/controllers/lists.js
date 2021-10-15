@@ -121,7 +121,7 @@ export const moveList = asyncHandler(async (req, res, next) => {
 // @route     POST /api/lists/:id/copy
 // @access    Private
 export const copyList = asyncHandler(async (req, res, next) => {
-  let { boardId, title, cards } = req.body;
+  const { boardId, title, cards } = req.body;
 
   const list = await List.findById(req.params.id);
 
@@ -135,38 +135,24 @@ export const copyList = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // Create a new list associated to the board being copied to
   const newList = new List(list);
   newList._id = mongoose.Types.ObjectId();
   newList.title = title;
   newList.board = boardId;
   newList.isNew = true;
-  newList.save();
+  await newList.save();
 
-  cards = cards.sort((a, b) => a.index - b.index);
-
-  const createCards = async (cards) => {
-    for (const card of cards) {
-      const newCard = new Card(card);
-      newCard._id = mongoose.Types.ObjectId();
-      newCard.index = card.index;
-      newCard.list = newList._id;
-      newCard.user = req.user._id;
-      newCard.isNew = true;
-      await newCard.save();
-    }
-  };
-
-  createCards(cards);
-
-  // for (const card of cards) {
-  //   const newCard = new Card(card);
-  //   newCard._id = mongoose.Types.ObjectId();
-  //   newCard.index = card.index;
-  //   newCard.list = newList._id;
-  //   newCard.user = req.user._id;
-  //   newCard.isNew = true;
-  //   newCard.save();
-  // }
+  // Create a new set of cards associated to the new list created above
+  for (const card of cards) {
+    const newCard = new Card(card);
+    newCard._id = mongoose.Types.ObjectId();
+    newCard.index = card.index;
+    newCard.list = newList._id;
+    newCard.user = req.user._id;
+    newCard.isNew = true;
+    await newCard.save();
+  }
 
   res.status(200).json(newList);
 });
