@@ -370,10 +370,13 @@ const slice = createSlice({
     // Edit card
     [editCardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
+      console.log(action.payload);
       const cardId = action.payload._id;
       const editedCardIndex = state.currentList.cards.findIndex(
         (card) => card._id === cardId
       );
+      state.currentLists[action.payload.list].cards[editedCardIndex] =
+        action.payload;
       state.currentList.cards[editedCardIndex] = action.payload;
       delete state.errors;
     },

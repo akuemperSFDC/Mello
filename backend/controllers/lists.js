@@ -10,7 +10,8 @@ import mongoose from 'mongoose';
 export const getLists = asyncHandler(async (req, res, next) => {
   const lists = await List.find({ board: req.params.id }).populate({
     path: 'cards',
-    select: 'title description -list',
+    options: { sort: { index: 1 } },
+    select: 'title description index -list',
   });
 
   res.status(200).json(lists);
@@ -120,27 +121,9 @@ export const moveList = asyncHandler(async (req, res, next) => {
 // @route     POST /api/lists/:id/copy
 // @access    Private
 export const copyList = asyncHandler(async (req, res, next) => {
-  const { boardId, title, cards } = req.body;
+  let { boardId, title, cards } = req.body;
 
   const list = await List.findById(req.params.id);
-
-  const newList = new List(list);
-  newList._id = mongoose.Types.ObjectId();
-  newList.title = title;
-  newList.board = boardId;
-  newList.isNew = true;
-  newList.save();
-
-  cards.forEach((card) => {
-    console.log(card);
-    const newCard = new Card();
-    newCard.title = card.title;
-    newCard.description = card.description;
-    newCard.list = newList._id;
-    newCard.user = req.user.id;
-    newCard.isNew = true;
-    newCard.save();
-  });
 
   // Make sure user is list owner
   if (list.user.toString() !== req.user.id) {
@@ -151,6 +134,39 @@ export const copyList = asyncHandler(async (req, res, next) => {
       )
     );
   }
+
+  const newList = new List(list);
+  newList._id = mongoose.Types.ObjectId();
+  newList.title = title;
+  newList.board = boardId;
+  newList.isNew = true;
+  newList.save();
+
+  cards = cards.sort((a, b) => a.index - b.index);
+
+  const createCards = async (cards) => {
+    for (const card of cards) {
+      const newCard = new Card(card);
+      newCard._id = mongoose.Types.ObjectId();
+      newCard.index = card.index;
+      newCard.list = newList._id;
+      newCard.user = req.user._id;
+      newCard.isNew = true;
+      await newCard.save();
+    }
+  };
+
+  createCards(cards);
+
+  // for (const card of cards) {
+  //   const newCard = new Card(card);
+  //   newCard._id = mongoose.Types.ObjectId();
+  //   newCard.index = card.index;
+  //   newCard.list = newList._id;
+  //   newCard.user = req.user._id;
+  //   newCard.isNew = true;
+  //   newCard.save();
+  // }
 
   res.status(200).json(newList);
 });

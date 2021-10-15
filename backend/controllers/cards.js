@@ -26,7 +26,7 @@ export const getCard = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: card });
 });
 
-// @desc      Create new list
+// @desc      Create new card
 // @route     POST /api/cards/list/:id
 // @access    Private
 export const createCard = asyncHandler(async (req, res, next) => {
