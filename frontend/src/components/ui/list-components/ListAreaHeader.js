@@ -34,7 +34,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   marginRight: 5,
 }));
 
-const ListAreaHeader = ({ currentBoard }) => {
+const ListAreaHeader = ({ currentBoard, visible }) => {
   const dispatch = useDispatch();
 
   const [showInput, setShowInput] = useState(false);
@@ -69,7 +69,7 @@ const ListAreaHeader = ({ currentBoard }) => {
   }, [currentBoard]);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', pl: visible ? '240px' : '40px' }}>
       {showInput ? (
         <ClickAwayListener onClickAway={() => setShowInput(false)}>
           <StyledInputBase

@@ -35,6 +35,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   position: 'absolute',
+  zIndex: 3,
   background: `linear-gradient(to bottom, ${alpha(
     theme.palette.common.black,
     theme.palette.action[30]

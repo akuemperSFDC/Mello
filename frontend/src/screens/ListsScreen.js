@@ -25,6 +25,7 @@ const ListsScreen = () => {
   const curBoard = normalizedBoards && normalizedBoards[id];
 
   const { errors } = useSelector((state) => state.lists);
+  const boardMenuVisible = useSelector((state) => state.boardMenu.visible);
 
   useEffect(() => {
     dispatch(getBoardsAsync());
@@ -49,13 +50,13 @@ const ListsScreen = () => {
           display: 'flex',
           height: '100vh',
           position: 'relative',
+          maxWidth: '100vw',
         }}
       >
         <ListDrawer boards={boards} />
 
         <Paper
           sx={{
-            paddingLeft: visible ? '240px' : '40px',
             paddingTop: theme.mixins.denseToolbar.minHeight,
             borderRadius: 0,
             width: '100%',
