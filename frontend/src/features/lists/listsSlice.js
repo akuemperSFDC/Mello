@@ -134,6 +134,34 @@ export const moveListAsync = createAsyncThunk(
   }
 );
 
+export const copyListAsync = createAsyncThunk(
+  'lists/copyListAsync',
+  async (params, { rejectWithValue, getState }) => {
+    try {
+      const { listId, boardId, title, cards } = params;
+
+      const { token } = getState().auth;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `http://localhost:5000/api/lists/${listId}/copy`,
+        { boardId, title, cards },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const createCardAsync = createAsyncThunk(
   'cards/createCardAsync',
   async (params, { rejectWithValue, getState }) => {
@@ -305,6 +333,21 @@ const slice = createSlice({
       state.errors = action.payload?.errors;
     },
     [moveListAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    // Copy list
+    [copyListAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.copiedList = action.payload;
+      delete state.errors;
+    },
+    [copyListAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [copyListAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
 

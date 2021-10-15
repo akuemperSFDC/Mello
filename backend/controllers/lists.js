@@ -1,6 +1,8 @@
 import ErrorResponse from '../utils/errorResponse.js';
 import asyncHandler from '../middleware/async.js';
 import List from '../models/List.js';
+import Card from '../models/Card.js';
+import mongoose from 'mongoose';
 
 // @desc      Get all lists for board
 // @route     GET /api/lists/board/:id
@@ -112,4 +114,43 @@ export const moveList = asyncHandler(async (req, res, next) => {
   }
 
   res.status(200).json(list);
+});
+
+// @desc      Copy list
+// @route     POST /api/lists/:id/copy
+// @access    Private
+export const copyList = asyncHandler(async (req, res, next) => {
+  const { boardId, title, cards } = req.body;
+
+  const list = await List.findById(req.params.id);
+
+  const newList = new List(list);
+  newList._id = mongoose.Types.ObjectId();
+  newList.title = title;
+  newList.board = boardId;
+  newList.isNew = true;
+  newList.save();
+
+  cards.forEach((card) => {
+    console.log(card);
+    const newCard = new Card();
+    newCard.title = card.title;
+    newCard.description = card.description;
+    newCard.list = newList._id;
+    newCard.user = req.user.id;
+    newCard.isNew = true;
+    newCard.save();
+  });
+
+  // Make sure user is list owner
+  if (list.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to move list with id ${req.params.id}`,
+        404
+      )
+    );
+  }
+
+  res.status(200).json(newList);
 });

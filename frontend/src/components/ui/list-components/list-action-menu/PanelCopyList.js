@@ -14,7 +14,10 @@ import {
 } from '@mui/material';
 import Header from './Header';
 import { editBoardAsync } from '../../../../features/boards/boardSlice';
-import { editListAsync } from '../../../../features/lists/listsSlice';
+import {
+  copyListAsync,
+  editListAsync,
+} from '../../../../features/lists/listsSlice';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -50,7 +53,15 @@ const PanelCopyList = ({ handleClose, list }) => {
   };
 
   const handleCopy = () => {
-    // dispatch(editListAsync({ boardId: selectedBoard, listId: list._id }));
+    dispatch(
+      copyListAsync({
+        boardId: selectedBoard,
+        listId: list._id,
+        title: list.title,
+        cards: list.cards,
+      })
+    );
+    handleClose();
   };
 
   useEffect(() => {

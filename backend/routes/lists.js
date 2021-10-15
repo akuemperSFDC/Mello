@@ -7,6 +7,7 @@ import {
   editList,
   deleteList,
   moveList,
+  copyList,
 } from '../controllers/lists.js';
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.delete('/:id', protect, deleteList);
 router.get('/board/:id', protect, getLists);
 router.post('/board/:id', protect, createList);
 router.put('/:id/move', protect, moveList);
+router.post('/:id/copy', protect, copyList);
 
 export default router;
