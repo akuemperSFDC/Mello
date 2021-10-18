@@ -25,7 +25,6 @@ const ListsScreen = () => {
   const curBoard = normalizedBoards && normalizedBoards[id];
 
   const { errors } = useSelector((state) => state.lists);
-  const boardMenuVisible = useSelector((state) => state.boardMenu.visible);
 
   useEffect(() => {
     dispatch(getBoardsAsync());
