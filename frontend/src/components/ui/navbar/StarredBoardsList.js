@@ -31,75 +31,79 @@ const StarredBoardsList = () => {
 
   const starredBoards = boards.filter((board) => board.favorite === true);
 
-  return starredBoards.length === 0 ? (
-    <StyledBox
-      sx={{
-        justifyContent: 'center',
-        userSelect: 'none',
-        '&:hover': {
-          backgroundColor: 'transparent',
-        },
-      }}
-    >
-      <Typography
-        sx={{
-          fontSize: '14px',
-          color: theme.palette.warning.dark,
-          fontWeight: 600,
-        }}
-      >
-        No starred boards
-      </Typography>
-    </StyledBox>
-  ) : (
-    starredBoards.map((board) => (
-      <StyledBox key={board._id} component={Link} to={`/b/${board._id}`}>
-        <Paper
+  return (
+    <Box sx={{ maxHeight: '172px', overflow: 'auto' }}>
+      {starredBoards.length === 0 ? (
+        <StyledBox
           sx={{
-            width: '40px',
-            height: '32px',
-            backgroundImage: `url(${board.backgroundImage})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            ml: 1,
+            justifyContent: 'center',
+            userSelect: 'none',
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
           }}
         >
           <Typography
             sx={{
-              fontSize: '12px',
+              fontSize: '14px',
+              color: theme.palette.warning.dark,
               fontWeight: 600,
-              maxWidth: '90%',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
             }}
           >
-            {board.title}
+            No starred boards
           </Typography>
-          <Typography
-            sx={{
-              fontSize: '12px',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {user.firstName}'s Workspace
-          </Typography>
-        </Box>
-        <Box sx={{ ml: 'auto' }}>
-          <StarBorder className='star' sx={{ color: '#F5E061' }} />
-        </Box>
-      </StyledBox>
-    ))
+        </StyledBox>
+      ) : (
+        starredBoards.map((board) => (
+          <StyledBox key={board._id} component={Link} to={`/b/${board._id}`}>
+            <Paper
+              sx={{
+                width: '40px',
+                height: '32px',
+                backgroundImage: `url(${board.backgroundImage})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                ml: 1,
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  maxWidth: '90%',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {board.title}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {user.firstName}'s Workspace
+              </Typography>
+            </Box>
+            <Box sx={{ ml: 'auto' }}>
+              <StarBorder className='star' sx={{ color: '#F5E061' }} />
+            </Box>
+          </StyledBox>
+        ))
+      )}
+    </Box>
   );
 };
 
