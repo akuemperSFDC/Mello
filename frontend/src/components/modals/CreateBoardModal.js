@@ -82,8 +82,8 @@ const CreateBoardModal = () => {
   return (
     <>
       {errors &&
-        errors.map((error) => (
-          <Toast open={open} setOpen={setOpen}>
+        errors.map((error, i) => (
+          <Toast key={i} open={open} setOpen={setOpen}>
             {error}
           </Toast>
         ))}
