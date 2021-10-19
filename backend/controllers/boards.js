@@ -95,3 +95,58 @@ export const deleteBoard = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ id: req.params.id });
 });
+
+// @desc      View board
+// @route     PUT /api/boards/:id/recent
+// @access    Private
+export const viewBoard = asyncHandler(async (req, res, next) => {
+  let board = await Board.findById(req.params.id);
+
+  if (!board) {
+    return next(
+      new ErrorResponse(`Board with id ${req.params.id} not found`, 404)
+    );
+  }
+
+  // Make sure user is board owner
+  if (board.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to edit board with id ${req.params.id}`,
+        404
+      )
+    );
+  }
+
+  board = await Board.findByIdAndUpdate(
+    req.params.id,
+    { updatedAt: req.body.time },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json(board);
+});
+
+// @desc      Get 5 most recent boards
+// @route     Get /api/boards/recent
+// @access    Private
+export const getRecentBoards = asyncHandler(async (req, res, next) => {
+  const boards = await Board.find({ user: req.user.id })
+    .sort({ updatedAt: -1 })
+    .limit(5);
+
+  // // Make sure user is board owner
+  // if (boards.user.toString() !== req.user.id) {
+  //   return next(
+  //     new ErrorResponse(
+  //       `User ${req.user.id} is not authorized to edit board with id ${req.params.id}`,
+  //       404
+  //     )
+  //   );
+  // }
+
+  res.status(200).json(boards);
+});

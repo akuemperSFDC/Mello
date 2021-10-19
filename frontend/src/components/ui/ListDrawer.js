@@ -28,6 +28,7 @@ import {
 import { setShowSidebar } from '../../features//sidebar/sidebarSlice.js';
 import { createBoardModal } from '../../features/modal/modalSlice.js';
 import { menuVisible } from '../../features/boardMenu/boardMenuSlice.js';
+import { viewBoardAsync } from '../../features/boards/boardSlice.js';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   width: 40,
@@ -221,6 +222,7 @@ const ListDrawer = ({ boards }) => {
                     onClick={() => {
                       dispatch(setSelected(i));
                       dispatch(menuVisible(false));
+                      dispatch(viewBoardAsync(board._id));
                     }}
                     selected={i === value}
                   >

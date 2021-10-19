@@ -3,7 +3,10 @@ import { Grid, Paper, Typography } from '@mui/material';
 import * as M from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getBoardsAsync } from '../features/boards/boardSlice.js';
+import {
+  getBoardsAsync,
+  viewBoardAsync,
+} from '../features/boards/boardSlice.js';
 import SideBar from '../components/ui/SideBar.js';
 import { createBoardModal } from '../features/modal/modalSlice.js';
 
@@ -16,6 +19,10 @@ const BoardsScreen = () => {
   const boards = useSelector(
     (s) => s.boards.boards && Object.values(s.boards.boards)
   );
+
+  const handleViewBoard = (id) => {
+    dispatch(viewBoardAsync(id));
+  };
 
   useEffect(() => {
     dispatch(getBoardsAsync());
@@ -55,6 +62,7 @@ const BoardsScreen = () => {
                   key={board._id}
                   item
                   component={Link}
+                  onClick={() => handleViewBoard(board._id)}
                   to={`/b/${board._id}`}
                   sx={{
                     textDecoration: 'none',

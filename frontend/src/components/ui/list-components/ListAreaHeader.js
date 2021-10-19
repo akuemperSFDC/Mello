@@ -80,84 +80,76 @@ const ListAreaHeader = ({ currentBoard, visible }) => {
   }, [currentBoard]);
 
   return (
-    <Grid
-      container
-      direction='row'
-      justifyContent='center'
+    <Box
       sx={{
+        display: 'flex',
         pl: visible ? '240px' : '40px',
-        maxWidth: small ? '100%' : '60%',
+        flexWrap: 'wrap',
       }}
     >
-      <Grid item xs={11} md>
-        {showInput ? (
-          <ClickAwayListener onClickAway={() => setShowInput(false)}>
-            <StyledInputBase
-              onKeyDown={handleEnterKey}
-              value={title}
-              autoFocus={true}
-              onFocus={(event) => {
-                event.target.select();
-              }}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </ClickAwayListener>
-        ) : (
-          <StyledButton
-            size='small'
-            variant='contained'
-            onClick={() => setShowInput(true)}
-          >
-            <Typography
-              sx={{
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-              variant='h5'
-            >
-              {currentBoard?.title}
-            </Typography>
-          </StyledButton>
-        )}
-      </Grid>
-      <Grid item xs={1} md={1}>
-        {currentBoard && currentBoard.favorite ? (
-          <StyledButton
-            onClick={handleFavorite}
-            variant='contained'
-            sx={{ maxWidth: '30px' }}
-          >
-            <Star sx={{ width: '20px', height: '20px', color: 'white' }} />
-          </StyledButton>
-        ) : (
-          <StyledButton
-            onClick={handleFavorite}
-            variant='contained'
-            sx={{ maxWidth: '30px' }}
-          >
-            <StarBorder
-              sx={{
-                width: '20px',
-                height: '20px',
-                color: 'white',
-              }}
-            />
-          </StyledButton>
-        )}
-      </Grid>
-      <Grid item justifyContent='center' md={3}>
-        <StyledButton onClick={handleClick}>
-          <MoreHoriz sx={{ color: 'white', mr: 0.5, fontSize: '18px' }} />
+      {showInput ? (
+        <ClickAwayListener onClickAway={() => setShowInput(false)}>
+          <StyledInputBase
+            onKeyDown={handleEnterKey}
+            value={title}
+            autoFocus={true}
+            onFocus={(event) => {
+              event.target.select();
+            }}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </ClickAwayListener>
+      ) : (
+        <StyledButton
+          size='small'
+          variant='contained'
+          onClick={() => setShowInput(true)}
+        >
           <Typography
-            sx={{ color: 'white', fontSize: '14px', fontWeight: 500 }}
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+            variant='h5'
           >
-            Show menu
+            {currentBoard?.title}
           </Typography>
         </StyledButton>
-      </Grid>
+      )}
+
+      {currentBoard && currentBoard.favorite ? (
+        <StyledButton
+          onClick={handleFavorite}
+          variant='contained'
+          sx={{ maxWidth: '30px' }}
+        >
+          <Star sx={{ width: '20px', height: '20px', color: 'white' }} />
+        </StyledButton>
+      ) : (
+        <StyledButton
+          onClick={handleFavorite}
+          variant='contained'
+          sx={{ maxWidth: '30px' }}
+        >
+          <StarBorder
+            sx={{
+              width: '20px',
+              height: '20px',
+              color: 'white',
+            }}
+          />
+        </StyledButton>
+      )}
+
+      <StyledButton onClick={handleClick}>
+        <MoreHoriz sx={{ color: 'white', mr: 0.5, fontSize: '18px' }} />
+        <Typography sx={{ color: 'white', fontSize: '14px', fontWeight: 500 }}>
+          Show menu
+        </Typography>
+      </StyledButton>
 
       <BoardMenu />
-    </Grid>
+    </Box>
   );
 };
 

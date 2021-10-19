@@ -105,6 +105,32 @@ export const deleteBoardAsync = createAsyncThunk(
   }
 );
 
+export const viewBoardAsync = createAsyncThunk(
+  'boards/viewBoardAsync',
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const { token } = getState().auth;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `http://localhost:5000/api/boards/${id}/recent`,
+        { id, time: new Date(Date.now()) },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const boardSlice = createSlice({
   name: 'boards',
   initialState: {
