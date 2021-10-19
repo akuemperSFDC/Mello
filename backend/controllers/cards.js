@@ -124,6 +124,19 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // Create new activity document based on deletion of a card
+  const list = await List.findById(card.list);
+
+  await Activity.create({
+    documentType: 'card',
+    typeOfActivity: 'deleted',
+    valueOfActivity: card.title,
+    source: list.title,
+    user: card.user,
+    card: card._id,
+    list: card.list,
+  });
+
   await Card.findByIdAndDelete(req.params.id);
 
   res.status(200).json({ cardId: req.params.id, listId: card.list });
