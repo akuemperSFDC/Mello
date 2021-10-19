@@ -201,5 +201,20 @@ export const copyList = asyncHandler(async (req, res, next) => {
     await newCard.save();
   }
 
+  // Create new activity document when list is moved
+  const oldBoard = await Board.findById(list.board);
+  const newBoard = await Board.findById(boardId);
+
+  await Activity.create({
+    documentType: 'list',
+    typeOfActivity: 'copied',
+    valueOfActivity: list.title,
+    source: oldBoard.title,
+    destination: newBoard.title,
+    user: req.user,
+    board: newList.board,
+    list: newList._id,
+  });
+
   res.status(200).json(newList);
 });
