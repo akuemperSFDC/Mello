@@ -4,19 +4,34 @@ import AboutButton from '../buttons/AboutButton';
 import ChangeBackgroundButton from '../buttons/ChangeBackgroundButton';
 import DeleteButton from '../buttons/DeleteButton';
 import Header from '../Header';
+import ActivitySection from './ActivitySection';
+
+const listStyles = {
+  p: '12px 6px 12px 12px',
+};
 
 const PanelMain = ({ handleClose }) => {
   return (
     <Box>
       <Header title='Menu' handleClose={handleClose} />
       <Divider variant='middle' />
-      <List sx={{ p: '12px 6px 12px 12px' }}>
+
+      {/* ----------------------------- About button ----------------------------- */}
+      <List sx={{ ...listStyles }}>
         <AboutButton />
         <ChangeBackgroundButton />
       </List>
       <Divider variant='middle' />
-      <List sx={{ p: '12px 6px 12px 12px' }}>
+
+      {/* --------------------------- Background button -------------------------- */}
+      <List sx={{ ...listStyles }}>
         <DeleteButton />
+      </List>
+      <Divider variant='middle' />
+
+      {/* --------------------------- Activity section --------------------------- */}
+      <List sx={{ ...listStyles }}>
+        <ActivitySection />
       </List>
     </Box>
   );

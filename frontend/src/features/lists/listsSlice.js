@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+/* ------------------------------- Get lists ------------------------------ */
+
 export const getListsAsync = createAsyncThunk(
   'lists/getListsAsync',
   async (boardId, { getState, rejectWithValue }) => {
@@ -24,6 +26,8 @@ export const getListsAsync = createAsyncThunk(
     }
   }
 );
+
+/* ------------------------------- Create list ------------------------------ */
 
 export const createListAsync = createAsyncThunk(
   'lists/createListAsync',
@@ -53,13 +57,15 @@ export const createListAsync = createAsyncThunk(
   }
 );
 
+/* ------------------------------- Edit list ------------------------------ */
+
 export const editListAsync = createAsyncThunk(
   'lists/editListAsync',
   async (params, { rejectWithValue, getState }) => {
     try {
       const { token } = getState().auth;
 
-      const { id, title, listId, boardId } = params;
+      const { id, title, boardId } = params;
 
       const config = {
         headers: {
@@ -80,6 +86,8 @@ export const editListAsync = createAsyncThunk(
     }
   }
 );
+
+/* ------------------------------- Delete list ------------------------------ */
 
 export const deleteListAsync = createAsyncThunk(
   'lists/deleteListAsync',
@@ -105,6 +113,8 @@ export const deleteListAsync = createAsyncThunk(
     }
   }
 );
+
+/* ------------------------------- Move list ------------------------------ */
 
 export const moveListAsync = createAsyncThunk(
   'lists/moveListAsync',
@@ -134,6 +144,8 @@ export const moveListAsync = createAsyncThunk(
   }
 );
 
+/* ------------------------------- Copy list ------------------------------ */
+
 export const copyListAsync = createAsyncThunk(
   'lists/copyListAsync',
   async (params, { rejectWithValue, getState }) => {
@@ -161,6 +173,8 @@ export const copyListAsync = createAsyncThunk(
     }
   }
 );
+
+/* ------------------------------- Create card ------------------------------ */
 
 export const createCardAsync = createAsyncThunk(
   'cards/createCardAsync',
@@ -190,6 +204,8 @@ export const createCardAsync = createAsyncThunk(
   }
 );
 
+/* ------------------------------- Edit card ------------------------------ */
+
 export const editCardAsync = createAsyncThunk(
   'cards/editCardAsync',
   async (params, { rejectWithValue, getState }) => {
@@ -218,6 +234,8 @@ export const editCardAsync = createAsyncThunk(
   }
 );
 
+/* ------------------------------- Delete card ------------------------------ */
+
 export const deleteCardAsync = createAsyncThunk(
   'cards/deleteCardAsync',
   async (params, { rejectWithValue, getState }) => {
@@ -244,6 +262,8 @@ export const deleteCardAsync = createAsyncThunk(
     }
   }
 );
+
+/* ------------------------------- Move card ------------------------------ */
 
 export const moveCardAsync = createAsyncThunk(
   'cards/moveCardAsync',
@@ -272,6 +292,8 @@ export const moveCardAsync = createAsyncThunk(
     }
   }
 );
+
+/* ------------------------------- Copy card ------------------------------ */
 
 export const copyCardAsync = createAsyncThunk(
   'cards/copyCardAsync',

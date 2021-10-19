@@ -2,7 +2,10 @@ import ErrorResponse from '../utils/errorResponse.js';
 import asyncHandler from '../middleware/async.js';
 import List from '../models/List.js';
 import Card from '../models/Card.js';
+import Activity from '../models/Activity.js';
 import mongoose from 'mongoose';
+
+/* ------------------------------ Get all lists ----------------------------- */
 
 // @desc      Get all lists for board
 // @route     GET /api/lists/board/:id
@@ -16,6 +19,8 @@ export const getLists = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(lists);
 });
+
+/* ----------------------------- Get single list ---------------------------- */
 
 // @desc      Get single list
 // @route     GET /api/lists/:id
@@ -35,6 +40,8 @@ export const getList = asyncHandler(async (req, res, next) => {
   res.status(200).json(list);
 });
 
+/* ------------------------------- Create list ------------------------------ */
+
 // @desc      Create new list
 // @route     POST /api/lists/board/:id
 // @access    Private
@@ -48,11 +55,15 @@ export const createList = asyncHandler(async (req, res, next) => {
   res.status(200).json(list);
 });
 
+/* -------------------------------- Edit list ------------------------------- */
+
 // @desc      Edit list
 // @route     PUT /api/lists/:id
 // @access    Private
 export const editList = asyncHandler(async (req, res, next) => {
   let list = await List.findById(req.params.id);
+
+  const { title } = req.body;
 
   // Make sure user is list owner
   if (list.user.toString() !== req.user.id) {
@@ -64,6 +75,16 @@ export const editList = asyncHandler(async (req, res, next) => {
     );
   }
 
+  await Activity.create({
+    documentType: 'list',
+    typeOfActivity: 'renamed',
+    valueOfActivity: title,
+    previousPropertyValue: list.title,
+    propertyChanged: 'title',
+    user: req.user,
+    list: req.params.id,
+  });
+
   list = await List.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -71,6 +92,8 @@ export const editList = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(list);
 });
+
+/* ------------------------------- Delete list ------------------------------ */
 
 // @desc      Delete list
 // @route     DELETE /api/lists/:id
@@ -92,6 +115,8 @@ export const deleteList = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ _id: req.params.id });
 });
+
+/* -------------------------------- Move list ------------------------------- */
 
 // @desc      Move list
 // @route     PUT /api/lists/:id/move
@@ -116,6 +141,8 @@ export const moveList = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(list);
 });
+
+/* -------------------------------- Copy list ------------------------------- */
 
 // @desc      Copy list
 // @route     POST /api/lists/:id/copy

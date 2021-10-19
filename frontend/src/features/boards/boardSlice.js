@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+/* ------------------------------ Get boards ------------------------------ */
+
 export const getBoardsAsync = createAsyncThunk(
   'boards/getBoardsAsync',
   async (_, { getState, rejectWithValue }) => {
@@ -24,6 +26,8 @@ export const getBoardsAsync = createAsyncThunk(
     }
   }
 );
+
+/* ----------------------------- Create board ----------------------------- */
 
 export const createBoardAsync = createAsyncThunk(
   'boards/createBoardAsync',
@@ -53,6 +57,8 @@ export const createBoardAsync = createAsyncThunk(
   }
 );
 
+/* ----------------------------- Edit board ----------------------------- */
+
 export const editBoardAsync = createAsyncThunk(
   'boards/editBoardAsync',
   async (params, { rejectWithValue, getState }) => {
@@ -80,6 +86,8 @@ export const editBoardAsync = createAsyncThunk(
   }
 );
 
+/* ----------------------------- Delete board ----------------------------- */
+
 export const deleteBoardAsync = createAsyncThunk(
   'boards/deleteBoardAsync',
   async (id, { rejectWithValue, getState }) => {
@@ -104,6 +112,8 @@ export const deleteBoardAsync = createAsyncThunk(
     }
   }
 );
+
+/* ----------------------------- View board ----------------------------- */
 
 export const viewBoardAsync = createAsyncThunk(
   'boards/viewBoardAsync',
@@ -130,6 +140,8 @@ export const viewBoardAsync = createAsyncThunk(
     }
   }
 );
+
+/* ----------------------------- Get 5 most recent boards ----------------------------- */
 
 export const getRecentBoardsAsync = createAsyncThunk(
   'boards/getRecentBoardsAsync',

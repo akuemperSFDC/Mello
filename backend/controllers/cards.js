@@ -1,7 +1,10 @@
 import ErrorResponse from '../utils/errorResponse.js';
 import asyncHandler from '../middleware/async.js';
 import Card from '../models/Card.js';
+import Activity from '../models/Activity.js';
 import mongoose from 'mongoose';
+
+/* ------------------------ Get all cards for a list ------------------------ */
 
 // @desc      Get all cards for a list
 // @route     GET /api/cards/list/:id
@@ -11,6 +14,8 @@ export const getCards = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: true, count: cards.length, data: cards });
 });
+
+/* ----------------------------- Get single card ---------------------------- */
 
 // @desc      Get single card
 // @route     GET /api/cards/:id
@@ -27,6 +32,8 @@ export const getCard = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: card });
 });
 
+/* ------------------------------- Create card ------------------------------ */
+
 // @desc      Create new card
 // @route     POST /api/cards/list/:id
 // @access    Private
@@ -39,6 +46,8 @@ export const createCard = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(card);
 });
+
+/* -------------------------------- Edit card ------------------------------- */
 
 // @desc      Edit card
 // @route     PUT /api/cards/:id
@@ -56,6 +65,24 @@ export const editCard = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // Create new activity document based on card changes
+  const { title, description } = req.body;
+
+  await Activity.create({
+    documentType: 'card',
+    typeOfActivity:
+      (title && 'renamed') ||
+      (description && card.description ? 'changed' : 'added'),
+    valueOfActivity: title || description,
+    previousPropertyValue:
+      (title && card.title) || (description && (card.description || '')),
+    propertyChanged: (title && 'title') || (description && 'description'),
+    user: req.user,
+    card: req.params.id,
+    list: card.list,
+  });
+
+  // Update card
   card = await Card.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -63,6 +90,8 @@ export const editCard = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(card);
 });
+
+/* ------------------------------- Delete card ------------------------------ */
 
 // @desc      Delete card
 // @route     DELETE /api/cards/:id
@@ -84,6 +113,8 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ cardId: req.params.id, listId: card.list });
 });
+
+/* -------------------------------- Move card ------------------------------- */
 
 // @desc      Move card
 // @route     PUT /api/cards/:id/move
@@ -108,6 +139,8 @@ export const moveCard = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ card, oldList });
 });
+
+/* -------------------------------- Copy card ------------------------------- */
 
 // @desc      Copy card
 // @route     POST /api/cards/:id/copy
