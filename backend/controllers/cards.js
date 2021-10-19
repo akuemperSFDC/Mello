@@ -1,6 +1,7 @@
 import ErrorResponse from '../utils/errorResponse.js';
 import asyncHandler from '../middleware/async.js';
 import Card from '../models/Card.js';
+import List from '../models/List.js';
 import Activity from '../models/Activity.js';
 import mongoose from 'mongoose';
 
@@ -121,9 +122,24 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
 // @access    Private
 export const moveCard = asyncHandler(async (req, res, next) => {
   const { boardId, listId } = req.body;
-
   const card = await Card.findById(req.params.id);
-  const oldList = card.list;
+
+  // Create new activity document based on moving card
+  const oldList = await List.findById(card.list);
+  const newList = await List.findById(listId);
+
+  await Activity.create({
+    documentType: 'card',
+    typeOfActivity: 'moved',
+    valueOfActivity: card.title,
+    source: oldList.title,
+    destination: newList.title,
+    user: req.user,
+    card: card._id,
+    list: listId,
+  });
+
+  // Move card
   card.list = listId;
   await card.save();
 
@@ -137,7 +153,7 @@ export const moveCard = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({ card, oldList });
+  res.status(200).json({ card, oldList: oldList._id });
 });
 
 /* -------------------------------- Copy card ------------------------------- */
@@ -159,6 +175,21 @@ export const copyCard = asyncHandler(async (req, res, next) => {
       )
     );
   }
+
+  // Create new activity document based on copying card
+  const oldList = await List.findById(card.list);
+  const newList = await List.findById(listId);
+
+  await Activity.create({
+    documentType: 'card',
+    typeOfActivity: 'copied',
+    valueOfActivity: card.title,
+    source: oldList.title,
+    destination: newList.title,
+    user: req.user,
+    card: card._id,
+    list: listId,
+  });
 
   // Create a new card associated to the board and list being copied to
   const newCard = new Card(card);

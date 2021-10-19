@@ -16,10 +16,10 @@ const ActivitySchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-    },
-    previousPropertyValue: {
-      type: String,
-      trim: true,
+      previousPropertyValue: {
+        type: String,
+        trim: true,
+      },
     },
     propertyChanged: {
       type: String,
