@@ -84,6 +84,7 @@ export const editList = asyncHandler(async (req, res, next) => {
     previousPropertyValue: list.title,
     propertyChanged: 'title',
     user: req.user,
+    board: list.board,
     list: req.params.id,
   });
 
@@ -113,9 +114,8 @@ export const deleteList = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Create new activity document when list is changed
+  // Create new activity document when list is deleted
   const board = await Board.findById(list.board);
-  console.log('~ board', board);
 
   await Activity.create({
     documentType: 'list',
@@ -123,7 +123,8 @@ export const deleteList = asyncHandler(async (req, res, next) => {
     valueOfActivity: list.title,
     source: board.title,
     user: req.user,
-    list: req.params.id,
+    board: board._id,
+    list: list._id,
   });
 
   list.remove();
@@ -139,20 +140,26 @@ export const deleteList = asyncHandler(async (req, res, next) => {
 export const moveList = asyncHandler(async (req, res, next) => {
   const { boardId } = req.body;
 
+  // Move list
   const list = await List.findOneAndUpdate(
     { _id: req.params.id },
     { board: boardId }
   );
 
-  // Make sure user is list owner
-  if (list.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to move list with id ${req.params.id}`,
-        404
-      )
-    );
-  }
+  // Create new activity document when list is moved
+  const oldBoard = await Board.findById(list.board);
+  const newBoard = await Board.findById(boardId);
+
+  await Activity.create({
+    documentType: 'list',
+    typeOfActivity: 'moved',
+    valueOfActivity: list.title,
+    source: oldBoard.title,
+    destination: newBoard.title,
+    user: req.user,
+    board: list.board,
+    list: list._id,
+  });
 
   res.status(200).json(list);
 });
