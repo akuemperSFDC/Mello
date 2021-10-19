@@ -57,6 +57,7 @@ export const createCard = asyncHandler(async (req, res, next) => {
     user: req.user,
     card: card._id,
     list: card.list,
+    board: list.board,
   });
 
   res.status(200).json(card);
@@ -82,6 +83,7 @@ export const editCard = asyncHandler(async (req, res, next) => {
 
   // Create new activity document based on card changes
   const { title, description } = req.body;
+  const list = await List.findById(card.list);
 
   await Activity.create({
     documentType: 'card',
@@ -95,6 +97,7 @@ export const editCard = asyncHandler(async (req, res, next) => {
     user: req.user,
     card: req.params.id,
     list: card.list,
+    board: list.board,
   });
 
   // Update card
@@ -135,6 +138,7 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
     user: card.user,
     card: card._id,
     list: card.list,
+    board: list.board,
   });
 
   await Card.findByIdAndDelete(req.params.id);
@@ -164,6 +168,7 @@ export const moveCard = asyncHandler(async (req, res, next) => {
     user: req.user,
     card: card._id,
     list: listId,
+    board: newList.board,
   });
 
   // Move card
@@ -216,6 +221,7 @@ export const copyCard = asyncHandler(async (req, res, next) => {
     user: req.user,
     card: card._id,
     list: listId,
+    board: newList.board,
   });
 
   // Create a new card associated to the board and list being copied to

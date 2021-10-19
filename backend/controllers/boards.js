@@ -42,6 +42,15 @@ export const createBoard = asyncHandler(async (req, res, next) => {
 
   const board = await Board.create(req.body);
 
+  // Create new activity document when board is created
+  await Activity.create({
+    documentType: 'board',
+    typeOfActivity: 'added',
+    valueOfActivity: board.title,
+    user: req.user,
+    board: board._id,
+  });
+
   res.status(201).json(board);
 });
 
@@ -71,7 +80,7 @@ export const updateBoard = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Create new activity document based on what was changed
+  // Create new activity document based on board changes
   await Activity.create({
     documentType: 'board',
     typeOfActivity:
@@ -131,6 +140,15 @@ export const deleteBoard = asyncHandler(async (req, res, next) => {
       )
     );
   }
+
+  // Create new activity document when board is deleted
+  await Activity.create({
+    documentType: 'board',
+    typeOfActivity: 'deleted',
+    valueOfActivity: board.title,
+    user: req.user,
+    board: board._id,
+  });
 
   await board.remove();
 
