@@ -45,6 +45,20 @@ export const createCard = asyncHandler(async (req, res, next) => {
 
   const card = await Card.create(req.body);
 
+  // Create new activity document based on creation of a new card
+  const list = await List.findById(card.list);
+
+  await Activity.create({
+    documentType: 'card',
+    typeOfActivity: 'added',
+    valueOfActivity: card.title,
+    source: undefined,
+    destination: list.title,
+    user: req.user,
+    card: card._id,
+    list: card.list,
+  });
+
   res.status(200).json(card);
 });
 
