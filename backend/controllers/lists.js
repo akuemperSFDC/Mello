@@ -53,6 +53,19 @@ export const createList = asyncHandler(async (req, res, next) => {
 
   const list = await List.create(req.body);
 
+  // Create new activity document when list is created
+  const board = await Board.findById(list.board);
+
+  await Activity.create({
+    documentType: 'list',
+    typeOfActivity: 'added',
+    valueOfActivity: list.title,
+    destination: board.title,
+    user: req.user,
+    board: list.board,
+    list: list._id,
+  });
+
   res.status(200).json(list);
 });
 
@@ -201,7 +214,7 @@ export const copyList = asyncHandler(async (req, res, next) => {
     await newCard.save();
   }
 
-  // Create new activity document when list is moved
+  // Create new activity document when list is copied
   const oldBoard = await Board.findById(list.board);
   const newBoard = await Board.findById(boardId);
 
