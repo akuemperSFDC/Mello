@@ -131,6 +131,30 @@ export const viewBoardAsync = createAsyncThunk(
   }
 );
 
+export const getRecentBoardsAsync = createAsyncThunk(
+  'boards/getRecentBoardsAsync',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+
+      const config = {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        'http://localhost:5000/api/boards/recent',
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const boardSlice = createSlice({
   name: 'boards',
   initialState: {
@@ -138,6 +162,7 @@ const boardSlice = createSlice({
     currentBoard: {},
     starredBoards: {},
     boards: {},
+    recentBoards: {},
   },
   reducers: {
     currentBoard: (state, action) => {
@@ -224,6 +249,25 @@ const boardSlice = createSlice({
       state.errors = action.payload?.errors;
     },
     [deleteBoardAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    // Get recent boards
+    [getRecentBoardsAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      const normalizedBoards = {};
+      action.payload.forEach((board) => {
+        normalizedBoards[board._id] = board;
+      });
+      state.recentBoards = normalizedBoards;
+      delete state.errors;
+    },
+    [getRecentBoardsAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [getRecentBoardsAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
   },
