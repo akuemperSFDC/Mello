@@ -1,5 +1,6 @@
 import ErrorResponse from '../utils/errorResponse.js';
 import asyncHandler from '../middleware/async.js';
+import Board from '../models/Board.js';
 import List from '../models/List.js';
 import Card from '../models/Card.js';
 import Activity from '../models/Activity.js';
@@ -75,6 +76,7 @@ export const editList = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // Create new activity document when list is changed
   await Activity.create({
     documentType: 'list',
     typeOfActivity: 'renamed',
@@ -110,6 +112,19 @@ export const deleteList = asyncHandler(async (req, res, next) => {
       )
     );
   }
+
+  // Create new activity document when list is changed
+  const board = await Board.findById(list.board);
+  console.log('~ board', board);
+
+  await Activity.create({
+    documentType: 'list',
+    typeOfActivity: 'deleted',
+    valueOfActivity: list.title,
+    source: board.title,
+    user: req.user,
+    list: req.params.id,
+  });
 
   list.remove();
 
