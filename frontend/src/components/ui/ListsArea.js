@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import ListAreaHeader from './list-components/ListAreaHeader.js';
@@ -8,6 +8,8 @@ import CreateNewListButton from './list-components/CreateNewListButton.js';
 
 const ListsArea = ({ visible }) => {
   const theme = useTheme();
+
+  const small = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { currentBoard } = useSelector((state) => state.boards);
 
@@ -32,7 +34,9 @@ const ListsArea = ({ visible }) => {
           paddingLeft: visible ? '0px' : '40px',
           marginLeft: visible ? '240px' : '0px',
           overflowX: 'auto',
-          minHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - 54px)`,
+          minHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - ${
+            small ? '76px' : '54px'
+          })`,
           '&::-webkit-scrollbar': {
             height: 10,
           },
