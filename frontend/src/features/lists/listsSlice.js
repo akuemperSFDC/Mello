@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getActivitiesByBoardAsync } from '../activities/activitySlice';
 
 /* ------------------------------- Get lists ------------------------------ */
 
@@ -31,7 +32,7 @@ export const getListsAsync = createAsyncThunk(
 
 export const createListAsync = createAsyncThunk(
   'lists/createListAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
 
@@ -50,6 +51,8 @@ export const createListAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(id));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -61,7 +64,7 @@ export const createListAsync = createAsyncThunk(
 
 export const editListAsync = createAsyncThunk(
   'lists/editListAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
 
@@ -80,6 +83,8 @@ export const editListAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(boardId));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -91,9 +96,11 @@ export const editListAsync = createAsyncThunk(
 
 export const deleteListAsync = createAsyncThunk(
   'lists/deleteListAsync',
-  async (id, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
+
+      const { id, boardId } = params;
 
       const config = {
         headers: {
@@ -107,6 +114,8 @@ export const deleteListAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(boardId));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -118,7 +127,7 @@ export const deleteListAsync = createAsyncThunk(
 
 export const moveListAsync = createAsyncThunk(
   'lists/moveListAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { listId, boardId } = params;
 
@@ -137,6 +146,8 @@ export const moveListAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(boardId));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -148,7 +159,7 @@ export const moveListAsync = createAsyncThunk(
 
 export const copyListAsync = createAsyncThunk(
   'lists/copyListAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { listId, boardId, title, cards } = params;
 
@@ -167,6 +178,8 @@ export const copyListAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(boardId));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -178,9 +191,11 @@ export const copyListAsync = createAsyncThunk(
 
 export const createCardAsync = createAsyncThunk(
   'cards/createCardAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
+
+      const boardId = getState().boards.currentBoard._id;
 
       const { id, title } = params;
 
@@ -197,6 +212,8 @@ export const createCardAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(boardId));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -208,9 +225,11 @@ export const createCardAsync = createAsyncThunk(
 
 export const editCardAsync = createAsyncThunk(
   'cards/editCardAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
+
+      const boardId = getState().boards.currentBoard._id;
 
       const { id, title, description } = params;
 
@@ -227,6 +246,8 @@ export const editCardAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(boardId));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -238,9 +259,11 @@ export const editCardAsync = createAsyncThunk(
 
 export const deleteCardAsync = createAsyncThunk(
   'cards/deleteCardAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
+
+      const boardId = getState().boards.currentBoard._id;
 
       const { id } = params;
 
@@ -256,6 +279,8 @@ export const deleteCardAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(boardId));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -267,11 +292,13 @@ export const deleteCardAsync = createAsyncThunk(
 
 export const moveCardAsync = createAsyncThunk(
   'cards/moveCardAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
 
-      const { id, boardId, listId } = params;
+      const boardId = getState().boards.currentBoard._id;
+
+      const { id, listId } = params;
 
       const config = {
         headers: {
@@ -282,9 +309,11 @@ export const moveCardAsync = createAsyncThunk(
 
       const { data } = await axios.put(
         `http://localhost:5000/api/cards/${id}/move`,
-        { boardId, listId },
+        { listId },
         config
       );
+
+      dispatch(getActivitiesByBoardAsync(boardId));
 
       return data;
     } catch (error) {
@@ -297,11 +326,13 @@ export const moveCardAsync = createAsyncThunk(
 
 export const copyCardAsync = createAsyncThunk(
   'cards/copyCardAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
 
-      const { id, boardId, listId } = params;
+      const boardId = getState().boards.currentBoard._id;
+
+      const { id, listId } = params;
 
       const config = {
         headers: {
@@ -312,9 +343,11 @@ export const copyCardAsync = createAsyncThunk(
 
       const { data } = await axios.post(
         `http://localhost:5000/api/cards/${id}/copy`,
-        { boardId, listId },
+        { listId },
         config
       );
+
+      dispatch(getActivitiesByBoardAsync(boardId));
 
       return data;
     } catch (error) {

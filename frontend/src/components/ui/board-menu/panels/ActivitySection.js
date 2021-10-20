@@ -7,9 +7,11 @@ import {
   ButtonBase,
   Typography,
   Avatar,
+  Button,
 } from '@mui/material';
 import { Storage } from '@mui/icons-material';
 import ActivityInformation from './ActivityInformation';
+import { getNextActivitiesByBoardAsync } from '../../../../features/activities/activitySlice';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -18,7 +20,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
   padding: '6px',
   fontWeight: 500,
   fontSize: '1rem',
-  width: '100%',
 }));
 
 const iconStyles = {
@@ -29,12 +30,26 @@ const iconStyles = {
 const ActivitySection = () => {
   const dispatch = useDispatch();
 
-  const { currentBoardActivities } = useSelector(
-    (state) => state.activities.currentBoardActivities && state.activities
+  const { currentBoard } = useSelector(
+    (state) => state.boards.currentBoard && state.boards
   );
 
+  const { currentBoardActivities, prevItem, lastItemFetched, loading } =
+    useSelector(
+      (state) => state.activities.currentBoardActivities && state.activities
+    );
+
+  const handleNextBatch = () => {
+    dispatch(
+      getNextActivitiesByBoardAsync({
+        id: currentBoard._id,
+        prevItem,
+      })
+    );
+  };
+
   return (
-    <>
+    <Box>
       {/* -------------------------------- Header -------------------------------- */}
       <StyledBox>
         <Storage sx={{ ...iconStyles }} />
@@ -46,6 +61,7 @@ const ActivitySection = () => {
       {/* --------------------------------- Items -------------------------------- */}
       {currentBoardActivities.map(
         ({
+          _id,
           user,
           documentType,
           typeOfActivity,
@@ -59,7 +75,7 @@ const ActivitySection = () => {
           list,
           card,
         }) => (
-          <Box mt={1} display='flex'>
+          <Box mt={1} mb={2} display='flex' key={_id}>
             <Avatar sx={{ height: '32px', width: '32px' }}>
               {user.firstName[0]}
             </Avatar>
@@ -80,7 +96,27 @@ const ActivitySection = () => {
           </Box>
         )
       )}
-    </>
+      {lastItemFetched ? (
+        <Typography
+          sx={{
+            width: '100%',
+            flexGrow: 1,
+            textAlign: 'center',
+            userSelect: 'none',
+          }}
+        >
+          No more activities
+        </Typography>
+      ) : (
+        <Button
+          disableRipple
+          onClick={handleNextBatch}
+          sx={{ width: '100%', flexGrow: 1 }}
+        >
+          {loading ? 'Loading...' : 'Load more activity'}
+        </Button>
+      )}
+    </Box>
   );
 };
 

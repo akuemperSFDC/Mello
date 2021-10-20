@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Box,
   InputBase,
@@ -14,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { editListAsync } from '../../../features/lists/listsSlice.js';
 import ListMenu from './list-action-menu/ListMenu.js';
 import { showMainMenu } from '../../../features/listMenu/listMenuSlice.js';
+import { getActivitiesByBoardAsync } from '../../../features/activities/activitySlice.js';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   border: `3px solid ${theme.palette.primary.main}`,
@@ -34,6 +36,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const ListHeader = ({ list, i }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const [showListInput, setShowListInput] = useState(false);
   const [title, setTitle] = useState('');
@@ -52,7 +55,7 @@ const ListHeader = ({ list, i }) => {
 
   const handleSubmit = (e) => {
     if (e.key === 'Enter') {
-      dispatch(editListAsync({ id: list._id, title }));
+      dispatch(editListAsync({ id: list._id, title, boardId: id }));
       setShowListInput(false);
     }
   };

@@ -12,6 +12,10 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     boxSizing: 'border-box',
     marginTop: theme.mixins.denseToolbar.minHeight,
   },
+  '& .MuiPaper-root': {
+    bottom: 0,
+    overflow: 'hidden',
+  },
 }));
 
 const BoardMenu = () => {

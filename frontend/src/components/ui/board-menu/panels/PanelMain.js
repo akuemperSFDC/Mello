@@ -12,7 +12,7 @@ const listStyles = {
 
 const PanelMain = ({ handleClose }) => {
   return (
-    <Box>
+    <Box sx={{ overflow: 'auto', height: '100%', mb: 6 }}>
       <Header title='Menu' handleClose={handleClose} />
       <Divider variant='middle' />
 

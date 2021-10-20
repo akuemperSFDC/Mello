@@ -16,6 +16,7 @@ import {
 } from './features/boards/boardSlice.js';
 import EditCardModal from './components/modals/EditCardModal.js';
 import DeleteBoardConfirmation from './components/modals/DeleteBoardConfirmation.js';
+import { resetActivities } from './features/activities/activitySlice.js';
 
 function App() {
   const history = RRD.useHistory();
@@ -41,10 +42,11 @@ function App() {
   }, [boards, id, history]);
 
   React.useEffect(() => {
-    if (pathname === '/boards') {
+    history.listen(() => {
+      dispatch(resetActivities());
       dispatch(clearCurrentBoard());
-    }
-  }, [dispatch, pathname]);
+    });
+  }, [history, dispatch]);
 
   return (
     <>

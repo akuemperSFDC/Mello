@@ -19,6 +19,7 @@ import Board from './models/Board.js';
 import User from './models/User.js';
 import List from './models/List.js';
 import Card from './models/Card.js';
+import Activity from './models/Activity.js';
 
 // Read JSON files
 const boards = JSON.parse(
@@ -46,6 +47,7 @@ const importData = async () => {
       }
     });
     await Card.deleteMany();
+    await Activity.deleteMany();
 
     // await Board.create(boards);
     await User.create(users);

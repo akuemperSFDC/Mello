@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getActivitiesByBoardAsync } from '../activities/activitySlice';
 
 /* ------------------------------ Get boards ------------------------------ */
 
@@ -61,7 +62,7 @@ export const createBoardAsync = createAsyncThunk(
 
 export const editBoardAsync = createAsyncThunk(
   'boards/editBoardAsync',
-  async (params, { rejectWithValue, getState }) => {
+  async (params, { rejectWithValue, getState, dispatch }) => {
     try {
       const { title, favorite, id, description, backgroundImage } = params;
       const { token } = getState().auth;
@@ -79,6 +80,8 @@ export const editBoardAsync = createAsyncThunk(
         config
       );
 
+      dispatch(getActivitiesByBoardAsync(id));
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -90,7 +93,7 @@ export const editBoardAsync = createAsyncThunk(
 
 export const deleteBoardAsync = createAsyncThunk(
   'boards/deleteBoardAsync',
-  async (id, { rejectWithValue, getState }) => {
+  async (id, { rejectWithValue, getState, dispatch }) => {
     try {
       const { token } = getState().auth;
 
@@ -105,6 +108,8 @@ export const deleteBoardAsync = createAsyncThunk(
         `http://localhost:5000/api/boards/${id}`,
         config
       );
+
+      dispatch(getActivitiesByBoardAsync(id));
 
       return data;
     } catch (error) {
@@ -181,7 +186,7 @@ const boardSlice = createSlice({
       state.currentBoard = action.payload;
     },
     clearCurrentBoard: (state, action) => {
-      state.currentBoard = { loading: false, currentBoard: null };
+      state.currentBoard = {};
     },
   },
   extraReducers: {

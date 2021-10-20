@@ -12,7 +12,43 @@ export const getActivitiesForBoard = asyncHandler(async (req, res, next) => {
     .populate({ path: 'user', select: 'firstName -_id' })
     .sort({
       createdAt: -1,
+    })
+    .limit(20);
+
+  const lastItem = activities[activities.length - 1].createdAt;
+
+  res.status(200).json({ activities, lastItem });
+});
+
+// @desc      Get all next batch of activities for board
+// @route     GET /api/activities/:boardId/next/?prevItem=createdAt
+// @access    Private
+export const getNextBatchActivitiesForBoard = asyncHandler(
+  async (req, res, next) => {
+    const { prevItem, count } = req.query;
+
+    // Total number of documents for specific board
+    const totalActivitiesForBoard = await Activity.countDocuments({
+      board: req.params.boardId,
     });
 
-  res.status(200).json(activities);
-});
+    // Return last item fetched true if number of docs is equal to total backend docs
+    if (Number(count) === Number(totalActivitiesForBoard)) {
+      return res.status(200).json({ activities: [], lastItemFetched: true });
+    }
+
+    const activities = await Activity.find({
+      board: req.params.boardId,
+      createdAt: { $lt: prevItem },
+    })
+      .populate({ path: 'user', select: 'firstName -_id' })
+      .sort({
+        createdAt: -1,
+      })
+      .limit(20);
+
+    const lastItem = activities[activities.length - 1].createdAt;
+
+    res.status(200).json({ activities, lastItem });
+  }
+);

@@ -27,18 +27,55 @@ export const getActivitiesByBoardAsync = createAsyncThunk(
   }
 );
 
+export const getNextActivitiesByBoardAsync = createAsyncThunk(
+  'activities/getNextActivitiesByBoardAsync',
+  async (params, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+
+      const { id, prevItem } = params;
+      const count = getState().activities.currentBoardActivities.length;
+
+      const config = {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `http://localhost:5000/api/activities/${id}/next/?prevItem=${prevItem}&count=${count}`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const slice = createSlice({
   name: 'activities',
   initialState: {
     loading: false,
     currentBoardActivities: [],
+    lastItemFetched: false,
+    prevItem: null,
   },
-  reducers: {},
+  reducers: {
+    resetActivities: (state, action) => {
+      state.currentBoardActivities = [];
+      state.lastItemFetched = false;
+      state.prevItem = null;
+    },
+  },
   extraReducers: {
     /* -------------------- Get activities based on board id -------------------- */
     [getActivitiesByBoardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.currentBoardActivities = action.payload;
+      state.currentBoardActivities = action.payload.activities;
+      state.prevItem = action.payload.lastItem;
+      state.lastItemFetched = false;
       delete state.errors;
     },
     [getActivitiesByBoardAsync.rejected]: (state, action) => {
@@ -49,9 +86,26 @@ const slice = createSlice({
     [getActivitiesByBoardAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
+
+    /* -------------------- Get next batch of activities based on board id -------------------- */
+    [getNextActivitiesByBoardAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.currentBoardActivities.push(...action.payload.activities);
+      state.lastItemFetched = action.payload.lastItemFetched || false;
+      state.prevItem = action.payload.lastItem;
+      delete state.errors;
+    },
+    [getNextActivitiesByBoardAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [getNextActivitiesByBoardAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
   },
 });
 
-// export const {} = slice.actions;
+export const { resetActivities } = slice.actions;
 
 export default slice.reducer;

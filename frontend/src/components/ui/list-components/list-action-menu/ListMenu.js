@@ -5,16 +5,18 @@ import { deleteListAsync } from '../../../../features/lists/listsSlice';
 import PanelMain from './PanelMain';
 import PanelMoveList from './PanelMoveList';
 import PanelCopyList from './PanelCopyList';
+import { useParams } from 'react-router-dom';
 
 const ListMenu = ({ anchorEl, handleClose, open, list }) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const { mainMenu, copyMenu, moveMenu } = useSelector(
     (state) => state.listMenu
   );
 
   const handleDelete = () => {
-    dispatch(deleteListAsync(list._id));
+    dispatch(deleteListAsync({ id: list._id, boardId: id }));
   };
 
   return (
