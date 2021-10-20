@@ -13,6 +13,7 @@ import auth from './routes/auth.js';
 import lists from './routes/lists.js';
 import cards from './routes/cards.js';
 import search from './routes/search.js';
+import activities from './routes/activities.js';
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use('/api/auth', auth);
 app.use('/api/lists', lists);
 app.use('/api/cards', cards);
 app.use('/api/search', search);
+app.use('/api/activities', activities);
 
 app.use(errorHandler);
 

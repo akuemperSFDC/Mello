@@ -10,6 +10,7 @@ import boardMenuReducer from '../features/boardMenu/boardMenuSlice.js';
 import searchReducer from '../features/search/searchSlice.js';
 import listMenuReducer from '../features/listMenu/listMenuSlice.js';
 import cardActionsMenuReducer from '../features/cardActionsMenu/cardActionsSlice.js';
+import activitiesReducer from '../features/activities/activitySlice.js';
 
 const auth = localStorage.getItem('auth')
   ? JSON.parse(localStorage.getItem('auth'))
@@ -24,16 +25,17 @@ const preloadedState = {
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    boards: boardReducer,
-    lists: listReducer,
-    cards: cardReducer,
-    sidebar: sidebarReducer,
-    modals: modalReducer,
-    listDrawer: listDrawerReducer,
+    activities: activitiesReducer,
     boardMenu: boardMenuReducer,
-    search: searchReducer,
-    listMenu: listMenuReducer,
+    boards: boardReducer,
     cardActionsMenu: cardActionsMenuReducer,
+    cards: cardReducer,
+    listDrawer: listDrawerReducer,
+    listMenu: listMenuReducer,
+    lists: listReducer,
+    modals: modalReducer,
+    search: searchReducer,
+    sidebar: sidebarReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware();

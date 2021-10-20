@@ -9,6 +9,7 @@ import {
   Avatar,
 } from '@mui/material';
 import { Storage } from '@mui/icons-material';
+import ActivityInformation from './ActivityInformation';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -28,6 +29,10 @@ const iconStyles = {
 const ActivitySection = () => {
   const dispatch = useDispatch();
 
+  const { currentBoardActivities } = useSelector(
+    (state) => state.activities.currentBoardActivities && state.activities
+  );
+
   return (
     <>
       {/* -------------------------------- Header -------------------------------- */}
@@ -39,9 +44,42 @@ const ActivitySection = () => {
       </StyledBox>
 
       {/* --------------------------------- Items -------------------------------- */}
-      <Box mt={1}>
-        <Avatar sx={{ height: '32px', width: '32px' }} />
-      </Box>
+      {currentBoardActivities.map(
+        ({
+          user,
+          documentType,
+          typeOfActivity,
+          valueOfActivity,
+          previousPropertyValue,
+          propertyChanged,
+          source,
+          destination,
+          createdAt,
+          board,
+          list,
+          card,
+        }) => (
+          <Box mt={1} display='flex'>
+            <Avatar sx={{ height: '32px', width: '32px' }}>
+              {user.firstName[0]}
+            </Avatar>
+            <ActivityInformation
+              user={user}
+              documentType={documentType}
+              typeOfActivity={typeOfActivity}
+              valueOfActivity={valueOfActivity}
+              previousPropertyValue={previousPropertyValue}
+              propertyChanged={propertyChanged}
+              source={source}
+              destination={destination}
+              createdAt={createdAt}
+              board={board}
+              list={list}
+              card={card}
+            />
+          </Box>
+        )
+      )}
     </>
   );
 };

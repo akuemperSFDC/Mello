@@ -7,6 +7,7 @@ import Toast from '../components/utils/Toast.js';
 import ListDrawer from '../components/ui/ListDrawer.js';
 import ListsArea from '../components/ui/ListsArea.js';
 import { getBoardsAsync } from '../features/boards/boardSlice.js';
+import { getActivitiesByBoardAsync } from '../features/activities/activitySlice.js';
 
 const ListsScreen = () => {
   const theme = useTheme();
@@ -29,6 +30,10 @@ const ListsScreen = () => {
   useEffect(() => {
     dispatch(getBoardsAsync());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getActivitiesByBoardAsync(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (errors) {

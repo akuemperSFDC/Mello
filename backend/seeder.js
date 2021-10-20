@@ -47,10 +47,10 @@ const importData = async () => {
     });
     await Card.deleteMany();
 
-    await Board.create(boards);
+    // await Board.create(boards);
     await User.create(users);
-    await List.create(lists);
-    await Card.create(cards);
+    // await List.create(lists);
+    // await Card.create(cards);
     console.log('Data Imported!'.green.inverse);
     process.exit();
   } catch (error) {
