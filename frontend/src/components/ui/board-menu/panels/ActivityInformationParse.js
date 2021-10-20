@@ -174,6 +174,104 @@ const ActivityInformationParse = ({
     }
   }
 
+  /* --------------------------------- card -------------------------------- */
+
+  let renameCard;
+  let createCard;
+  let changedCard;
+  let movedCard;
+  let copiedCard;
+  let deletedCard;
+
+  if (documentType === 'card') {
+    if (typeOfActivity === 'renamed') {
+      renameCard = (
+        <>
+          <CustomSpan
+            content={user.firstName}
+            fontWeight={800}
+            textDecoration='none'
+          />{' '}
+          {typeOfActivity}
+          {' the card '}
+          <CustomSpan
+            content={previousPropertyValue}
+            fontWeight={600}
+            endSpace={false}
+          />
+          {' to '}
+          <CustomSpan
+            content={valueOfActivity}
+            fontWeight={600}
+            endSpace={false}
+          />
+        </>
+      );
+    }
+    if (typeOfActivity === 'added') {
+      createCard = (
+        <>
+          <CustomSpan
+            content={user.firstName}
+            fontWeight={800}
+            textDecoration='none'
+          />
+          {' created the card '}
+          <CustomSpan
+            content={valueOfActivity}
+            fontWeight={600}
+            endSpace={false}
+          />
+        </>
+      );
+    }
+    if (typeOfActivity === 'moved') {
+      movedCard = (
+        <>
+          <CustomSpan
+            content={user.firstName}
+            fontWeight={800}
+            textDecoration='none'
+          />
+          {' moved card '}
+          <CustomSpan content={valueOfActivity} />
+          {' to list '}
+          <CustomSpan content={destination} />
+        </>
+      );
+    }
+    if (typeOfActivity === 'copied') {
+      copiedCard = (
+        <>
+          <CustomSpan
+            content={user.firstName}
+            fontWeight={800}
+            textDecoration='none'
+          />
+          {' copied the card '}
+          <CustomSpan content={valueOfActivity} />
+          {' from list '}
+          <CustomSpan content={source} />
+          {' to list '}
+          <CustomSpan content={destination} />
+        </>
+      );
+    }
+    if (typeOfActivity === 'deleted') {
+      deletedCard = (
+        <>
+          <CustomSpan
+            content={user.firstName}
+            fontWeight={800}
+            textDecoration='none'
+          />
+          {' deleted the card '}
+          <CustomSpan content={valueOfActivity} />
+        </>
+      );
+    }
+  }
+
   return (
     <Typography sx={{ ...typographyStyles }}>
       {renameBoard && renameBoard}
@@ -185,6 +283,12 @@ const ActivityInformationParse = ({
       {movedList && movedList}
       {copiedList && copiedList}
       {deletedList && deletedList}
+      {renameCard && renameCard}
+      {createCard && createCard}
+      {changedCard && changedCard}
+      {movedCard && movedCard}
+      {copiedCard && copiedCard}
+      {deletedCard && deletedCard}
       <DateFormatter createdAt={createdAt} />
     </Typography>
   );
