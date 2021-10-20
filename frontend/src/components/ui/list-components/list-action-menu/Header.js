@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, IconButton, Box, Typography } from '@mui/material';
 import { Close, KeyboardArrowLeft } from '@mui/icons-material';
+import { Box, IconButton, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import { showMainMenu } from '../../../../features/listMenu/listMenuSlice';
 
 const Header = ({ title, backButton = true, handleClose }) => {

@@ -1,26 +1,23 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { ArrowForward, ContentCopy, Delete } from '@mui/icons-material';
 import {
-  styled,
   alpha,
   Box,
   List,
   ListItemButton,
+  styled,
   Typography,
 } from '@mui/material';
-import { ArrowForward, ContentCopy, Delete } from '@mui/icons-material';
-import {
-  deleteCardAsync,
-  moveCardAsync,
-} from '../../../features/lists/listsSlice';
-import { deleteCurrentCard } from '../../../features/cards/cardSlice';
-import { editCardModal } from '../../../features/modal/modalSlice';
-import MoveCardMenu from './MoveCardMenu';
-import CopyCardMenu from './CopyCardMenu';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   showCopyCardActionsMenu,
   showMoveCardActionsMenu,
 } from '../../../features/cardActionsMenu/cardActionsSlice';
+import { deleteCurrentCard } from '../../../features/cards/cardSlice';
+import { deleteCardAsync } from '../../../features/lists/listsSlice';
+import { editCardModal } from '../../../features/modal/modalSlice';
+import CopyCardMenu from './CopyCardMenu';
+import MoveCardMenu from './MoveCardMenu';
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: '#EAECF0',

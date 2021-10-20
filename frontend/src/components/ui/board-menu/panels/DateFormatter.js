@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, Typography, useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import Moment from 'react-moment';
 
 const DateFormatter = ({ createdAt }) => {
@@ -16,6 +14,7 @@ const DateFormatter = ({ createdAt }) => {
 
   return (
     <Typography
+      component={'div'}
       sx={{
         fontSize: '12px',
         fontFamily: 'Varela Round sans-serif',

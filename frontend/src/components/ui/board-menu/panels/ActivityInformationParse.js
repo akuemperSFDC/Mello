@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import DateFormatter from './DateFormatter';
 
 const typographyStyles = {
@@ -29,10 +27,6 @@ const ActivityInformationParse = ({
   list,
   card,
 }) => {
-  const { currentBoard } = useSelector(
-    (state) => state.boards.currentBoard && state.boards
-  );
-
   /* --------------------------------- boards -------------------------------- */
 
   let renameBoard;
@@ -273,7 +267,7 @@ const ActivityInformationParse = ({
   }
 
   return (
-    <Typography sx={{ ...typographyStyles }}>
+    <Typography component={'div'} sx={{ ...typographyStyles }}>
       {renameBoard && renameBoard}
       {createBoard && createBoard}
       {changedBoard && changedBoard}

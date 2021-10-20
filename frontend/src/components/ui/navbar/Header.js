@@ -14,7 +14,7 @@ import { styled, alpha } from '@mui/material/styles';
 
 import AccountMenu from './AccountMenu.js';
 import StarredBoards from './StarredBoards.js';
-import SearchBar from './SearchBar.js';
+// import SearchBar from './SearchBar.js';
 import RecentBoards from './RecentBoards.js';
 
 const SiteName = styled(Typography)(({ theme }) => ({

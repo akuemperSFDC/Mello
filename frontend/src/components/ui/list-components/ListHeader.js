@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {
   Box,
+  ClickAwayListener,
+  Fade,
   InputBase,
   styled,
   Typography,
-  Fade,
-  ClickAwayListener,
   useTheme,
 } from '@mui/material';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
+import { useParams } from 'react-router-dom';
+import { showMainMenu } from '../../../features/listMenu/listMenuSlice.js';
 import { editListAsync } from '../../../features/lists/listsSlice.js';
 import ListMenu from './list-action-menu/ListMenu.js';
-import { showMainMenu } from '../../../features/listMenu/listMenuSlice.js';
-import { getActivitiesByBoardAsync } from '../../../features/activities/activitySlice.js';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   border: `3px solid ${theme.palette.primary.main}`,

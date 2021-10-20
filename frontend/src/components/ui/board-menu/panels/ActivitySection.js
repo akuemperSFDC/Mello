@@ -1,17 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  styled,
-  alpha,
-  Box,
-  ButtonBase,
-  Typography,
-  Avatar,
-  Button,
-} from '@mui/material';
 import { Storage } from '@mui/icons-material';
-import ActivityInformation from './ActivityInformation';
+import { Avatar, Box, Button, styled, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { getNextActivitiesByBoardAsync } from '../../../../features/activities/activitySlice';
+import ActivityInformation from './ActivityInformation';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',

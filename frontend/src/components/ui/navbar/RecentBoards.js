@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import RecentBoardsList from './RecentBoardsList';
-import StarredBoardsList from './StarredBoardsList';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',

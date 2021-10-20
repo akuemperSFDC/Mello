@@ -1,20 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
-  styled,
   Box,
-  InputLabel,
-  FormControl,
-  Select,
-  Menu,
-  MenuItem,
   Button,
   Divider,
+  FormControl,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select,
+  styled,
 } from '@mui/material';
-import {
-  copyCardAsync,
-  moveCardAsync,
-} from '../../../features/lists/listsSlice';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { copyCardAsync } from '../../../features/lists/listsSlice';
 import CardActionsHeader from './CardActionsHeader';
 
 const StyledBox = styled(Box)(({ theme }) => ({

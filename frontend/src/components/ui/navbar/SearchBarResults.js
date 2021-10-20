@@ -1,24 +1,24 @@
-import { Box, Menu, Paper, styled, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { Box, Paper, styled, Typography } from '@mui/material';
+// import { useSelector } from 'react-redux';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: 'blue',
 }));
 
 const SearchBarResults = ({ focus, anchor, handleClickAway }) => {
-  const { boardResults } = useSelector(
-    (state) => state.search.boardResults && state.search
-  );
+  // const { boardResults } = useSelector(
+  //   (state) => state.search.boardResults && state.search
+  // );
 
-  const { listResults } = useSelector(
-    (state) => state.search.listResults && state.search
-  );
+  // const { listResults } = useSelector(
+  //   (state) => state.search.listResults && state.search
+  // );
 
-  const { cardResults } = useSelector(
-    (state) => state.search.cardResults && state.search
-  );
+  // const { cardResults } = useSelector(
+  //   (state) => state.search.cardResults && state.search
+  // );
 
-  const allResults = [...boardResults, ...listResults, ...cardResults];
+  // const allResults = [...boardResults, ...listResults, ...cardResults];
 
   return (
     <Box
@@ -29,7 +29,7 @@ const SearchBarResults = ({ focus, anchor, handleClickAway }) => {
         display: 'flex',
       }}
     >
-      <Box>
+      {/* <Box>
         <Typography sx={{ color: 'black' }}>Boards</Typography>
         {boardResults.map((res) => (
           <StyledBox>
@@ -45,7 +45,7 @@ const SearchBarResults = ({ focus, anchor, handleClickAway }) => {
             />
           </StyledBox>
         ))}
-      </Box>
+      </Box> */}
       <StyledBox></StyledBox>
       <StyledBox></StyledBox>
     </Box>

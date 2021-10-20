@@ -1,23 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
-  styled,
   Box,
-  Typography,
+  Button,
   Divider,
   FormControl,
-  Select,
-  MenuItem,
   InputLabel,
-  ButtonBase,
-  Button,
+  MenuItem,
+  Select,
+  styled,
 } from '@mui/material';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { copyListAsync } from '../../../../features/lists/listsSlice';
 import Header from './Header';
-import { editBoardAsync } from '../../../../features/boards/boardSlice';
-import {
-  copyListAsync,
-  editListAsync,
-} from '../../../../features/lists/listsSlice';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: 'flex',

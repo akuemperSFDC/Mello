@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { MoreHoriz, Star, StarBorder } from '@mui/icons-material';
 import {
-  styled,
   alpha,
   Box,
   Button,
-  Typography,
-  InputBase,
   ClickAwayListener,
-  Grid,
-  useMediaQuery,
+  InputBase,
+  styled,
+  Typography,
 } from '@mui/material';
-import { StarBorder, Star, MoreHoriz } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-
+import { menuVisible } from '../../../features/boardMenu/boardMenuSlice.js';
 import { editBoardAsync } from '../../../features/boards/boardSlice.js';
 import BoardMenu from '../board-menu/BoardMenu.js';
-import { menuVisible } from '../../../features/boardMenu/boardMenuSlice.js';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: '#ffffff3d',
@@ -46,7 +43,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ListAreaHeader = ({ currentBoard, visible }) => {
   const dispatch = useDispatch();
-  const small = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState('');

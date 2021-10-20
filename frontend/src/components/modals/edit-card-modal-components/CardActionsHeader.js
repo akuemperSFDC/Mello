@@ -1,11 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Box, IconButton, Typography } from '@mui/material';
 import { Close } from '@mui/icons-material';
+import { Box, IconButton, Typography } from '@mui/material';
 
 const CardActionsHeader = ({ children, handleClose }) => {
-  const dispatch = useDispatch();
-
   return (
     <Box
       sx={{

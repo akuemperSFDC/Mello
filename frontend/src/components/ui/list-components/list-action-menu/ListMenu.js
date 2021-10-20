@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Menu } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { deleteListAsync } from '../../../../features/lists/listsSlice';
+import PanelCopyList from './PanelCopyList';
 import PanelMain from './PanelMain';
 import PanelMoveList from './PanelMoveList';
-import PanelCopyList from './PanelCopyList';
-import { useParams } from 'react-router-dom';
 
 const ListMenu = ({ anchorEl, handleClose, open, list }) => {
   const dispatch = useDispatch();
