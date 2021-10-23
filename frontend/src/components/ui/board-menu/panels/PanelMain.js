@@ -1,4 +1,4 @@
-import { Divider, List } from '@mui/material';
+import { Divider, List, Slide } from '@mui/material';
 import { Box } from '@mui/system';
 import AboutButton from '../buttons/AboutButton';
 import ChangeBackgroundButton from '../buttons/ChangeBackgroundButton';
@@ -12,28 +12,30 @@ const listStyles = {
 
 const PanelMain = ({ handleClose }) => {
   return (
-    <Box sx={{ overflow: 'auto', height: '100%', mb: 6 }}>
-      <Header title='Menu' handleClose={handleClose} />
-      <Divider variant='middle' />
+    <Slide direction='left' in={true} mountOnEnter unmountOnExit>
+      <Box sx={{ overflow: 'auto', height: '100%', mb: 6 }}>
+        <Header title='Menu' handleClose={handleClose} />
+        <Divider variant='middle' />
 
-      {/* ----------------------------- About button ----------------------------- */}
-      <List sx={{ ...listStyles }}>
-        <AboutButton />
-        <ChangeBackgroundButton />
-      </List>
-      <Divider variant='middle' />
+        {/* ----------------------------- About button ----------------------------- */}
+        <List sx={{ ...listStyles }}>
+          <AboutButton />
+          <ChangeBackgroundButton />
+        </List>
+        <Divider variant='middle' />
 
-      {/* --------------------------- Background button -------------------------- */}
-      <List sx={{ ...listStyles }}>
-        <DeleteButton />
-      </List>
-      <Divider variant='middle' />
+        {/* --------------------------- Background button -------------------------- */}
+        <List sx={{ ...listStyles }}>
+          <DeleteButton />
+        </List>
+        <Divider variant='middle' />
 
-      {/* --------------------------- Activity section --------------------------- */}
-      <List sx={{ ...listStyles }}>
-        <ActivitySection />
-      </List>
-    </Box>
+        {/* --------------------------- Activity section --------------------------- */}
+        <List sx={{ ...listStyles }}>
+          <ActivitySection />
+        </List>
+      </Box>
+    </Slide>
   );
 };
 
