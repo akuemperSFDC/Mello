@@ -29,11 +29,13 @@ const BoardMenu = () => {
   };
 
   return (
-    <StyledDrawer variant='persistent' anchor='right' open={visible}>
-      {mainMenu && <PanelMain handleClose={handleClose} />}
-      {aboutMenu && <PanelAbout handleClose={handleClose} />}
-      {backgroundMenu && <PanelBackground handleClose={handleClose} />}
-    </StyledDrawer>
+    <>
+      <StyledDrawer variant='persistent' anchor='right' open={visible}>
+        {mainMenu && <PanelMain handleClose={handleClose} />}
+        {aboutMenu && <PanelAbout handleClose={handleClose} />}
+        {backgroundMenu && <PanelBackground handleClose={handleClose} />}
+      </StyledDrawer>
+    </>
   );
 };
 

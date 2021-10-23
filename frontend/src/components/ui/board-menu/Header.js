@@ -30,11 +30,10 @@ const Header = ({ title, backButton = false, handleClose }) => {
       <Typography sx={{ fontWeight: 700, mr: 'auto', ml: 'auto' }}>
         {title}
       </Typography>
-      <ClickAwayListener onClickAway={handleClose}>
-        <IconButton onClick={handleClose}>
-          <Close />
-        </IconButton>
-      </ClickAwayListener>
+
+      <IconButton onClick={handleClose}>
+        <Close />
+      </IconButton>
     </Box>
   );
 };
