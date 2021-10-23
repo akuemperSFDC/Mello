@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { ChevronLeft, Close } from '@mui/icons-material';
-import { Box, ClickAwayListener, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { showMainMenu } from '../../../features/boardMenu/boardMenuSlice';
 
 const Header = ({ title, backButton = false, handleClose }) => {

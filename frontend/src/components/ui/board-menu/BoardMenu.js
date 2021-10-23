@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { styled, Drawer, ClickAwayListener } from '@mui/material';
+import { styled, Drawer } from '@mui/material';
 import PanelAbout from './panels/about/PanelAbout';
 import PanelBackground from './panels/background/PanelBackground';
 import { menuVisible } from '../../../features/boardMenu/boardMenuSlice';
