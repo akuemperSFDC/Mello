@@ -6,8 +6,9 @@ import { currentCard } from '../../../features/cards/cardSlice.js';
 import { currentList } from '../../../features/lists/listsSlice.js';
 import { editCardModal } from '../../../features/modal/modalSlice.js';
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: '#fff',
+const StyledBox = styled(Box)(({ theme, isDragging }) => ({
+  backgroundColor: isDragging ? theme.palette.grey[400] : '#fff',
+  transition: 'background-color 0.2s ease',
   maxWidth: '100%',
   minHeight: '24px',
   padding: '6px 8px 2px 8px',
@@ -35,12 +36,13 @@ const Card = ({ card, list }) => {
 
   return (
     <Draggable draggableId={card._id} index={card.index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <StyledBox
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           onClick={() => handleClick(card)}
+          isDragging={snapshot.isDragging}
         >
           {card.title}
         </StyledBox>

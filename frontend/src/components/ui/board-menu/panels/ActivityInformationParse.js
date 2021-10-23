@@ -202,6 +202,20 @@ const ActivityInformationParse = ({
         </>
       );
     }
+    if (typeOfActivity === 'changed') {
+      renameCard = (
+        <>
+          <CustomSpan
+            content={user.firstName}
+            fontWeight={800}
+            textDecoration='none'
+          />{' '}
+          {typeOfActivity}
+          {' the description of card '}
+          <CustomSpan content={source} fontWeight={600} endSpace={false} />
+        </>
+      );
+    }
     if (typeOfActivity === 'added') {
       createCard = (
         <>
@@ -210,12 +224,18 @@ const ActivityInformationParse = ({
             fontWeight={800}
             textDecoration='none'
           />
-          {' created the card '}
-          <CustomSpan
-            content={valueOfActivity}
-            fontWeight={600}
-            endSpace={false}
-          />
+          {propertyChanged === 'description'
+            ? ' created a description for card '
+            : ' created the card '}
+          {propertyChanged === 'description' ? (
+            <CustomSpan content={source} />
+          ) : (
+            <CustomSpan
+              content={valueOfActivity}
+              fontWeight={600}
+              endSpace={false}
+            />
+          )}
         </>
       );
     }

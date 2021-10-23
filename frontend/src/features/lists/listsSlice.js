@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getActivitiesByBoardAsync } from '../activities/activitySlice';
-import { useDispatch } from 'react-redux';
 
 /* ------------------------------- Get lists ------------------------------ */
 
@@ -386,7 +385,7 @@ export const dragAndDropCardAsync = createAsyncThunk(
 
       // Updates database AFTER store is mutated, sets back to default values
       dispatch(
-        dragAndDropCardSameList({
+        dragAndDropCard({
           sorted: false,
           cards: [],
           destinationListId: null,
@@ -420,7 +419,7 @@ const slice = createSlice({
     currentList: (state, action) => {
       state.currentList = action.payload;
     },
-    dragAndDropCardSameList: (state, action) => {
+    dragAndDropCard: (state, action) => {
       const {
         cardId,
         destinationListId,
@@ -596,12 +595,9 @@ const slice = createSlice({
     // Delete card
     [deleteCardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      const { cardId, listId } = action.payload;
-      const editedCardIndex = state.currentList.cards.findIndex(
-        (card) => card._id === cardId
-      );
-      state.currentLists[listId].cards.splice(editedCardIndex, 1);
-      state.currentList.cards.splice(editedCardIndex, 1);
+      const { listId, cards } = action.payload;
+      state.currentLists[listId].cards = cards;
+      state.currentList.cards = cards;
       delete state.errors;
     },
     [deleteCardAsync.rejected]: (state, action) => {
@@ -671,6 +667,6 @@ const slice = createSlice({
   },
 });
 
-export const { currentList, dragAndDropCardSameList } = slice.actions;
+export const { currentList, dragAndDropCard } = slice.actions;
 
 export default slice.reducer;

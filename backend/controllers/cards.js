@@ -46,7 +46,11 @@ export const createCard = asyncHandler(async (req, res, next) => {
   const card = await Card.create(req.body);
 
   // Create new activity document based on creation of a new card
-  const list = await List.findById(card.list);
+  const list = await List.findById(card.list).populate({
+    path: 'cards',
+    options: { sort: { index: 1 } },
+    select: 'title description index user list',
+  });
 
   await Activity.create({
     documentType: 'card',
@@ -59,6 +63,10 @@ export const createCard = asyncHandler(async (req, res, next) => {
     list: card.list,
     board: list.board,
   });
+
+  // Index the card
+  card.index = list.cards.length;
+  await card.save();
 
   res.status(200).json(card);
 });
@@ -94,6 +102,7 @@ export const editCard = asyncHandler(async (req, res, next) => {
     previousPropertyValue:
       (title && card.title) || (description && (card.description || '')),
     propertyChanged: (title && 'title') || (description && 'description'),
+    source: card.title,
     user: req.user,
     card: req.params.id,
     list: card.list,
@@ -141,9 +150,31 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
     board: list.board,
   });
 
-  await Card.findByIdAndDelete(req.params.id);
+  console.log('list.cards', list.cards);
 
-  res.status(200).json({ cardId: req.params.id, listId: card.list });
+  await card.remove();
+
+  // Re-Index cards
+  const updatedList = await List.findById(list._id).populate({
+    path: 'cards',
+    options: { sort: { index: 1 } },
+    select: 'title index',
+  });
+
+  for (let i in updatedList.cards) {
+    updatedList.cards[i].index = Number(i) + 1;
+    await updatedList.cards[i].save();
+  }
+
+  console.log('updatedList.cards', updatedList.cards);
+
+  res
+    .status(200)
+    .json({
+      cardId: req.params.id,
+      listId: list._id,
+      cards: updatedList.cards,
+    });
 });
 
 /* -------------------------------- Move card ------------------------------- */

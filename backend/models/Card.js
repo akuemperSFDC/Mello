@@ -33,10 +33,14 @@ const CardSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-CardSchema.plugin(AutoIncrement, {
-  id: 'list_seq',
-  inc_field: 'index',
-  reference_fields: ['list'],
+// CardSchema.plugin(AutoIncrement, {
+//   id: 'list_seq',
+//   inc_field: 'index',
+//   reference_fields: ['list'],
+// });
+
+CardSchema.post('remove', function async(next) {
+  
 });
 
 export default mongoose.model('Card', CardSchema);

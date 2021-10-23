@@ -41,11 +41,11 @@ const importData = async () => {
     await Board.deleteMany();
     await User.deleteMany();
     await List.deleteMany();
-    Card.counterReset('list_seq', (err) => {
-      if (err) {
-        return next(err);
-      }
-    });
+    // Card.counterReset('list_seq', (err) => {
+    //   if (err) {
+    //     return next(err);
+    //   }
+    // });
     await Card.deleteMany();
     await Activity.deleteMany();
 
@@ -67,11 +67,11 @@ const deleteData = async () => {
     await Board.deleteMany();
     await User.deleteMany();
     await List.deleteMany();
-    Card.counterReset('list_seq', (err) => {
-      if (err) {
-        return next(err);
-      }
-    });
+    // Card.counterReset('list_seq', (err) => {
+    //   if (err) {
+    //     return next(err);
+    //   }
+    // });
     await Card.deleteMany();
     console.log('Data Deleted!'.red.inverse);
     process.exit();
