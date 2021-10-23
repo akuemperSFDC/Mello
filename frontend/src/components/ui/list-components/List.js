@@ -49,8 +49,6 @@ const List = () => {
       return;
     }
 
-    console.log(draggableId);
-
     dispatch(
       dragAndDropCardSameList({
         cardId: draggableId,

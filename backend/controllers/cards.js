@@ -242,8 +242,6 @@ export const copyCard = asyncHandler(async (req, res, next) => {
 export const dragAndDropCard = asyncHandler(async (req, res, next) => {
   const { cards, sourceListId, destinationListId } = req.body;
 
-  console.log(req.params.id);
-
   // Update all cards with new index and destination list id
   for (const card of cards) {
     const foundCard = await Card.findById(card._id);
