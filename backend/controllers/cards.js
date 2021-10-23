@@ -150,8 +150,6 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
     board: list.board,
   });
 
-  console.log('list.cards', list.cards);
-
   await card.remove();
 
   // Re-Index cards
@@ -166,15 +164,12 @@ export const deleteCard = asyncHandler(async (req, res, next) => {
     await updatedList.cards[i].save();
   }
 
-  console.log('updatedList.cards', updatedList.cards);
-
-  res
-    .status(200)
-    .json({
-      cardId: req.params.id,
-      listId: list._id,
-      cards: updatedList.cards,
-    });
+  // Response
+  res.status(200).json({
+    cardId: req.params.id,
+    listId: list._id,
+    cards: updatedList.cards,
+  });
 });
 
 /* -------------------------------- Move card ------------------------------- */

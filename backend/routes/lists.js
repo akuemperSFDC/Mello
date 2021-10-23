@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.get('/:id', protect, getList);
 router.put('/:id', protect, editList);
-router.delete('/:id', protect, deleteList);
+router.delete('/:id/board/:boardId', protect, deleteList);
 router.get('/board/:id', protect, getLists);
 router.post('/board/:id', protect, createList);
 router.put('/:id/move', protect, moveList);

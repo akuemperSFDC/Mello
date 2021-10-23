@@ -12,11 +12,17 @@ import mongoose from 'mongoose';
 // @route     GET /api/lists/board/:id
 // @access    Private
 export const getLists = asyncHandler(async (req, res, next) => {
-  const lists = await List.find({ board: req.params.id }).populate({
-    path: 'cards',
-    options: { sort: { index: 1 } },
-    select: 'title description index user list',
-  });
+  const lists = await List.find({ board: req.params.id })
+    .sort({
+      index: 1,
+    })
+    .populate({
+      path: 'cards',
+      options: { sort: { index: 1 } },
+      select: 'title description index user list',
+    });
+
+  console.log('lists', lists);
 
   res.status(200).json(lists);
 });
@@ -66,6 +72,13 @@ export const createList = asyncHandler(async (req, res, next) => {
     list: list._id,
   });
 
+  // Index list
+  const lists = await List.find({ board: list.board });
+
+  list.index = lists.length;
+  await list.save();
+
+  // Response
   res.status(200).json(list);
 });
 
@@ -112,9 +125,11 @@ export const editList = asyncHandler(async (req, res, next) => {
 /* ------------------------------- Delete list ------------------------------ */
 
 // @desc      Delete list
-// @route     DELETE /api/lists/:id
+// @route     DELETE /api/lists/:id/board/:boardId
 // @access    Private
 export const deleteList = asyncHandler(async (req, res, next) => {
+  const { boardId } = req.params;
+
   let list = await List.findById(req.params.id);
 
   // Make sure user is list owner
@@ -140,8 +155,17 @@ export const deleteList = asyncHandler(async (req, res, next) => {
     list: list._id,
   });
 
-  list.remove();
+  await list.remove();
 
+  // Re-Index lists
+  const lists = await List.find({ board: boardId });
+
+  for (let i in lists) {
+    lists[i].index = Number(i) + 1;
+    await lists[i].save();
+  }
+
+  // Response
   res.status(200).json({ _id: req.params.id });
 });
 

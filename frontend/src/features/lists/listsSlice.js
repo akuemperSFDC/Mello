@@ -110,7 +110,7 @@ export const deleteListAsync = createAsyncThunk(
       };
 
       const { data } = await axios.delete(
-        `http://localhost:5000/api/lists/${id}`,
+        `http://localhost:5000/api/lists/${id}/board/${boardId}`,
         config
       );
 

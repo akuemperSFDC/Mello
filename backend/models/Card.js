@@ -39,8 +39,4 @@ const CardSchema = new mongoose.Schema(
 //   reference_fields: ['list'],
 // });
 
-CardSchema.post('remove', function async(next) {
-  
-});
-
 export default mongoose.model('Card', CardSchema);
