@@ -255,3 +255,44 @@ export const copyList = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(newList);
 });
+
+/* -------------------------------- Drag and drop list ------------------------------- */
+
+// @desc      Update list indexes
+// @route     PUT /api/lists/:id/draganddrop
+// @access    Private
+export const dragAndDropCard = asyncHandler(async (req, res, next) => {
+  const { sourceListId, destinationListId } = req.body;
+
+  // const lists = await List.find({ board: req.params.id });
+
+  // Update all lists with new index and destination list id
+  for (const card of cards) {
+    const foundCard = await Card.findById(card._id);
+    foundCard.index = card.index;
+    foundCard.list = destinationListId;
+    await foundCard.save();
+  }
+
+  // Create new activity document based on moving card
+  const card = await Card.findById(req.params.id);
+
+  const sourceList = await List.findById(sourceListId);
+  const destinationList = await List.findById(destinationListId);
+
+  if (destinationListId !== sourceListId) {
+    await Activity.create({
+      documentType: 'card',
+      typeOfActivity: 'moved',
+      valueOfActivity: card.title,
+      source: sourceList.title,
+      destination: destinationList.title,
+      user: req.user,
+      card: card._id,
+      list: destinationList._id,
+      board: destinationList.board,
+    });
+  }
+
+  res.status(200).json({});
+});

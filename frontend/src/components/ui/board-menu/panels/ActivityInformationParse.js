@@ -3,6 +3,7 @@ import DateFormatter from './DateFormatter';
 
 const typographyStyles = {
   fontSize: '14px',
+  userSelect: 'none',
 };
 
 const CustomSpan = ({
@@ -235,6 +236,12 @@ const ActivityInformationParse = ({
               fontWeight={600}
               endSpace={false}
             />
+          )}
+          {propertyChanged !== 'description' && (
+            <>
+              {' in list '}
+              <CustomSpan content={destination} />
+            </>
           )}
         </>
       );

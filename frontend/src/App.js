@@ -17,6 +17,11 @@ import {
 import EditCardModal from './components/modals/EditCardModal.js';
 import DeleteBoardConfirmation from './components/modals/DeleteBoardConfirmation.js';
 import { resetActivities } from './features/activities/activitySlice.js';
+import { setSelected } from './features/listDrawer/listDrawerSlice.js';
+import {
+  clearCurrentList,
+  clearCurrentLists,
+} from './features/lists/listsSlice.js';
 
 function App() {
   const history = RRD.useHistory();
@@ -28,10 +33,6 @@ function App() {
 
   const { boards } = useSelector((s) => s.boards);
   const curBoard = boards && boards[id];
-
-  const onDragEnd = () => {
-    //
-  };
 
   React.useEffect(() => {
     if (id) {
@@ -49,6 +50,9 @@ function App() {
     history.listen(() => {
       dispatch(resetActivities());
       dispatch(clearCurrentBoard());
+      dispatch(clearCurrentList());
+      dispatch(clearCurrentLists());
+      dispatch(setSelected(null));
     });
   }, [history, dispatch]);
 

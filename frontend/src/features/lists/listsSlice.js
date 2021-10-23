@@ -419,6 +419,12 @@ const slice = createSlice({
     currentList: (state, action) => {
       state.currentList = action.payload;
     },
+    clearCurrentList: (state, action) => {
+      state.currentList = {};
+    },
+    clearCurrentLists: (state, action) => {
+      state.currentLists = {};
+    },
     dragAndDropCard: (state, action) => {
       const {
         cardId,
@@ -667,6 +673,11 @@ const slice = createSlice({
   },
 });
 
-export const { currentList, dragAndDropCard } = slice.actions;
+export const {
+  currentList,
+  clearCurrentList,
+  clearCurrentLists,
+  dragAndDropCard,
+} = slice.actions;
 
 export default slice.reducer;

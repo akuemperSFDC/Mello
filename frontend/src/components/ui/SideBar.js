@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, ListItemText, MenuItem, MenuList } from '@mui/material';
 import * as M from '@mui/material';
 import * as RR from 'react-redux';
 import { setSelected } from '../../features/sidebar/sidebarSlice.js';
+import { useLocation } from 'react-router-dom';
 
 const SideBar = () => {
   const dispatch = RR.useDispatch();
   const sidebar = RR.useSelector((state) => state.sidebar);
   const { value } = sidebar;
+  const { pathname } = useLocation();
 
   const handleClick = (e, index) => {
     dispatch(setSelected(index));
@@ -24,6 +26,16 @@ const SideBar = () => {
       to: '/boards/templates',
     },
   ];
+
+  useEffect(() => {
+    if (pathname === '/boards') {
+      dispatch(setSelected(0));
+    }
+
+    if (pathname === '/boards/templates') {
+      dispatch(setSelected(1));
+    }
+  }, [pathname, dispatch]);
 
   return (
     <M.Grid item md={3} sx={{ pt: 2 }}>

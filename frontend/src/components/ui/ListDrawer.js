@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -29,6 +29,7 @@ import { setShowSidebar } from '../../features//sidebar/sidebarSlice.js';
 import { createBoardModal } from '../../features/modal/modalSlice.js';
 import { menuVisible } from '../../features/boardMenu/boardMenuSlice.js';
 import { viewBoardAsync } from '../../features/boards/boardSlice.js';
+import { useParams } from 'react-router-dom';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   width: 40,
@@ -85,6 +86,7 @@ const StyledSmallAvatar = styled(Avatar)(({ theme }) => ({
 
 const ListDrawer = ({ boards }) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const [openBoardsMenu, setOpenBoardsMenu] = React.useState(true);
 
@@ -224,7 +226,7 @@ const ListDrawer = ({ boards }) => {
                       dispatch(menuVisible(false));
                       dispatch(viewBoardAsync(board._id));
                     }}
-                    selected={i === value}
+                    selected={i === value || id === board._id}
                   >
                     <Avatar
                       variant='square'
