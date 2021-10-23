@@ -29,6 +29,10 @@ function App() {
   const { boards } = useSelector((s) => s.boards);
   const curBoard = boards && boards[id];
 
+  const onDragEnd = () => {
+    //
+  };
+
   React.useEffect(() => {
     if (id) {
       dispatch(currentBoard(curBoard));

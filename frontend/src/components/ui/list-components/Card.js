@@ -1,5 +1,6 @@
 import { Box, styled } from '@mui/material';
 import React from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { currentCard } from '../../../features/cards/cardSlice.js';
 import { currentList } from '../../../features/lists/listsSlice.js';
@@ -23,10 +24,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Card = ({ list }) => {
+const Card = ({ card, list, index }) => {
   const dispatch = useDispatch();
 
-  const { cards } = list || [];
+  // const { cards } = list || [];
 
   const handleClick = (card) => {
     dispatch(editCardModal(true));
@@ -35,14 +36,18 @@ const Card = ({ list }) => {
   };
 
   return (
-    <>
-      {cards &&
-        cards.map((card) => (
-          <StyledBox onClick={() => handleClick(card)} key={card._id}>
-            {card.title}
-          </StyledBox>
-        ))}
-    </>
+    <Draggable draggableId={card._id} index={card.index}>
+      {(provided) => (
+        <StyledBox
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+          onClick={() => handleClick(card)}
+        >
+          {card.title}
+        </StyledBox>
+      )}
+    </Draggable>
   );
 };
 

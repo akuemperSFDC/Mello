@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getActivitiesByBoardAsync } from '../activities/activitySlice';
+import { useDispatch } from 'react-redux';
 
 /* ------------------------------- Get lists ------------------------------ */
 
@@ -356,12 +357,101 @@ export const copyCardAsync = createAsyncThunk(
   }
 );
 
+/* ------------------------------- Drag and drop card ------------------------------ */
+
+export const dragAndDropCardAsync = createAsyncThunk(
+  'cards/dragAndDropCardAsync',
+  async (params, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { token } = getState().auth;
+
+      // const boardId = getState().boards.currentBoard._id;
+
+      const { cards, sourceListId, destinationListId } = params;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `http://localhost:5000/api/cards/draganddrop`,
+        { cards, sourceListId, destinationListId },
+        config
+      );
+
+      // dispatch(getActivitiesByBoardAsync(boardId));
+
+      // Updates database AFTER store is mutated, sets back to default values
+      dispatch(
+        dragAndDropCardSameList({
+          sorted: false,
+          cards: [],
+          destinationListId: null,
+          sourceListId: null,
+        })
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const slice = createSlice({
   name: 'lists',
-  initialState: { loading: false, currentLists: {}, currentList: {} },
+  initialState: {
+    loading: false,
+    currentLists: {},
+    currentList: {},
+    dnd: {
+      sorted: false,
+      cards: [],
+      destinationListId: null,
+      sourceListId: null,
+    },
+  },
   reducers: {
     currentList: (state, action) => {
       state.currentList = action.payload;
+    },
+    dragAndDropCardSameList: (state, action) => {
+      const {
+        cardId,
+        destinationListId,
+        destinationIndex,
+        sourceIndex,
+        sourceListId,
+        sorted,
+      } = action.payload;
+
+      const card = state.currentLists[sourceListId].cards.find(
+        (card) => card._id === cardId
+      );
+      state.currentLists[sourceListId].cards.splice(sourceIndex - 1, 1);
+      state.currentLists[destinationListId].cards.splice(
+        destinationIndex - 1,
+        0,
+        card
+      );
+
+      state.currentLists[sourceListId].cards.forEach((card, i) => {
+        card.index = i + 1;
+      });
+
+      state.currentLists[destinationListId].cards.forEach((card, i) => {
+        card.index = i + 1;
+      });
+
+      const cards = state.currentLists[destinationListId].cards;
+
+      state.dnd.sorted = sorted;
+      state.dnd.cards = cards;
+      state.dnd.destinationListId = destinationListId;
+      state.dnd.sourceListId = sourceListId;
     },
   },
   extraReducers: {
@@ -560,9 +650,26 @@ const slice = createSlice({
     [copyCardAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
+
+    // Drag and drop card
+    [dragAndDropCardAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.cardsSorted = action.payload.status;
+      delete state.errors;
+    },
+    [dragAndDropCardAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.cardsSorted = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [dragAndDropCardAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+      state.cardsSorted = false;
+    },
   },
 });
 
-export const { currentList } = slice.actions;
+export const { currentList, dragAndDropCardSameList } = slice.actions;
 
 export default slice.reducer;

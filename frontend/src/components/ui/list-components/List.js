@@ -2,11 +2,16 @@ import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Box, styled } from '@mui/material';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import ListHeader from './ListHeader.js';
 import AddCardButton from './AddCardButton.js';
 import Card from './Card.js';
-import { getListsAsync } from '../../../features/lists/listsSlice.js';
+import {
+  dragAndDropCardAsync,
+  dragAndDropCardSameList,
+  getListsAsync,
+} from '../../../features/lists/listsSlice.js';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   minWidth: '270px',
@@ -27,19 +32,79 @@ const List = () => {
   const currentLists =
     useSelector((state) => Object.values(state.lists.currentLists)) || [];
 
+  const { sorted, cards, destinationListId, sourceListId } = useSelector(
+    (state) => state.lists.dnd && state.lists.dnd
+  );
+
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    dispatch(
+      dragAndDropCardSameList({
+        cardId: draggableId,
+        destinationListId: destination.droppableId,
+        destinationIndex: destination.index,
+        sourceIndex: source.index,
+        sourceListId: source.droppableId,
+        sorted: true,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (sorted) {
+      dispatch(
+        dragAndDropCardAsync({
+          cards,
+          destinationListId,
+          sourceListId,
+        })
+      );
+    }
+  }, [dispatch, sorted, cards, destinationListId, sourceListId]);
+
   useEffect(() => {
     dispatch(getListsAsync(id));
   }, [dispatch, id]);
 
-  return currentLists.map((list, i) => (
-    <Fragment key={list._id}>
-      <StyledBox>
-        <ListHeader list={list} i={i} />
-        <Card list={list} />
-        <AddCardButton list={list} />
-      </StyledBox>
-    </Fragment>
-  ));
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      {currentLists.map((list, i) => (
+        <Fragment key={list._id}>
+          <StyledBox>
+            <ListHeader list={list} i={i} />
+            <Droppable droppableId={list._id}>
+              {(provided) => (
+                <Box ref={provided.innerRef} {...provided.droppableProps}>
+                  {list.cards.map((card, index) => (
+                    <Card
+                      key={card._id}
+                      list={list}
+                      card={card}
+                      index={index}
+                    />
+                  ))}
+                  {provided.placeholder}
+                </Box>
+              )}
+            </Droppable>
+            <AddCardButton list={list} />
+          </StyledBox>
+        </Fragment>
+      ))}
+    </DragDropContext>
+  );
 };
 
 export default List;

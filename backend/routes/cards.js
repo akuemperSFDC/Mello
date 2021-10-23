@@ -8,10 +8,12 @@ import {
   deleteCard,
   moveCard,
   copyCard,
+  dragAndDropCard,
 } from '../controllers/cards.js';
 
 const router = express.Router();
 
+router.put('/draganddrop', protect, dragAndDropCard);
 router.get('/:id', protect, getCard);
 router.put('/:id', protect, editCard);
 router.delete('/:id', protect, deleteCard);
