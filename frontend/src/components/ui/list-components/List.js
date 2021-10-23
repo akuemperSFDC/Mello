@@ -32,9 +32,8 @@ const List = () => {
   const currentLists =
     useSelector((state) => Object.values(state.lists.currentLists)) || [];
 
-  const { sorted, cards, destinationListId, sourceListId } = useSelector(
-    (state) => state.lists.dnd && state.lists.dnd
-  );
+  const { sorted, cards, destinationListId, sourceListId, movedCard } =
+    useSelector((state) => state.lists.dnd && state.lists.dnd);
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -50,6 +49,8 @@ const List = () => {
       return;
     }
 
+    console.log(draggableId);
+
     dispatch(
       dragAndDropCardSameList({
         cardId: draggableId,
@@ -58,6 +59,7 @@ const List = () => {
         sourceIndex: source.index,
         sourceListId: source.droppableId,
         sorted: true,
+        movedCard: draggableId,
       })
     );
   };
@@ -69,10 +71,11 @@ const List = () => {
           cards,
           destinationListId,
           sourceListId,
+          movedCard,
         })
       );
     }
-  }, [dispatch, sorted, cards, destinationListId, sourceListId]);
+  }, [dispatch, sorted, cards, destinationListId, sourceListId, movedCard]);
 
   useEffect(() => {
     dispatch(getListsAsync(id));

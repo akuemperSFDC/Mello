@@ -237,34 +237,12 @@ export const copyCard = asyncHandler(async (req, res, next) => {
 /* -------------------------------- Drag and drop card ------------------------------- */
 
 // @desc      Update list(s) with new cards array card
-// @route     PUT /api/cards/draganddrop
+// @route     PUT /api/cards/:id/draganddrop
 // @access    Private
 export const dragAndDropCard = asyncHandler(async (req, res, next) => {
   const { cards, sourceListId, destinationListId } = req.body;
 
-  // Create new activity document based on moving card
-  // const sourceList = await List.findById(sourceListId).populate({
-  //   path: 'cards',
-  //   options: { sort: { index: 1 } },
-  //   select: 'title index list',
-  // });
-  // const destinationList = await List.findById(destinationListId).populate({
-  //   path: 'cards',
-  //   options: { sort: { index: 1 } },
-  //   select: 'title index list',
-  // });
-
-  // await Activity.create({
-  //   documentType: 'card',
-  //   typeOfActivity: 'moved',
-  //   valueOfActivity: card.title,
-  //   source: oldList.title,
-  //   destination: destinationListId ? destinationList.title : sourceList,
-  //   user: req.user,
-  //   card: card._id,
-  //   list: listId,
-  //   board: newList.board,
-  // });
+  console.log(req.params.id);
 
   // Update all cards with new index and destination list id
   for (const card of cards) {
@@ -274,15 +252,25 @@ export const dragAndDropCard = asyncHandler(async (req, res, next) => {
     await foundCard.save();
   }
 
-  // // Make sure user is list owner
-  // if (card.user.toString() !== req.user.id) {
-  //   return next(
-  //     new ErrorResponse(
-  //       `User ${req.user.id} is not authorized to delete card with id ${req.params.id}`,
-  //       404
-  //     )
-  //   );
-  // }
+  // Create new activity document based on moving card
+  const card = await Card.findById(req.params.id);
 
-  res.status(200).json({ status: true });
+  const sourceList = await List.findById(sourceListId);
+  const destinationList = await List.findById(destinationListId);
+
+  if (destinationListId !== sourceListId) {
+    await Activity.create({
+      documentType: 'card',
+      typeOfActivity: 'moved',
+      valueOfActivity: card.title,
+      source: sourceList.title,
+      destination: destinationList.title,
+      user: req.user,
+      card: card._id,
+      list: destinationList._id,
+      board: destinationList.board,
+    });
+  }
+
+  res.status(200).json({});
 });

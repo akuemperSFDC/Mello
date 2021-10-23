@@ -24,10 +24,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Card = ({ card, list, index }) => {
+const Card = ({ card, list }) => {
   const dispatch = useDispatch();
-
-  // const { cards } = list || [];
 
   const handleClick = (card) => {
     dispatch(editCardModal(true));

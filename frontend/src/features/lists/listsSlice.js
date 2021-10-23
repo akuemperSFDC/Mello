@@ -365,9 +365,9 @@ export const dragAndDropCardAsync = createAsyncThunk(
     try {
       const { token } = getState().auth;
 
-      // const boardId = getState().boards.currentBoard._id;
+      const boardId = getState().boards.currentBoard._id;
 
-      const { cards, sourceListId, destinationListId } = params;
+      const { cards, sourceListId, destinationListId, movedCard } = params;
 
       const config = {
         headers: {
@@ -377,12 +377,12 @@ export const dragAndDropCardAsync = createAsyncThunk(
       };
 
       const { data } = await axios.put(
-        `http://localhost:5000/api/cards/draganddrop`,
+        `http://localhost:5000/api/cards/${movedCard}/draganddrop`,
         { cards, sourceListId, destinationListId },
         config
       );
 
-      // dispatch(getActivitiesByBoardAsync(boardId));
+      dispatch(getActivitiesByBoardAsync(boardId));
 
       // Updates database AFTER store is mutated, sets back to default values
       dispatch(
@@ -391,6 +391,7 @@ export const dragAndDropCardAsync = createAsyncThunk(
           cards: [],
           destinationListId: null,
           sourceListId: null,
+          movedCard: null,
         })
       );
 
@@ -412,6 +413,7 @@ const slice = createSlice({
       cards: [],
       destinationListId: null,
       sourceListId: null,
+      movedCard: null,
     },
   },
   reducers: {
@@ -426,6 +428,7 @@ const slice = createSlice({
         sourceIndex,
         sourceListId,
         sorted,
+        movedCard,
       } = action.payload;
 
       const card = state.currentLists[sourceListId].cards.find(
@@ -452,6 +455,7 @@ const slice = createSlice({
       state.dnd.cards = cards;
       state.dnd.destinationListId = destinationListId;
       state.dnd.sourceListId = sourceListId;
+      state.dnd.movedCard = movedCard;
     },
   },
   extraReducers: {
@@ -654,18 +658,15 @@ const slice = createSlice({
     // Drag and drop card
     [dragAndDropCardAsync.fulfilled]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.cardsSorted = action.payload.status;
       delete state.errors;
     },
     [dragAndDropCardAsync.rejected]: (state, action) => {
       if (state.loading) state.loading = false;
-      state.cardsSorted = false;
       state.errors = action.payload;
       state.errors = action.payload?.errors;
     },
     [dragAndDropCardAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
-      state.cardsSorted = false;
     },
   },
 });
