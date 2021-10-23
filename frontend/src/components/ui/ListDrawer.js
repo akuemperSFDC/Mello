@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
