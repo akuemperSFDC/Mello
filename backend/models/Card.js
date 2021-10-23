@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import AutoIncrementFactory from 'mongoose-sequence';
+import Activity from './Activity.js';
 
-export const AutoIncrement = AutoIncrementFactory(mongoose.connection);
+// export const AutoIncrement = AutoIncrementFactory(mongoose.connection);
 
 const CardSchema = new mongoose.Schema(
   {
@@ -32,6 +33,17 @@ const CardSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+CardSchema.pre('remove', async function (next) {
+  const activities = await Activity.find({
+    card: this._id,
+    typeOfActivity: ['added', 'renamed', 'changed', 'moved', 'copied'],
+  });
+  for (const activity of activities) {
+    await activity.remove();
+  }
+  next();
+});
 
 // CardSchema.plugin(AutoIncrement, {
 //   id: 'list_seq',

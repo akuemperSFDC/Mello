@@ -30,7 +30,10 @@ const List = () => {
   const { id } = useParams();
 
   const currentLists =
-    useSelector((state) => Object.values(state.lists.currentLists)) || [];
+    useSelector(
+      (state) =>
+        state.lists.currentLists && Object.values(state.lists.currentLists)
+    ) || [];
 
   const { sorted, cards, destinationListId, sourceListId, movedCard } =
     useSelector((state) => state.lists.dnd && state.lists.dnd);
@@ -92,7 +95,7 @@ const List = () => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {list.cards.map((card, index) => (
+                  {list?.cards?.map((card, index) => (
                     <Card
                       key={card._id}
                       list={list}

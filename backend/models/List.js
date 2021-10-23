@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Card from './Card.js';
+import Activity from './Activity.js';
 
 const ListSchema = new mongoose.Schema(
   {
@@ -35,6 +36,17 @@ const ListSchema = new mongoose.Schema(
 
 ListSchema.pre('remove', async function (next) {
   await Card.deleteMany({ list: this._id });
+  next();
+});
+
+ListSchema.pre('remove', async function (next) {
+  const activities = await Activity.find({
+    list: this._id,
+    typeOfActivity: ['added', 'renamed', 'changed', 'moved', 'copied'],
+  });
+  for (const activity of activities) {
+    await activity.remove();
+  }
   next();
 });
 

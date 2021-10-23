@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import path from 'path';
 const __dirname = path.resolve();
-import { AutoIncrement } from './models/Card.js';
+// import { AutoIncrement } from './models/Card.js';
 
 // Load env vars
 

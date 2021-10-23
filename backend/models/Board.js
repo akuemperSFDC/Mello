@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import List from './List.js';
+import Activity from './Activity.js';
 
 const BoardSchema = new mongoose.Schema(
   {
@@ -34,6 +35,14 @@ BoardSchema.pre('remove', async function (next) {
   const lists = await List.find({ board: this._id });
   for (const list of lists) {
     await list.remove();
+  }
+  next();
+});
+
+BoardSchema.pre('remove', async function (next) {
+  const activities = await Activity.find({ board: this._id });
+  for (const activity of activities) {
+    await activity.remove();
   }
   next();
 });
