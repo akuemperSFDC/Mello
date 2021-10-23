@@ -22,6 +22,7 @@ import {
   clearCurrentList,
   clearCurrentLists,
 } from './features/lists/listsSlice.js';
+import { menuVisible } from './features/boardMenu/boardMenuSlice.js';
 
 function App() {
   const history = RRD.useHistory();
@@ -53,6 +54,7 @@ function App() {
       dispatch(clearCurrentList());
       dispatch(clearCurrentLists());
       dispatch(setSelected(null));
+      dispatch(menuVisible(false));
     });
   }, [history, dispatch]);
 
