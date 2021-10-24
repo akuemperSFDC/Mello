@@ -1,7 +1,7 @@
 import { Box, useTheme, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import Toast from '../components/utils/Toast.js';
 import ListDrawer from '../components/ui/ListDrawer.js';
@@ -13,6 +13,7 @@ const ListsScreen = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const { pathname } = useLocation();
 
   const [open, setOpen] = useState(false);
 
@@ -40,6 +41,10 @@ const ListsScreen = () => {
       setOpen(true);
     }
   }, [errors]);
+
+  useEffect(() => {
+    console.log(pathname);
+  }, [pathname]);
 
   return (
     <>

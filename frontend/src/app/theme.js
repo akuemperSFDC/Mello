@@ -102,6 +102,12 @@ const theme = createTheme({
     denseToolbar: {
       minHeight: '48px',
     },
+    userSettingsUserInfoHeader: {
+      minHeight: '152px',
+    },
+    userSettingsTabHeader: {
+      minHeight: '39px',
+    }
   },
   components: {
     MuiMenuItem: {

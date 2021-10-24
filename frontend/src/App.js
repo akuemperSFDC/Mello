@@ -23,6 +23,7 @@ import {
   clearCurrentLists,
 } from './features/lists/listsSlice.js';
 import { menuVisible } from './features/boardMenu/boardMenuSlice.js';
+import UserSettingsScreen from './screens/UserSettingsScreen.js';
 
 function App() {
   const history = RRD.useHistory();
@@ -67,17 +68,18 @@ function App() {
       <DeleteBoardConfirmation />
       <RRD.Switch>
         <RRD.Route exact path='/login' component={LoginScreen} />
-
         <ProtectedRoute exact path='/boards' component={BoardsScreen} />
-
         <ProtectedRoute
           exact
           path='/boards/templates'
           component={TemplatesScreen}
         />
-
         <ProtectedRoute exact path='/b/:id' component={ListsScreen} />
-
+        <ProtectedRoute
+          exact
+          path='/account/user/:userId'
+          component={UserSettingsScreen}
+        />
         <ProtectedRoute path='*' component={NotFound} />
       </RRD.Switch>
 
