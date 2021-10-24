@@ -5,7 +5,7 @@ import { styled, alpha, Box, Typography } from '@mui/material';
 const AboutPanel = ({ value, index }) => {
   const dispatch = useDispatch();
 
-  return <Box>About</Box>;
+  return <Box sx={{ width: '530px', mx: 'auto', height: '100%' }}>About</Box>;
 };
 
 export default AboutPanel;

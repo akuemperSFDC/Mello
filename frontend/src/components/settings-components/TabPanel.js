@@ -13,11 +13,12 @@ const TabPanel = ({ children, value, index }) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       sx={{
-        minHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - ${theme.mixins.userSettingsTabHeader.minHeight} - ${theme.mixins.userSettingsUserInfoHeader.minHeight})`,
-        backgroundColor: 'lightgrey',
+        maxHeight: `calc(100vh - ${theme.mixins.denseToolbar.minHeight} - ${theme.mixins.userSettingsTabHeader.minHeight} - ${theme.mixins.userSettingsUserInfoHeader.minHeight})`,
+        backgroundColor: 'white',
+        display: 'flex',
       }}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 4, mx: 'auto' }}>{children}</Box>}
     </Box>
   );
 };

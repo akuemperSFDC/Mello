@@ -35,7 +35,7 @@ const SettingsPageHeader = ({ value }) => {
     flexDirection: 'column',
     width: '100%',
     justifyContent: 'center',
-    backgroundColor: 'yellow',
+    backgroundColor: '#f4f5f7',
   };
 
   const userInfoBoxStyles = {
@@ -54,20 +54,48 @@ const SettingsPageHeader = ({ value }) => {
     },
   };
 
+  const tabStyling = {
+    color: '#172B4D',
+    fontSize: '14px',
+    fontWeight: 700,
+    wordSpacing: '0px',
+  };
+
   return (
     <Box sx={{ ...headerBoxStyles }}>
       {/* ---------------------------- Avatar and name --------------------------- */}
       <Box sx={{ ...userInfoBoxStyles }}>
-        <Avatar>{user.firstName[0]}</Avatar>
-        <Typography>
+        <Avatar
+          sx={{
+            height: '48px',
+            width: '48px',
+            fontSize: '24px',
+            color: 'black',
+            fontWeight: 700,
+            backgroundColor: '#DFE1E6',
+          }}
+        >
+          {user.firstName[0]}
+        </Avatar>
+        <Typography sx={{ fontSize: '24px', fontWeight: 500, ml: 2 }}>
           {user.firstName} {user.lastName}
         </Typography>
       </Box>
       {/* --------------------------------- Tabs --------------------------------- */}
       <Box sx={{ ...tabsBoxStyles }}>
         <Tabs value={value} onChange={handleChange}>
-          <Tab disableRipple label='About' {...tabProps} />
-          <Tab disableRipple label='Activity' {...tabProps} />
+          <Tab
+            sx={{ ...tabStyling }}
+            disableRipple
+            label='About'
+            {...tabProps}
+          />
+          <Tab
+            sx={{ ...tabStyling }}
+            disableRipple
+            label='Activity'
+            {...tabProps}
+          />
         </Tabs>
       </Box>
     </Box>
