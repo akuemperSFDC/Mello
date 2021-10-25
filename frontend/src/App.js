@@ -61,10 +61,6 @@ function App() {
     });
   }, [history, dispatch]);
 
-  React.useEffect(() => {
-    console.log(process.env.REACT_APP_BASE_URL);
-  }, [id]);
-
   return (
     <>
       {pathname !== '/login' && <Header />}
