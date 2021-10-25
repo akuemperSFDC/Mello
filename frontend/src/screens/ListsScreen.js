@@ -1,13 +1,13 @@
-import { Box, useTheme, Paper, useMediaQuery } from '@mui/material';
+import { Box, Paper, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-
-import Toast from '../components/utils/Toast.js';
 import ListDrawer from '../components/ui/ListDrawer.js';
 import ListsArea from '../components/ui/ListsArea.js';
-import { getBoardsAsync } from '../features/boards/boardSlice.js';
+import Toast from '../components/utils/Toast.js';
 import { getActivitiesByBoardAsync } from '../features/activities/activitySlice.js';
+import { getBoardsAsync } from '../features/boards/boardSlice.js';
+
 
 const ListsScreen = () => {
   const theme = useTheme();
