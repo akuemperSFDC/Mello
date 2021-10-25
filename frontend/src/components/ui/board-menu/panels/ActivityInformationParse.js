@@ -61,16 +61,32 @@ const ActivityInformationParse = ({
       );
     }
     if (typeOfActivity === 'changed') {
-      changedBoard = (
-        <>
-          <CustomSpan
-            content={user.firstName}
-            fontWeight={800}
-            textDecoration='none'
-          />{' '}
-          changed the {propertyChanged} of this board
-        </>
-      );
+      if (propertyChanged === 'favorite') {
+        changedBoard = (
+          <>
+            <CustomSpan
+              content={user.firstName}
+              fontWeight={800}
+              textDecoration='none'
+            />{' '}
+            <span>
+              {valueOfActivity === 'false' ? 'un-starred' : 'starred'} this
+              board
+            </span>
+          </>
+        );
+      } else {
+        changedBoard = (
+          <>
+            <CustomSpan
+              content={user.firstName}
+              fontWeight={800}
+              textDecoration='none'
+            />{' '}
+            changed the {propertyChanged} of this board
+          </>
+        );
+      }
     }
   }
 

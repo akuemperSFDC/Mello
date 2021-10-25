@@ -1,11 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, Box, Avatar, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 import ActivityParser from './ActivityParser';
 
 const ActivityItem = ({ activity }) => {
-  const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state?.auth);
 
   return (

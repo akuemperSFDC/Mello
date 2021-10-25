@@ -1,4 +1,3 @@
-import ErrorResponse from '../utils/errorResponse.js';
 import asyncHandler from '../middleware/async.js';
 import Activity from '../models/Activity.js';
 

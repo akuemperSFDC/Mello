@@ -1,6 +1,3 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha } from '@mui/material';
 import DateFormatter from './DateFormatter';
 
 const CustomSpan = ({ children }) => {
@@ -12,8 +9,6 @@ const CustomSpan = ({ children }) => {
 };
 
 const ActivityParser = ({ activity }) => {
-  const dispatch = useDispatch();
-
   const {
     documentType,
     typeOfActivity,

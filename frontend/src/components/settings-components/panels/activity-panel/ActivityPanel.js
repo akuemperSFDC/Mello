@@ -1,20 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  styled,
-  alpha,
-  Box,
-  Typography,
-  useTheme,
-  Divider,
-} from '@mui/material';
 import { Storage } from '@mui/icons-material';
-import ActivityItem from './ActivityItem';
+import { Box, Divider, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getActivitiesForUserAsync } from '../../../../features/activities/activitySlice';
+import ActivityItem from './ActivityItem';
 
 const TabPanel = ({ children, value, index }) => {
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const currentUserActivities = useSelector(
     (state) => state?.activities?.currentUserActivities

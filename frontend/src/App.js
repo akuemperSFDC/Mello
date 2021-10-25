@@ -13,6 +13,7 @@ import CreateBoardModal from './components/modals/CreateBoardModal.js';
 import {
   clearCurrentBoard,
   currentBoard,
+  viewBoardAsync,
 } from './features/boards/boardSlice.js';
 import EditCardModal from './components/modals/EditCardModal.js';
 import DeleteBoardConfirmation from './components/modals/DeleteBoardConfirmation.js';
@@ -39,6 +40,7 @@ function App() {
   React.useEffect(() => {
     if (id) {
       dispatch(currentBoard(curBoard));
+      dispatch(viewBoardAsync(id));
     }
   }, [dispatch, id, curBoard]);
 
