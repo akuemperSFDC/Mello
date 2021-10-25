@@ -9,6 +9,8 @@ import {
   IconButton,
   ClickAwayListener,
   Fade,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 
 import { editCardAsync } from '../../../features/lists/listsSlice';
@@ -32,6 +34,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Header = ({ currentCard, handleClose }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState('');
@@ -59,13 +63,14 @@ const Header = ({ currentCard, handleClose }) => {
       <Box
         sx={{
           display: 'flex',
-          m: 3,
+          mt: matches ? 1 : 0,
+          m: matches ? 0 : 3,
           alignItems: 'center',
           mb: 0,
           maxHeight: '31px',
         }}
       >
-        <Topic />
+        {!matches && <Topic />}
         <ClickAwayListener onClickAway={() => setShowInput(false)}>
           <Box sx={{ display: 'flex', flexGrow: 2, mx: 2, p: 0 }}>
             {showInput ? (
@@ -104,19 +109,21 @@ const Header = ({ currentCard, handleClose }) => {
           <Close />
         </IconButton>
       </Box>
-      <Box sx={{ ml: 9.2, mt: 0.5, display: 'flex', alignItems: 'flex-end' }}>
-        <Typography variant='subtitle2' sx={{ mr: 0.5 }}>
-          in list
-        </Typography>
-        <Typography
-          sx={{
-            textDecoration: 'underline',
-            fontSize: '15px',
-          }}
-        >
-          {currentList.title}
-        </Typography>
-      </Box>
+      {!matches && (
+        <Box sx={{ ml: 9.2, mt: 0.5, display: 'flex', alignItems: 'flex-end' }}>
+          <Typography variant='subtitle2' sx={{ mr: 0.5 }}>
+            in list
+          </Typography>
+          <Typography
+            sx={{
+              textDecoration: 'underline',
+              fontSize: '15px',
+            }}
+          >
+            {currentList.title}
+          </Typography>
+        </Box>
+      )}
     </>
   );
 };

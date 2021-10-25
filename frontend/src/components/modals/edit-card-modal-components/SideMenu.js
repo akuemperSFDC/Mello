@@ -6,6 +6,8 @@ import {
   ListItemButton,
   styled,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,6 +40,9 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 
 const SideMenu = () => {
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = !!anchorEl;
 
@@ -73,6 +78,7 @@ const SideMenu = () => {
     >
       <List sx={{ pt: 0 }}>
         <Typography
+          align={matches ? 'center' : undefined}
           sx={{
             mb: 0.8,
             fontSize: '14px',

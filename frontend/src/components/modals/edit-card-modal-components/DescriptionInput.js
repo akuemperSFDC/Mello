@@ -7,6 +7,7 @@ import {
   Button,
   Box,
   IconButton,
+  useMediaQuery,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { editCardAsync } from '../../../features/lists/listsSlice';
@@ -14,6 +15,7 @@ import { editCardAsync } from '../../../features/lists/listsSlice';
 const DescriptionInput = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [show, setShow] = useState(false);
   const [description, setDescription] = useState('');
@@ -66,21 +68,55 @@ const DescriptionInput = () => {
           maxRows={5}
           onKeyDown={handleEnterKey}
         />
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: matches ? 'column' : 'row',
+            alignItems: matches ? undefined : 'center',
+            mt: 0.5,
+          }}
+        >
           <Button
             variant='contained'
             size='small'
-            sx={{ minWidth: '40px', maxWidth: '50px', mr: 1 }}
+            sx={{
+              minWidth: '40px',
+              maxWidth: matches ? undefined : '50px',
+              mr: matches ? 0 : 1,
+              mb: matches ? 1 : 0,
+              flexGrow: matches ? 1 : undefined,
+              height: matches ? '40px' : undefined,
+            }}
             onClick={handleSave}
           >
             Save
           </Button>
-          <IconButton
-            sx={{ width: '30px', height: '30px' }}
-            onClick={() => setShow(false)}
-          >
-            <Close />
-          </IconButton>
+
+          {matches ? (
+            <Button
+              variant='contained'
+              color='error'
+              size='small'
+              sx={{
+                minWidth: '40px',
+                maxWidth: matches ? undefined : '50px',
+                mr: matches ? 0 : 1,
+                mb: matches ? 1 : 0,
+                flexGrow: matches ? 1 : undefined,
+                height: matches ? '40px' : undefined,
+              }}
+              onClick={handleSave}
+            >
+              Cancel
+            </Button>
+          ) : (
+            <IconButton
+              sx={{ width: '30px', height: '30px' }}
+              onClick={() => setShow(false)}
+            >
+              <Close />
+            </IconButton>
+          )}
         </Box>
       </Box>
     </ClickAwayListener>
