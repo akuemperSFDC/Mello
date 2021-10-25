@@ -12,7 +12,7 @@ import Thumbnail from './create-board-modal-components/Thumbnail.js';
 
 const StyledInputBase = styled(M.InputBase)(({ theme, matches }) => ({
   margin: '8px auto 8px auto',
-  marginLeft: matches ? 'auto' : 10,
+  ml: matches ? 'auto' : '16px',
   fontSize: '1rem',
   borderRadius: 4,
   padding: 4,
@@ -110,9 +110,7 @@ const CreateBoardModal = () => {
               minHeight: '6em',
               height: 'auto',
               mx: 'auto',
-              mt: matches
-                ? `calc(${theme.mixins.denseToolbar.minHeight} + 32px)`
-                : theme.mixins.denseToolbar.minHeight,
+              mt: `calc(${theme.mixins.denseToolbar.minHeight} + 32px)`,
               px: matches ? 1 : undefined,
               flexDirection: matches ? 'column' : 'row',
             }}
@@ -129,7 +127,7 @@ const CreateBoardModal = () => {
                 backgroundImage: `url(${selected}})`,
                 minHeight: '100%',
                 p: 0,
-                width: matches ? '100%' : undefined,
+                width: matches ? '100%' : '100%',
               }}
             >
               <M.Paper
@@ -139,9 +137,10 @@ const CreateBoardModal = () => {
                   backgroundColor: 'rgba(0, 0, 0, 0.4)',
                   color: 'white',
                   minHeight: '100%',
-                  width: matches ? '100%' : undefined,
+                  width: matches ? '100%' : 'auto',
                   display: matches ? 'flex' : undefined,
                   justifyContent: matches ? 'center' : undefined,
+                  pl: matches ? undefined : 2,
                 }}
               >
                 <StyledInputBase

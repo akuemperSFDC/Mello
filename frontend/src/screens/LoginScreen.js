@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { Grid, Typography, Paper, Box } from '@mui/material';
+import { Grid, Typography, Paper, Box, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
   loginUserAsync,
@@ -79,6 +79,12 @@ const LoginScreen = () => {
     setFormState({ email: '', password: '' });
   };
 
+  const handleDemo = async () => {
+    await dispatch(
+      loginUserAsync({ email: 'john@gmail.com', password: '123456' })
+    );
+  };
+
   useEffect(() => {
     if (errors) {
       setOpen(true);
@@ -113,7 +119,7 @@ const LoginScreen = () => {
 
         <Paper
           elevation={4}
-          sx={{ height: '37.8em', width: '23em', mt: 2.5, mx: 'auto', p: 2 }}
+          sx={{ height: 'auto', width: '23em', mt: 2.5, mx: 'auto', p: 2 }}
         >
           <Grid
             item
@@ -162,6 +168,17 @@ const LoginScreen = () => {
                   <SuccessButton formState={formState} onClick={handleLogin}>
                     <Typography variant='body2'>Log in</Typography>
                   </SuccessButton>
+                </Grid>
+
+                <Grid item sx={{ width: '100%' }} align='center'>
+                  <Button
+                    variant='contained'
+                    color='warning'
+                    onClick={handleDemo}
+                    sx={{ width: '320px' }}
+                  >
+                    <Typography variant='body2'>Demo</Typography>
+                  </Button>
                 </Grid>
 
                 <Grid item>
