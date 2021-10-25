@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../api/api';
 import { getActivitiesByBoardAsync } from '../activities/activitySlice';
 
 /* ------------------------------ Get boards ------------------------------ */
@@ -16,10 +16,7 @@ export const getBoardsAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(
-        'http://localhost:5000/api/boards',
-        config
-      );
+      const { data } = await api.get('/boards', config);
 
       return data;
     } catch (error) {
@@ -45,8 +42,8 @@ export const createBoardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
-        'http://localhost:5000/api/boards',
+      const { data } = await api.post(
+        '/boards',
         { title, backgroundImage },
         config
       );
@@ -74,8 +71,8 @@ export const editBoardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.put(
-        `http://localhost:5000/api/boards/${id}`,
+      const { data } = await api.put(
+        `/boards/${id}`,
         { title, favorite, description, backgroundImage },
         config
       );
@@ -104,10 +101,7 @@ export const deleteBoardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/boards/${id}`,
-        config
-      );
+      const { data } = await api.delete(`/boards/${id}`, config);
 
       dispatch(getActivitiesByBoardAsync(id));
 
@@ -133,8 +127,8 @@ export const viewBoardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.put(
-        `http://localhost:5000/api/boards/${id}/recent`,
+      const { data } = await api.put(
+        `/boards/${id}/recent`,
         { id, time: new Date(Date.now()) },
         config
       );
@@ -160,10 +154,7 @@ export const getRecentBoardsAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(
-        'http://localhost:5000/api/boards/recent',
-        config
-      );
+      const { data } = await api.get('/boards/recent', config);
 
       return data;
     } catch (error) {

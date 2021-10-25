@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { getActivitiesByBoardAsync } from '../activities/activitySlice';
+import api from '../api/api';
 
 /* ------------------------------- Get lists ------------------------------ */
 
@@ -16,10 +16,7 @@ export const getListsAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(
-        `http://localhost:5000/api/lists/board/${boardId}`,
-        config
-      );
+      const { data } = await api.get(`/lists/board/${boardId}`, config);
 
       return data;
     } catch (error) {
@@ -45,11 +42,7 @@ export const createListAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
-        `http://localhost:5000/api/lists/board/${id}`,
-        { title },
-        config
-      );
+      const { data } = await api.post(`/lists/board/${id}`, { title }, config);
 
       dispatch(getActivitiesByBoardAsync(id));
 
@@ -77,11 +70,7 @@ export const editListAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.put(
-        `http://localhost:5000/api/lists/${id}`,
-        { title },
-        config
-      );
+      const { data } = await api.put(`/lists/${id}`, { title }, config);
 
       dispatch(getActivitiesByBoardAsync(boardId));
 
@@ -109,8 +98,8 @@ export const deleteListAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/lists/${id}/board/${boardId}`,
+      const { data } = await api.delete(
+        `/lists/${id}/board/${boardId}`,
         config
       );
 
@@ -140,8 +129,8 @@ export const moveListAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.put(
-        `http://localhost:5000/api/lists/${listId}/move`,
+      const { data } = await api.put(
+        `/lists/${listId}/move`,
         { boardId },
         config
       );
@@ -172,8 +161,8 @@ export const copyListAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
-        `http://localhost:5000/api/lists/${listId}/copy`,
+      const { data } = await api.post(
+        `/lists/${listId}/copy`,
         { boardId, title, cards },
         config
       );
@@ -206,11 +195,7 @@ export const createCardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
-        `http://localhost:5000/api/cards/list/${id}`,
-        { title },
-        config
-      );
+      const { data } = await api.post(`/cards/list/${id}`, { title }, config);
 
       dispatch(getActivitiesByBoardAsync(boardId));
 
@@ -240,8 +225,8 @@ export const editCardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.put(
-        `http://localhost:5000/api/cards/${id}`,
+      const { data } = await api.put(
+        `/cards/${id}`,
         { title, description },
         config
       );
@@ -274,10 +259,7 @@ export const deleteCardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/cards/${id}`,
-        config
-      );
+      const { data } = await api.delete(`/cards/${id}`, config);
 
       dispatch(getActivitiesByBoardAsync(boardId));
 
@@ -307,11 +289,7 @@ export const moveCardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.put(
-        `http://localhost:5000/api/cards/${id}/move`,
-        { listId },
-        config
-      );
+      const { data } = await api.put(`/cards/${id}/move`, { listId }, config);
 
       dispatch(getActivitiesByBoardAsync(boardId));
 
@@ -341,11 +319,7 @@ export const copyCardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
-        `http://localhost:5000/api/cards/${id}/copy`,
-        { listId },
-        config
-      );
+      const { data } = await api.post(`/cards/${id}/copy`, { listId }, config);
 
       dispatch(getActivitiesByBoardAsync(boardId));
 
@@ -375,8 +349,8 @@ export const dragAndDropCardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.put(
-        `http://localhost:5000/api/cards/${movedCard}/draganddrop`,
+      const { data } = await api.put(
+        `/cards/${movedCard}/draganddrop`,
         { cards, sourceListId, destinationListId },
         config
       );

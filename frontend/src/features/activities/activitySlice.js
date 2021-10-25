@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../api/api';
 
 /* ------------------------------ Get activities by board id ------------------------------ */
 
@@ -15,10 +15,7 @@ export const getActivitiesByBoardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(
-        `http://localhost:5000/api/activities/${id}`,
-        config
-      );
+      const { data } = await api.get(`/activities/${id}`, config);
 
       return data;
     } catch (error) {
@@ -44,8 +41,8 @@ export const getNextActivitiesByBoardAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(
-        `http://localhost:5000/api/activities/${id}/next/?prevItem=${prevItem}&count=${count}`,
+      const { data } = await api.get(
+        `/activities/${id}/next/?prevItem=${prevItem}&count=${count}`,
         config
       );
 
@@ -70,10 +67,7 @@ export const getActivitiesForUserAsync = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(
-        `http://localhost:5000/api/activities/user`,
-        config
-      );
+      const { data } = await api.get(`/activities/user`, config);
 
       return data;
     } catch (error) {
