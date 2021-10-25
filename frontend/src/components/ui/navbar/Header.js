@@ -9,6 +9,7 @@ import {
   useScrollTrigger,
   Slide,
   useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 
@@ -37,6 +38,7 @@ function HideOnScroll({ children }) {
 const Header = (props) => {
   const { pathname } = useLocation();
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [bgColor, setBgColor] = useState(false);
 
@@ -65,7 +67,13 @@ const Header = (props) => {
                 )}`,
           }}
         >
-          <Toolbar variant='dense'>
+          <Toolbar
+            variant='dense'
+            sx={{
+              display: 'flex',
+              justifyContent: matches ? 'space-between' : undefined,
+            }}
+          >
             <Button component={Link} to='/boards' disableRipple>
               <SiteName
                 color='white'
@@ -79,7 +87,7 @@ const Header = (props) => {
             <StarredBoards />
             <RecentBoards />
             {/* Above is left side */}
-            <Box sx={{ flexGrow: 1 }} />
+            {!matches && <Box sx={{ flexGrow: 1 }} />}
             {/* Right Side */}
             {/* <SearchBar /> */}
             <AccountMenu />

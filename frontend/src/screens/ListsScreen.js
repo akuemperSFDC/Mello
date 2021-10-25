@@ -1,4 +1,4 @@
-import { Box, useTheme, Paper } from '@mui/material';
+import { Box, useTheme, Paper, useMediaQuery } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
