@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled, alpha, Box, useTheme, useMediaQuery } from '@mui/material';
-import SettingsPageHeader from '../components/settings-components/SettingsPageHeader';
-import TabPanel from '../components/settings-components/TabPanel';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
 import AboutPanel from '../components/settings-components/panels/about-panel/AboutPanel';
 import ActivityPanel from '../components/settings-components/panels/activity-panel/ActivityPanel';
+import SettingsPageHeader from '../components/settings-components/SettingsPageHeader';
+import TabPanel from '../components/settings-components/TabPanel';
 
 const UserSettingsScreen = () => {
-  const dispatch = useDispatch();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
 

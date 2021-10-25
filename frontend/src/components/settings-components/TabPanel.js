@@ -1,16 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  styled,
-  alpha,
-  Box,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 
 const TabPanel = ({ children, value, index }) => {
-  const dispatch = useDispatch();
   const theme = useTheme();
 
   return (
