@@ -63,8 +63,8 @@ const Header = ({ currentCard, handleClose }) => {
       <Box
         sx={{
           display: 'flex',
-          mt: matches ? 1 : 0,
           m: matches ? 0 : 3,
+          mt: matches ? 2 : 3,
           alignItems: 'center',
           mb: 0,
           maxHeight: '31px',

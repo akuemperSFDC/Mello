@@ -3,6 +3,7 @@ import { Box, styled, Modal, Typography, Button } from '@mui/material';
 import { menuVisible } from '../../features/boardMenu/boardMenuSlice';
 import { deleteBoardAsync } from '../../features/boards/boardSlice';
 import { deleteBoardModal } from '../../features/modal/modalSlice';
+import { useHistory } from 'react-router-dom';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   marginLeft: 'auto',
@@ -11,16 +12,18 @@ const StyledBox = styled(Box)(({ theme }) => ({
   width: '325px',
   height: '150px',
   backgroundColor: '#F4F5F7',
-  border: '2px solid #000',
+  border: '2px solid transparent',
   boxShadow: 24,
   padding: 12,
   display: 'flex',
   flexDirection: 'column',
-  jusitfyContent: 'center',
+  justifyContent: 'center',
+  borderRadius: theme.shape.borderRadius,
 }));
 
 const DeleteBoardConfirmation = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { deleteBoard } = useSelector((state) => state.modals);
   const currentBoard = useSelector(
@@ -35,6 +38,7 @@ const DeleteBoardConfirmation = () => {
     dispatch(deleteBoardModal(false));
     dispatch(deleteBoardAsync(currentBoard._id));
     dispatch(menuVisible(false));
+    history.push('/boards');
   };
 
   return (

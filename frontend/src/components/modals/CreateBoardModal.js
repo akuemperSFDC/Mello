@@ -10,9 +10,9 @@ import { styled } from '@mui/material/styles';
 import { images } from './create-board-modal-components/data.js';
 import Thumbnail from './create-board-modal-components/Thumbnail.js';
 
-const StyledInputBase = styled(M.InputBase)(({ theme }) => ({
-  margin: 8,
-  marginLeft: 10,
+const StyledInputBase = styled(M.InputBase)(({ theme, matches }) => ({
+  margin: '8px auto 8px auto',
+  marginLeft: matches ? 'auto' : 10,
   fontSize: '1rem',
   borderRadius: 4,
   padding: 4,
@@ -40,6 +40,7 @@ const CreateBoardModal = () => {
   const theme = M.useTheme();
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState('');
+  const matches = M.useMediaQuery(theme.breakpoints.down('sm'));
 
   const [title, setTitle] = React.useState('');
 
@@ -93,82 +94,111 @@ const CreateBoardModal = () => {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <M.Grid
-          container
+        <M.Box
           sx={{
-            maxWidth: '25em',
-            maxHeight: '6em',
-            minHeight: '6em',
+            backgroundColor: matches ? '#F4F5F7' : 'transparent',
+            width: matches ? '100%' : '500px',
             mx: 'auto',
-            mt: theme.mixins.denseToolbar.minHeight,
+            height: 'auto',
           }}
         >
           <M.Grid
-            item
-            md={9}
+            container
             sx={{
-              backgroundSize: 'cover',
-              backgroundImage: `url(${selected}})`,
-              minHeight: '100%',
-              p: 0,
+              maxWidth: matches ? '100%' : '25em',
+              // maxHeight: '6em',
+              minHeight: '6em',
+              height: 'auto',
+              mx: 'auto',
+              mt: matches
+                ? `calc(${theme.mixins.denseToolbar.minHeight} + 32px)`
+                : theme.mixins.denseToolbar.minHeight,
+              px: matches ? 1 : undefined,
+              flexDirection: matches ? 'column' : 'row',
             }}
           >
-            <M.Paper
-              id='modal-modal-title'
-              variant='h6'
+            <M.Grid
+              item
+              md={9}
               sx={{
-                backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                color: 'white',
+                mt: matches ? 1 : 0,
+                flexGrow: matches ? 1 : undefined,
+                backgroundSize: 'cover',
+                backgroundImage: `url(${selected}})`,
                 minHeight: '100%',
+                p: 0,
+                width: matches ? '100%' : undefined,
               }}
             >
-              <StyledInputBase
-                onKeyDown={handleEnterKey}
-                multiline={true}
-                minRows={1}
-                maxRows={2}
-                size='small'
-                placeholder='Add board title'
-                autoFocus={true}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </M.Paper>
-          </M.Grid>
-          <M.Grid item md={3}>
-            <M.Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                ml: '8px',
-                alignItems: 'stretch',
-                maxHeight: '6em',
-                minHeight: '6em',
-              }}
-            >
-              {images.slice(0, 9).map((image, i) => (
-                <Thumbnail
-                  key={i}
-                  image={image}
-                  setSelected={setSelected}
-                  i={i}
+              <M.Paper
+                id='modal-modal-title'
+                variant='h6'
+                sx={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                  color: 'white',
+                  minHeight: '100%',
+                  width: matches ? '100%' : undefined,
+                  display: matches ? 'flex' : undefined,
+                  justifyContent: matches ? 'center' : undefined,
+                }}
+              >
+                <StyledInputBase
+                  matches={matches ? 'true' : 'false'}
+                  onKeyDown={handleEnterKey}
+                  multiline={true}
+                  minRows={1}
+                  maxRows={2}
+                  size='small'
+                  placeholder='Add board title'
+                  autoFocus={true}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
-              ))}
-            </M.Box>
+              </M.Paper>
+            </M.Grid>
+            <M.Grid item md={3}>
+              <M.Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: matches ? 'center' : 'space-between',
+                  flexWrap: 'wrap',
+                  alginContent: matches ? undefined : 'stretch',
+                  ml: matches ? 0 : 1,
+                  mt: matches ? 1 : 0,
+                  maxHeight: matches ? 'auto' : '6em',
+                  minHeight: matches ? 'auto' : '6em',
+                  height: matches ? '300px' : '6em',
+                }}
+              >
+                {images.slice(0, 9).map((image, i) => (
+                  <Thumbnail
+                    key={i}
+                    image={image}
+                    setSelected={setSelected}
+                    i={i}
+                  />
+                ))}
+              </M.Box>
+            </M.Grid>
+            <M.Grid container sx={{ pt: 1 }}>
+              <M.Button
+                variant='contained'
+                disabled={title.length === 0}
+                size='small'
+                sx={{
+                  px: 2,
+                  width: matches ? '100%' : undefined,
+                  mb: matches ? 2 : 0,
+                  height: matches ? '40px' : undefined,
+                  mt: matches ? 2 : 0,
+                }}
+                onClick={handleSubmit}
+              >
+                Create board
+              </M.Button>
+            </M.Grid>
           </M.Grid>
-          <M.Grid container sx={{ pt: 1 }}>
-            <M.Button
-              variant='contained'
-              disabled={title.length === 0}
-              size='small'
-              sx={{ px: 2 }}
-              onClick={handleSubmit}
-            >
-              Create board
-            </M.Button>
-          </M.Grid>
-        </M.Grid>
+        </M.Box>
       </M.Modal>
     </>
   );

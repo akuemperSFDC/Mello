@@ -42,8 +42,8 @@ const BoardsScreen = () => {
         <SideBar />
 
         {/* Main content */}
-        <Grid item md={9}>
-          <Grid container sx={{ p: matches ? 0 : 2, mt: 3 }}>
+        <Grid item md={9} sx={{ width: '100%' }}>
+          <Grid container sx={{ p: matches ? 0 : 2, mt: 3, width: '100%' }}>
             <Grid item sx={{ width: '100%', mb: matches ? 1 : undefined }}>
               <Typography variant='h6' align={matches ? 'center' : undefined}>
                 Your boards
