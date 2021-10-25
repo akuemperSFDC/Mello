@@ -8,7 +8,6 @@ import Toast from '../components/utils/Toast.js';
 import { getActivitiesByBoardAsync } from '../features/activities/activitySlice.js';
 import { getBoardsAsync } from '../features/boards/boardSlice.js';
 
-
 const ListsScreen = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -41,10 +40,6 @@ const ListsScreen = () => {
       setOpen(true);
     }
   }, [errors]);
-
-  useEffect(() => {
-    console.log(pathname);
-  }, [pathname]);
 
   return (
     <>

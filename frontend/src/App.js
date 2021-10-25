@@ -34,8 +34,6 @@ function App() {
   const regex = new RegExp(/(?<=\/b\/).*/i);
   const id = pathname.match(regex);
 
-  console.log(id);
-
   const { boards } = useSelector((s) => s.boards);
   const curBoard = boards && boards[id];
 
@@ -62,6 +60,10 @@ function App() {
       dispatch(menuVisible(false));
     });
   }, [history, dispatch]);
+
+  React.useEffect(() => {
+    console.log(process.env.REACT_APP_BASE_URL);
+  }, [id]);
 
   return (
     <>
