@@ -124,6 +124,8 @@ const CreateBoardModal = () => {
                 mt: matches ? 1 : 0,
                 flexGrow: matches ? 1 : undefined,
                 backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
                 backgroundImage: `url(${selected}})`,
                 minHeight: '100%',
                 p: 0,
@@ -160,7 +162,7 @@ const CreateBoardModal = () => {
               <M.Box
                 sx={{
                   display: 'flex',
-                  justifyContent: matches ? 'center' : 'space-between',
+                  justifyContent: 'space-between',
                   flexWrap: 'wrap',
                   alginContent: matches ? undefined : 'stretch',
                   ml: matches ? 0 : 1,

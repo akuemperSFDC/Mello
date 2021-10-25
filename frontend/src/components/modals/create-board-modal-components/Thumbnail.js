@@ -1,5 +1,4 @@
-import { Box, Paper, styled, useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/system';
+import { Box, Paper, styled } from '@mui/material';
 import { useEffect } from 'react';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -11,7 +10,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  width: theme.breakpoints.down('sm') ? '33%' : '28px',
+  width: theme.breakpoints.down('sm') ? '32%' : '28px',
   height: theme.breakpoints.down('sm') ? '33%' : '28px',
   marginBottom: '6px',
   '&:hover': {
@@ -21,9 +20,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const Thumbnail = ({ image, setSelected, i }) => {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('sm'));
-
   useEffect(() => {
     if (i === 0) {
       setSelected(image.src);
