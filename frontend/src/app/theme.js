@@ -73,13 +73,13 @@ const theme = createTheme({
       fontWeight: 300,
     },
     subtitle1: {
-      fontFaily: 'Raleway',
+      fontFamily: 'Raleway',
       fontSize: '.9rem',
       color: blueGrey[500],
       fontWeight: 700,
     },
     subtitle2: {
-      fontFaily: 'Raleway',
+      fontFamily: 'Raleway',
       fontSize: '14px',
       color: grey[600],
     },
@@ -107,7 +107,7 @@ const theme = createTheme({
     },
     userSettingsTabHeader: {
       minHeight: '39px',
-    }
+    },
   },
   components: {
     MuiMenuItem: {

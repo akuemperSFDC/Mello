@@ -20,6 +20,8 @@ export const getActivitiesForBoard = asyncHandler(async (req, res, next) => {
   res.status(200).json({ activities, lastItem });
 });
 
+/* ---------------------- Get next batch of activities ---------------------- */
+
 // @desc      Get all next batch of activities for board
 // @route     GET /api/activities/:boardId/next/?prevItem=createdAt
 // @access    Private
@@ -52,3 +54,22 @@ export const getNextBatchActivitiesForBoard = asyncHandler(
     res.status(200).json({ activities, lastItem });
   }
 );
+
+/* ----------------------------- Get all activities for user ----------------------------- */
+
+// @desc      Get all activities for user
+// @route     GET /api/activities/user
+// @access    Private
+export const getActivitiesForUser = asyncHandler(async (req, res, next) => {
+  const activities = await Activity.find({ user: req.user._id })
+    .populate({ path: 'user', select: 'firstName -_id' })
+    .populate({ path: 'board', select: 'title -_id' })
+    .sort({
+      createdAt: -1,
+    });
+  // .limit(20);
+
+  const lastItem = activities[activities.length - 1].createdAt;
+
+  res.status(200).json({ activities, lastItem });
+});

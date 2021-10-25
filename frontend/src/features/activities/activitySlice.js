@@ -27,6 +27,8 @@ export const getActivitiesByBoardAsync = createAsyncThunk(
   }
 );
 
+/* ------------------- Get next batch of board activities ------------------- */
+
 export const getNextActivitiesByBoardAsync = createAsyncThunk(
   'activities/getNextActivitiesByBoardAsync',
   async (params, { getState, rejectWithValue }) => {
@@ -54,11 +56,38 @@ export const getNextActivitiesByBoardAsync = createAsyncThunk(
   }
 );
 
+/* ------------------------------ Get activities for user ------------------------------ */
+
+export const getActivitiesForUserAsync = createAsyncThunk(
+  'activities/getActivitiesForUserAsync',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+
+      const config = {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `http://localhost:5000/api/activities/user`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const slice = createSlice({
   name: 'activities',
   initialState: {
     loading: false,
     currentBoardActivities: [],
+    currentUserActivities: [],
     lastItemFetched: false,
     prevItem: null,
   },
@@ -101,6 +130,23 @@ const slice = createSlice({
       state.errors = action.payload?.errors;
     },
     [getNextActivitiesByBoardAsync.pending]: (state, action) => {
+      if (!state.loading) state.loading = true;
+    },
+
+    /* -------------------- Get activities based on user -------------------- */
+    [getActivitiesForUserAsync.fulfilled]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.currentUserActivities = action.payload.activities;
+      // state.prevItem = action.payload.lastItem;
+      // state.lastItemFetched = false;
+      delete state.errors;
+    },
+    [getActivitiesForUserAsync.rejected]: (state, action) => {
+      if (state.loading) state.loading = false;
+      state.errors = action.payload;
+      state.errors = action.payload?.errors;
+    },
+    [getActivitiesForUserAsync.pending]: (state, action) => {
       if (!state.loading) state.loading = true;
     },
   },

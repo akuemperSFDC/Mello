@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled, alpha, Box, Avatar, Typography } from '@mui/material';
+import ActivityParser from './ActivityParser';
 
-const ActivityItem = () => {
+const ActivityItem = ({ activity }) => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state?.auth);
@@ -24,15 +25,21 @@ const ActivityItem = () => {
       <Box
         sx={{ display: 'flex', flexDirection: 'column', ml: 2, flexGrow: 1 }}
       >
+        {/* ------------------------------ Activity description ----------------------------- */}
         <Typography
           sx={{ lineHeight: '20px', fontSize: '14px', color: '#172B4D' }}
         >
-          Name and description
-        </Typography>
-        <Typography
-          sx={{ lineHeight: '20px', fontSize: '12px', color: '#5E6C84' }}
-        >
-          At time, on board
+          <span
+            style={{
+              lineHeight: '20px',
+              fontSize: '14px',
+              color: '#172B4D',
+              fontWeight: 700,
+            }}
+          >
+            {user.firstName}
+          </span>{' '}
+          <ActivityParser activity={activity} />
         </Typography>
       </Box>
     </Box>
