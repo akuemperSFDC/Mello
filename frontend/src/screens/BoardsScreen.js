@@ -10,6 +10,7 @@ import { createBoardModal } from '../features/modal/modalSlice.js';
 const BoardsScreen = () => {
   const dispatch = useDispatch();
   const theme = M.useTheme();
+  const matches = M.useMediaQuery(theme.breakpoints.down('sm'));
 
   const [transition, setTransition] = useState(false);
 
@@ -42,13 +43,15 @@ const BoardsScreen = () => {
 
         {/* Main content */}
         <Grid item md={9}>
-          <Grid container sx={{ p: 2, mt: 3 }}>
-            <Grid item>
-              <Typography variant='h6'>Your boards</Typography>
+          <Grid container sx={{ p: matches ? 0 : 2, mt: 3 }}>
+            <Grid item sx={{ width: '100%', mb: matches ? 1 : undefined }}>
+              <Typography variant='h6' align={matches ? 'center' : undefined}>
+                Your boards
+              </Typography>
             </Grid>
           </Grid>
 
-          <Grid container sx={{ px: 2 }}>
+          <Grid container sx={{ px: matches ? 0 : 2 }}>
             {boards &&
               boards.map((board, i) => (
                 <Grid
@@ -59,10 +62,11 @@ const BoardsScreen = () => {
                   sx={{
                     textDecoration: 'none',
                     mb: 3,
-                    mr: 2,
+                    mr: matches ? undefined : 2,
                     '&:hover': {
                       opacity: 0.8,
                     },
+                    width: matches ? '100%' : 'auto',
                   }}
                 >
                   <M.Slide
@@ -73,8 +77,8 @@ const BoardsScreen = () => {
                   >
                     <Paper
                       sx={{
-                        minWidth: '11.5rem',
-                        maxWidth: '11.5rem',
+                        minWidth: matches ? '100%' : '11.5rem',
+                        maxWidth: matches ? '100%' : '11.5rem',
                         backgroundImage: `url(${board.backgroundImage})`,
                         height: '6rem',
                         backgroundPosition: 'center',
@@ -105,16 +109,16 @@ const BoardsScreen = () => {
                 </Grid>
               ))}
             {/* Add new board button */}
-            <Grid item>
+            <Grid item sx={{ width: matches ? '100%' : 'auto' }}>
               <Paper
                 onClick={() => dispatch(createBoardModal(true))}
                 component={M.Button}
                 disableRipple
                 sx={{
-                  minWidth: '11.5rem',
+                  minWidth: matches ? '100%' : '11.5rem',
                   backgroundColor: 'common.grey',
                   height: '6rem',
-                  mr: 2,
+                  mr: matches ? 0 : 2,
                 }}
               >
                 <Typography gutterBottom component='div'>

@@ -34,6 +34,8 @@ function App() {
   const regex = new RegExp(/(?<=\/b\/).*/i);
   const id = pathname.match(regex);
 
+  console.log(id);
+
   const { boards } = useSelector((s) => s.boards);
   const curBoard = boards && boards[id];
 
@@ -44,11 +46,11 @@ function App() {
     }
   }, [dispatch, id, curBoard]);
 
-  React.useEffect(() => {
-    if (boards && !boards[id]) {
-      history.push('/boards');
-    }
-  }, [boards, id, history]);
+  // React.useEffect(() => {
+  //   if (!boards[id] && !pathname.includes('/account/user')) {
+  //     history.push('/boards');
+  //   }
+  // }, [boards, id, history, pathname]);
 
   React.useEffect(() => {
     history.listen(() => {

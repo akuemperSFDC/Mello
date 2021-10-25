@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, ListItemText, MenuItem, MenuList } from '@mui/material';
+import {
+  Grid,
+  ListItemText,
+  MenuItem,
+  MenuList,
+  useTheme,
+} from '@mui/material';
 import * as M from '@mui/material';
 import * as RR from 'react-redux';
 import { setSelected } from '../../features/sidebar/sidebarSlice.js';
@@ -8,6 +14,8 @@ import { useLocation } from 'react-router-dom';
 
 const SideBar = () => {
   const dispatch = RR.useDispatch();
+  const theme = useTheme();
+  const matches = M.useMediaQuery(theme.breakpoints.down('sm'));
   const sidebar = RR.useSelector((state) => state.sidebar);
   const { value } = sidebar;
   const { pathname } = useLocation();
@@ -38,12 +46,17 @@ const SideBar = () => {
   }, [pathname, dispatch]);
 
   return (
-    <M.Grid item md={3} sx={{ pt: 2 }}>
+    <M.Grid
+      item
+      md={3}
+      sx={{ pt: matches ? 0 : 2, width: matches ? '100%' : undefined }}
+    >
       <Grid container direction='column' justifyContent='end'>
         <M.List>
           <MenuList>
             {menuItems.map((item, index) => (
               <MenuItem
+                sx={{ width: matches ? '100%' : 'auto' }}
                 key={index}
                 disableRipple
                 selected={index === value}
@@ -51,7 +64,15 @@ const SideBar = () => {
                 component={Link}
                 to={item.to}
               >
-                <ListItemText>{item.name}</ListItemText>
+                <ListItemText
+                  sx={{
+                    mx: matches ? 'auto' : undefined,
+                    ml: 'auto',
+                    textAlign: matches && 'center',
+                  }}
+                >
+                  {item.name}
+                </ListItemText>
               </MenuItem>
             ))}
           </MenuList>
