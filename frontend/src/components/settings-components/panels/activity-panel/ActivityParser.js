@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import DateFormatter from './DateFormatter';
 
 const CustomSpan = ({ children }) => {
@@ -247,7 +248,7 @@ const ActivityParser = ({ activity }) => {
   }
 
   return (
-    <>
+    <Typography component='div'>
       {addedBoard && addedBoard}
       {changedBoard && changedBoard}
       {deletedBoard && deletedBoard}
@@ -269,7 +270,7 @@ const ActivityParser = ({ activity }) => {
         board={board}
         createdBoardFlag={createdBoardFlag}
       />
-    </>
+    </Typography>
   );
 };
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://ak-mello.herokuapp.com/api',
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 export default api;

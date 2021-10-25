@@ -11,31 +11,29 @@ const DateFormatter = ({ createdAt, board, createdBoardFlag }) => {
   };
 
   return (
-    <>
-      <Typography
-        component={'div'}
-        sx={{
-          lineHeight: '20px',
-          fontSize: '12px',
-          color: '#5E6C84',
-          fontFamily: 'Varela Round sans-serif',
-        }}
-      >
-        {past24Hours(createdAt) >= 24 ? (
-          <Moment format='MMM D [at] h:mm A'>{new Date(createdAt)}</Moment>
-        ) : (
-          <Moment fromNow>{createdAt}</Moment>
-        )}
-        {!createdBoardFlag && (
-          <span>
-            {' - '}on board{' '}
-            <span style={{ fontWeight: 700, textDecoration: 'underline' }}>
-              {board.title}
-            </span>
+    <Typography
+      component={'div'}
+      sx={{
+        lineHeight: '20px',
+        fontSize: '12px',
+        color: '#5E6C84',
+        fontFamily: 'Varela Round sans-serif',
+      }}
+    >
+      {past24Hours(createdAt) >= 24 ? (
+        <Moment format='MMM D [at] h:mm A'>{new Date(createdAt)}</Moment>
+      ) : (
+        <Moment fromNow>{createdAt}</Moment>
+      )}
+      {!createdBoardFlag && (
+        <span>
+          {' - '}on board{' '}
+          <span style={{ fontWeight: 700, textDecoration: 'underline' }}>
+            {board.title}
           </span>
-        )}
-      </Typography>
-    </>
+        </span>
+      )}
+    </Typography>
   );
 };
 
