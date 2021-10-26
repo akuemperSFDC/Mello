@@ -7,6 +7,7 @@ import cors from 'cors';
 import { connectDB } from './config/db.js';
 import { errorHandler } from './middleware/error.js';
 import path from 'path';
+import proxy from 'http-proxy-middleware';
 
 // Route Imports
 import boards from './routes/boards.js';
@@ -29,6 +30,8 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+
+app.use(proxy(['/api'], { target: 'http://localhost:5000' }));
 
 // Body parser
 app.use(express.json());
