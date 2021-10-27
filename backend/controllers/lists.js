@@ -22,8 +22,6 @@ export const getLists = asyncHandler(async (req, res, next) => {
       select: 'title description index user list',
     });
 
-  console.log('lists', lists);
-
   res.status(200).json(lists);
 });
 
