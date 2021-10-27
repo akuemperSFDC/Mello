@@ -24,6 +24,7 @@ const ActivityItem = ({ activity }) => {
       >
         {/* ------------------------------ Activity description ----------------------------- */}
         <Typography
+          component={'div'}
           sx={{ lineHeight: '20px', fontSize: '14px', color: '#172B4D' }}
         >
           <span

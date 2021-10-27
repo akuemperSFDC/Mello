@@ -12,7 +12,6 @@ const DateFormatter = ({ createdAt, board, createdBoardFlag }) => {
 
   return (
     <Typography
-      component={'div'}
       sx={{
         lineHeight: '20px',
         fontSize: '12px',

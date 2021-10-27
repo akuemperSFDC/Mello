@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as RRD from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from './components/utils/ProtectedRoute.js';
@@ -10,19 +10,11 @@ import BoardsScreen from './screens/BoardsScreen.js';
 import ListsScreen from './screens/ListsScreen.js';
 import TemplatesScreen from './screens/TemplatesScreen.js';
 import CreateBoardModal from './components/modals/CreateBoardModal.js';
-import {
-  clearCurrentBoard,
-  currentBoard,
-  viewBoardAsync,
-} from './features/boards/boardSlice.js';
+import { currentBoard, viewBoardAsync } from './features/boards/boardSlice.js';
 import EditCardModal from './components/modals/EditCardModal.js';
 import DeleteBoardConfirmation from './components/modals/DeleteBoardConfirmation.js';
 import { resetActivities } from './features/activities/activitySlice.js';
 import { setSelected } from './features/listDrawer/listDrawerSlice.js';
-import {
-  clearCurrentList,
-  clearCurrentLists,
-} from './features/lists/listsSlice.js';
 import { menuVisible } from './features/boardMenu/boardMenuSlice.js';
 import UserSettingsScreen from './screens/UserSettingsScreen.js';
 
@@ -53,13 +45,16 @@ function App() {
   React.useEffect(() => {
     history.listen(() => {
       dispatch(resetActivities());
-      dispatch(clearCurrentBoard());
-      dispatch(clearCurrentList());
-      dispatch(clearCurrentLists());
       dispatch(setSelected(null));
       dispatch(menuVisible(false));
     });
   }, [history, dispatch]);
+
+  useEffect(() => {
+    if (pathname === '/') {
+      history.push('/boards');
+    }
+  }, [history, pathname]);
 
   return (
     <>

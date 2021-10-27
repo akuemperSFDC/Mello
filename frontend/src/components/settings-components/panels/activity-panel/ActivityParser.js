@@ -247,7 +247,7 @@ const ActivityParser = ({ activity }) => {
   }
 
   return (
-    <Typography component='div'>
+    <Typography component='span' sx={{ fontSize: '14px' }}>
       {addedBoard && addedBoard}
       {changedBoard && changedBoard}
       {deletedBoard && deletedBoard}
