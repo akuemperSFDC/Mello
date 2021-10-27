@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
 import boardReducer from '../features/boards/boardSlice.js';
 import listReducer from '../features/lists/listsSlice.js';
 import cardReducer from '../features/cards/cardSlice.js';
@@ -23,22 +24,32 @@ const preloadedState = {
   auth: { user, token, loading: false },
 };
 
+const combinedReducer = combineReducers({
+  auth: authReducer,
+  activities: activitiesReducer,
+  boardMenu: boardMenuReducer,
+  boards: boardReducer,
+  cardActionsMenu: cardActionsMenuReducer,
+  cards: cardReducer,
+  listDrawer: listDrawerReducer,
+  listMenu: listMenuReducer,
+  lists: listReducer,
+  modals: modalReducer,
+  search: searchReducer,
+  sidebar: sidebarReducer,
+  userSettings: userSettingsReducer,
+});
+
+const rootReducer = (state, action) => {
+  if (action.type === 'auth/logout') {
+    // check for action type
+    state = undefined;
+  }
+  return combinedReducer(state, action);
+};
+
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    activities: activitiesReducer,
-    boardMenu: boardMenuReducer,
-    boards: boardReducer,
-    cardActionsMenu: cardActionsMenuReducer,
-    cards: cardReducer,
-    listDrawer: listDrawerReducer,
-    listMenu: listMenuReducer,
-    lists: listReducer,
-    modals: modalReducer,
-    search: searchReducer,
-    sidebar: sidebarReducer,
-    userSettings: userSettingsReducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware();
   },

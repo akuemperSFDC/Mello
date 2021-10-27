@@ -18,7 +18,6 @@ const ActivityParser = ({ activity }) => {
     destination,
     previousPropertyValue,
     propertyChanged,
-    user,
     board,
     createdAt,
   } = activity;

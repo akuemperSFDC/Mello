@@ -23,11 +23,16 @@ const slice = createSlice({
       state.copyMenu = false;
       state.moveMenu = true;
     },
+    resetListMenuSlice: () => this.initialState,
   },
   extraReducers: {},
 });
 
-export const { showMainMenu, showCopyListMenu, showMoveListMenu } =
-  slice.actions;
+export const {
+  showMainMenu,
+  showCopyListMenu,
+  showMoveListMenu,
+  resetListMenuSlice,
+} = slice.actions;
 
 export default slice.reducer;

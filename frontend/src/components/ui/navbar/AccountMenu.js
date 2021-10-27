@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Logout, Settings, Dashboard } from '@mui/icons-material';
+import useResetStore from '../../../app/resetStore';
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   pointerEvents: 'none',
@@ -27,6 +28,8 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
 const AccountMenu = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [setResetStore] = useResetStore();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -44,6 +47,7 @@ const AccountMenu = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    setResetStore(true);
     history.push('/login');
   };
 
@@ -84,7 +88,7 @@ const AccountMenu = () => {
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: 'background.paper',
+              bgColor: 'background.paper',
               transform: 'translateY(-50%) rotate(45deg)',
               zIndex: 0,
             },

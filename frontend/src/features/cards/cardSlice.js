@@ -13,11 +13,18 @@ const slice = createSlice({
     deleteCurrentCard: (state, action) => {
       state.currentCard = {};
     },
+    resetCardSlice: (state, action) => {
+      return this.initialState;
+    },
   },
   extraReducers: {},
 });
 
-export const { currentCard, editCurrentCard, deleteCurrentCard } =
-  slice.actions;
+export const {
+  currentCard,
+  editCurrentCard,
+  deleteCurrentCard,
+  resetCardSlice,
+} = slice.actions;
 
 export default slice.reducer;

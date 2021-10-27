@@ -91,6 +91,9 @@ const slice = createSlice({
       state.lastItemFetched = false;
       state.prevItem = null;
     },
+    resetActivitiesSlice: (state, action) => {
+      return this.initialState;
+    },
   },
   extraReducers: {
     /* -------------------- Get activities based on board id -------------------- */
@@ -146,6 +149,6 @@ const slice = createSlice({
   },
 });
 
-export const { resetActivities } = slice.actions;
+export const { resetActivities, resetActivitiesSlice } = slice.actions;
 
 export default slice.reducer;

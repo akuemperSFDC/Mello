@@ -33,11 +33,19 @@ const slice = createSlice({
       state.aboutMenu = false;
       state.backgroundMenu = true;
     },
+    resetBoardMenuSlice: (state, action) => {
+      return this.initialState;
+    },
   },
   extraReducers: {},
 });
 
-export const { menuVisible, showMainMenu, showAboutMenu, showBackgroundMenu } =
-  slice.actions;
+export const {
+  menuVisible,
+  showMainMenu,
+  showAboutMenu,
+  showBackgroundMenu,
+  resetBoardMenuSlice,
+} = slice.actions;
 
 export default slice.reducer;

@@ -9,10 +9,11 @@ const slice = createSlice({
     setTabValue: (state, action) => {
       state.tabValue = action.payload;
     },
+    resetUserSettingsSlice: () => this.initialState,
   },
   extraReducers: {},
 });
 
-export const { setTabValue } = slice.actions;
+export const { setTabValue, resetUserSettingsSlice } = slice.actions;
 
 export default slice.reducer;

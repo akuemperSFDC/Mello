@@ -1,16 +1,5 @@
-import { useEffect, useState } from 'react';
+import { Avatar, Box, Tab, Tabs, Typography, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Box,
-  styled,
-  alpha,
-  Tabs,
-  Tab,
-  Avatar,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import AboutPanel from './panels/about-panel/AboutPanel';
 import { setTabValue } from '../../features/userSettings/userSettingsSlice';
 
 const SettingsPageHeader = ({ value }) => {

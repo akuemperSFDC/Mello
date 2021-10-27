@@ -84,7 +84,9 @@ const slice = createSlice({
     listResults: [],
     cardResults: [],
   },
-  reducers: {},
+  reducers: {
+    resetSearchSlice: () => this.initialState,
+  },
   extraReducers: {
     // Get boards from search
     [getBoardsSearchAsync.fulfilled]: (state, action) => {
@@ -133,6 +135,6 @@ const slice = createSlice({
   },
 });
 
-// export const {} = slice.actions;
+export const { resetSearchSlice } = slice.actions;
 
 export default slice.reducer;

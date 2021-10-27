@@ -436,6 +436,8 @@ const slice = createSlice({
       state.dnd.sourceListId = sourceListId;
       state.dnd.movedCard = movedCard;
     },
+
+    resetListsSlice: () => this.initialState,
   },
   extraReducers: {
     // Get lists
@@ -652,6 +654,7 @@ export const {
   clearCurrentList,
   clearCurrentLists,
   dragAndDropCard,
+  resetListsSlice,
 } = slice.actions;
 
 export default slice.reducer;

@@ -179,6 +179,9 @@ const boardSlice = createSlice({
     clearCurrentBoard: (state, action) => {
       state.currentBoard = {};
     },
+    resetBoardSlice: (state, action) => {
+      return this.initialState;
+    },
   },
   extraReducers: {
     // Get boards
@@ -281,7 +284,7 @@ const boardSlice = createSlice({
   },
 });
 
-export const { currentBoard, clearCurrentBoard, starredBoards } =
+export const { currentBoard, clearCurrentBoard, resetBoardSlice } =
   boardSlice.actions;
 
 export default boardSlice.reducer;

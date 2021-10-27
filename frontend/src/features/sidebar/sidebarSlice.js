@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { loading: false, value: null };
-
 const slice = createSlice({
   name: 'sidebar',
-  initialState,
+  initialState: {
+    loading: false,
+    value: null,
+  },
   reducers: {
     setSelected: (state, action) => {
       state.value = action.payload;
@@ -12,10 +13,11 @@ const slice = createSlice({
     setShowSidebar: (state, action) => {
       state.visibility = action.payload;
     },
+    resetSidebarSlice: () => this.initialState,
   },
   extraReducers: {},
 });
 
-export const { setSelected, setShowSidebar } = slice.actions;
+export const { setSelected, setShowSidebar, resetSidebarSlice } = slice.actions;
 
 export default slice.reducer;
